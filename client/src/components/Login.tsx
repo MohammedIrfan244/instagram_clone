@@ -2,8 +2,6 @@ import instagram from '../assets/instagram_text.png'
 import { FaFacebook } from "react-icons/fa";
 import playstore from '../assets/5a902dbf7f96951c82922875.png'
 import windows from '../assets/5a902db47f96951c82922873.png'
-import {Form, Field,Formik} from 'formik'
-import * as Yup from 'yup'
 
 
 
@@ -27,7 +25,7 @@ function Login() {
       <button className="flex items-center gap-2 text-xs font-semibold text-blue-500 hover:text-white mt-7"><FaFacebook className='text-2xl text-blue-400' />Login with Facebook</button>
     <button className='text-xs mt-5'>Forgot password ?</button>
     </div>
-    <div className='w-[350px] h-[60px] bg-black border border-gray-700 flex items-center justify-center'>
+    <div className='w-[350px] h-[60px] bg-black border border-gray-700 flex items-center mt-3 justify-center'>
         <p className='text-xs text-gray-100'>Don't have an account ?</p>
         <button className='text-xs text-blue-500 font-semibold ms-1'>Sign up</button>
     </div>
