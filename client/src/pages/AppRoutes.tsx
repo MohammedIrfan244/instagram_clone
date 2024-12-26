@@ -1,14 +1,14 @@
 import {Routes, Route} from 'react-router-dom'
 import LandingPage from './LandingPage'
-import Register from '../components/Register'
-import Login from '../components/Login'
+import RegisterPage from './RegisterPage'
+import LoginPage from './LoginPage'
 
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/user/register" element={<Register />} />
-      <Route path="/user/login" element={<Login />} />
+      <Route path="/user/register" element={<RegisterPage />} />
+      <Route path="/user/login" element={<LoginPage />} />
     </Routes>
   )
 }
