@@ -5,6 +5,7 @@ import { FaFacebook } from "react-icons/fa";
 import playstore from '../assets/5a902dbf7f96951c82922875.png';
 import windows from '../assets/5a902db47f96951c82922873.png';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 
 interface LoginData {
@@ -15,6 +16,7 @@ interface LoginData {
 
 function Login(): JSX.Element {
   const navigate = useNavigate();
+  const dispatch=useDispatch()
   const [error, setError] = useState<string | null>(null);
   const [loading,setLoading]=useState<boolean>(false)
   const [loginData, setLoginData] = useState<LoginData>({
@@ -33,6 +35,7 @@ function Login(): JSX.Element {
       )
       console.log(response.data);
       localStorage.setItem('user', JSON.stringify(response.data.userDetail));
+      dispatch({type:'LOGIN',payload:response.data.userDetail})
       setLoginData({ identity: '', password: '' });
       setLoading(false)
     } catch (error) {
