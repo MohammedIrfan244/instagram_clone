@@ -4,6 +4,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import manageError from './middlewares/manageError.js'
 import connectDb from './config/mongoConfig.js'
+import authRoute from './routes/authRoute.js'
 
 
 const app = express()
@@ -15,6 +16,8 @@ app.use(cookieParser())
 dotenv.config()
 connectDb()
 
+
+app.use('/api/auth',authRoute)
 
 app.get('/', (req, res) => {
     res.json({ message: 'Server is running' })
