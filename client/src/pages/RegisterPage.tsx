@@ -1,6 +1,6 @@
 import Register from '../components/Register'
 
-function RegisterPage() {
+function RegisterPage(): JSX.Element {
   return (
     <div className="flex flex-col justify-center h-auto mt-5 items-center">
       <Register/>
