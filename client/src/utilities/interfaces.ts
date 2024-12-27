@@ -15,9 +15,7 @@ export interface Stroy {
   media: string;
 }
 export interface User {
-  id: string;
   username: string;
   profile: string;
   fullname: string;
-  bio: string;
 }
