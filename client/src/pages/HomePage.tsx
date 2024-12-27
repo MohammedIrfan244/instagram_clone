@@ -2,13 +2,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import Stories from '../components/Stories';
 import SuggestedUsers from '../shared/SuggestedUsers';
-// import { useNavigate } from 'react-router-dom';
 
 
 
 function HomePage(): JSX.Element {
   const { currentUser } = useSelector((state: RootState) => state.currentUser)
-  // const navigate=useNavigate()
   return (
     <div className="flex w-full min-h-screen">
        {/* This is the sidebar for the options */}

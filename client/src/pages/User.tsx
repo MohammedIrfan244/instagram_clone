@@ -1,6 +1,6 @@
 
 
-function User() {
+function User(): JSX.Element {
   return (
     <div>
       

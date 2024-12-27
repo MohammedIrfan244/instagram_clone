@@ -11,17 +11,18 @@ function AppRoutes(): JSX.Element {
   const { currentUser } = useSelector((state: RootState) => state.currentUser);
   const location = useLocation();
 
-  const hideNavbarRoutes = ['/', '/user/register', '/user/login'];
+  const hideNavbarRoutes = currentUser ? ["/user/login", "/user/register"] : ["/user/login", "/user/register", "/"];
 
   return (
     <>
       
       {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={currentUser?<HomePage/>:<LandingPage/>} />
         <Route path="/user/register" element={<RegisterPage />} />
         <Route path="/user/login" element={<LoginPage />} />
-        <Route path="/home" element={currentUser ? <HomePage /> : <LoginPage />} />
+        <Route path='/:username' element={<h1>Profile</h1>} />
+        <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
     </>
   );

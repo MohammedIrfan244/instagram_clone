@@ -18,8 +18,8 @@ function Navbar() {
     const navigate=useNavigate()
   return (
     <div className="border-r border-gray-800 w-[250px] bg-black flex flex-col justify-evenly fixed h-full ps-5 pr-3">
-    <img src={instagram} alt="instagram" className='w-[110px] mt-3 hover:cursor-pointer' onClick={()=>navigate('/home')} />
-    <NavLink to={'/home'} className='flex py-2 px-1 hover:bg-gray-700 rounded-lg text-sm items-center gap-3 mt-5'><GoHome className='text-2xl' />Home</NavLink>
+    <img src={instagram} alt="instagram" className='w-[110px] mt-3 hover:cursor-pointer' onClick={()=>navigate('/')} />
+    <NavLink to={'/'} className='flex py-2 px-1 hover:bg-gray-700 rounded-lg text-sm items-center gap-3 mt-5'><GoHome className='text-2xl' />Home</NavLink>
     <NavLink to={'/search'} className='flex py-2 px-1 hover:bg-gray-700 rounded-lg text-sm items-center gap-3'><FiSearch className='text-2xl' />Search</NavLink>
     <NavLink to={'/explore_feed'} className='flex py-2 px-1 hover:bg-gray-700 rounded-lg text-sm items-center gap-3'><MdOutlineExplore className='text-2xl' />Explore</NavLink>
     <NavLink to={'/reels'} className='flex hover:bg-gray-700 rounded-lg items-center py-2 px-1 gap-3'><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 50 50" style={{ fill: "white" }}>
@@ -36,7 +36,7 @@ strokeWidth="1"
     <div className='flex hover:cursor-pointer text-sm items-center gap-3 hover:bg-gray-700 rounded-lg py-2 px-1'><div className='rounded-full w-7 h-7 overflow-hidden relative'>
     <img src={currentUser?.profile} alt="Profile" className='object-cover w-full h-full' />
     </div>
-    <NavLink to={'/user_profile'}>Profile</NavLink></div>
+    <NavLink to={`/${currentUser?.username}`}>Profile</NavLink></div>
     <NavLink to={'/more'} className='flex hover:bg-gray-700 rounded-lg text-sm items-center gap-2 mt-3 py-2 px-1'><FaBars className='text-2xl' />More</NavLink>
   </div>
   )
