@@ -2,14 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 interface CurrentUser{
-    id: string,
-    email: string,
-    password: string,
     fullname: string,
     username: string
     profile: string
-    gender: string
-    bio: string
 }
 
 interface UserState {

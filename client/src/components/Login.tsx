@@ -37,7 +37,7 @@ function Login(): JSX.Element {
       localStorage.setItem('user', JSON.stringify(response.data.userDetail));
       dispatch(setCurrentUser(response.data.userDetail))
       setLoginData({ identity: '', password: '' });
-      navigate('/home');
+      navigate('/');
       setLoading(false)
     } catch (error) {
       if (axios.isAxiosError(error)) {
