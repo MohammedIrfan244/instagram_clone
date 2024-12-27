@@ -19,6 +19,8 @@ const verifyToken = (req, res, next) => {
         return next()
     }
    }catch(err){
-       console.log(err)
+       console.log("from verify token",err)
    }
 }
+
+export default verifyToken

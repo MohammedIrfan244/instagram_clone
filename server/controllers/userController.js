@@ -16,3 +16,5 @@ const getUsersByUsername = async (req, res,next) => {
     }
     res.status(200).json(users)
 }
+
+export {getOneUser,getUsersByUsername}
