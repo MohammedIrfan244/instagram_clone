@@ -6,6 +6,7 @@ import playstore from '../assets/5a902dbf7f96951c82922875.png';
 import windows from '../assets/5a902db47f96951c82922873.png';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '../redux/userSlice';
 
 
 interface LoginData {
@@ -33,9 +34,8 @@ function Login(): JSX.Element {
         withCredentials: true,
       }
       )
-      console.log(response.data);
       localStorage.setItem('user', JSON.stringify(response.data.userDetail));
-      dispatch({type:'LOGIN',payload:response.data.userDetail})
+      dispatch(setCurrentUser(response.data.userDetail))
       setLoginData({ identity: '', password: '' });
       navigate('/home');
       setLoading(false)
