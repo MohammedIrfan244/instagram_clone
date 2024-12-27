@@ -16,7 +16,7 @@ function SuggestedUsers({ user,message,but }: SuggestedUsersProps) {
         <p className="text-gray-400">{message}</p>
       </div>
         </div>
-        <button className="text-blue-500 text-xs font-semibold">{but}</button>
+        <button className="text-blue-400 text-xs">{but}</button>
     </div>
   )
 }

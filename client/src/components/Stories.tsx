@@ -60,7 +60,7 @@ function Stories(): JSX.Element {
   const swiperRef = useRef<any>(null);
 
   return (
-    <div className="w-full px-3 h-auto relative">
+    <div className="w-full mx-10 h-auto relative">
       <button className="absolute left-0 ps-5 top-1/2 transform -translate-y-1/2 text-white text-xl z-10" onClick={() => swiperRef.current?.swiper.slidePrev()}
       >
         <FaCircleChevronLeft />
@@ -69,14 +69,14 @@ function Stories(): JSX.Element {
       <Swiper
         ref={swiperRef}
         spaceBetween={2}
-        slidesPerView={7}
+        slidesPerView={8}
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper) => console.log(swiper)}
       >
         {stories.map((story) => (
           <SwiperSlide key={story.id}>
             <div className="flex flex-col items-center gap-2 h-[120px] justify-center">
-              <div className="relative w-14 h-14 mt-2 border border-gray-600 p-[2px] rounded-full">
+              <div className="relative w-[50px] h-[50px] mt-2 border border-gray-600 p-[2px] rounded-full">
                 <img
                   src={story.thumbnail}
                   alt={`${story.username}'s story`}
