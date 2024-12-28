@@ -30,7 +30,7 @@ function Login(): JSX.Element {
     try {
       setLoading(true)
       setError(null);
-      const response = await axios.post("http://localhost:3000/api/auth/user/login", loginData, {
+      const response = await axios.post("http://localhost:3000/api/auth/login", loginData, {
         withCredentials: true,
       }
       )

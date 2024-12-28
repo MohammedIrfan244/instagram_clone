@@ -34,7 +34,7 @@ function Register(): JSX.Element {
     try {
       setLoading(true)
       setError(null)
-      const response = await axios.post("http://localhost:3000/api/auth/user/register", values, {
+      const response = await axios.post("http://localhost:3000/api/auth/register", values, {
         withCredentials: true
       })
       console.log(response.data)
