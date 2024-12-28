@@ -7,5 +7,8 @@ import { getOneUser, getUsersByUsername } from '../controllers/userController.js
 const routeer=express.Router()
 
 routeer
-.get('user/getOneUser/:username',verifyToken,tryCatch(getOneUser))
-.get('user/getUsers/:username',verifyToken,tryCatch(getUsersByUsername))
+.get('/getOneUser/:username',verifyToken,tryCatch(getOneUser))
+.get('/getUsers/:username',verifyToken,tryCatch(getUsersByUsername))
+
+
+export default routeer
