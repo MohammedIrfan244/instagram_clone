@@ -6,19 +6,18 @@ import manageError from './middlewares/manageError.js'
 import connectDb from './config/mongoConfig.js'
 import authRoute from './routes/authRoute.js'
 import userRoute from './routes/userRoute.js'
-import cloudinaryConfig from './config/cloudinaryConfig.js'
 
 
 const app = express()
 
 dotenv.config()
 connectDb()
-cloudinaryConfig()
 
 app.use(express.json())
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }))
 app.use(cookieParser())
 
+console.log("name",process.env.CLOUDINARY_NAME)
 
 app.use('/api/user',userRoute)
 app.use('/api/auth',authRoute)

@@ -18,4 +18,8 @@ const getUsersByUsername = async (req, res,next) => {
     res.status(200).json(users)
 }
 
-export {getOneUser,getUsersByUsername}
+const postOneFile=async (req,res)=>{
+    res.status(200).json({message:"File uploaded successfully",file:req.file,})
+}
+
+export {getOneUser,getUsersByUsername,postOneFile}
