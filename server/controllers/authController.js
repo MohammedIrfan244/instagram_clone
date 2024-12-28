@@ -52,10 +52,10 @@ const userLogin = async (req, res,next) => {
     res.status(200).json({message:"Login successful",userDetail})
 }
 
-const userLogout = async (req, res,next) => {
+const userLogout = async (req, res) => {
     res.clearCookie("refreshToken")
     res.clearCookie("accessToken")
-    res.status(200).json({message:"Logout successful"})
+    res.status(204)
 }
 
 export { userRegister, userLogin, userLogout }
