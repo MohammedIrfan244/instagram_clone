@@ -46,7 +46,7 @@ const userLogin = async (req, res,next) => {
     }
     const accessToken=jwt.sign({id:user._id},process.env.JWT_TOKEN,{expiresIn:"1d"})
     const refreshToken=jwt.sign({id:user._id},process.env.JWT_REFRESH_TOKEN,{expiresIn:"7d"})
-    const userDetail={fullname:user.fullname,username:user.username,profile:user.profile}
+    const userDetail={fullname:user.fullname,username:user.username,profile:user.profile,email:user.email,bio:user.bio,gender:user.gender}
     res.cookie("accessToken",accessToken,{httpOnly:false,secure:true,sameSite:"none"})
     res.cookie("refreshToken",refreshToken,{httpOnly:true,secure:true,sameSite:"none"})
     res.status(200).json({message:"Login successful",userDetail})
