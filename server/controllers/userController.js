@@ -11,7 +11,12 @@ const getOneUser = async (req, res,next) => {
 }
 
 const getUsersByUsername = async (req, res,next) => {
-    const users=await User.findOne({username:{$regex:req.params.username,$options:"i"}})
+    const users = await User.find({
+        $or: [
+            { username: { $regex: req.params.username, $options: "i" } },
+            { fullname: { $regex: req.params.username, $options: "i" } }
+        ]
+    });
     if(users.length===0){
         return res.status(200).json({users:[],message:"No user found"})
     }

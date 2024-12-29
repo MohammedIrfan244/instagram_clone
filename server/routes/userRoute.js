@@ -9,10 +9,10 @@ import { uploadToCloudinay } from '../middlewares/fileUpload.js'
 const routeer=express.Router()
 
 routeer
-.get('/getOneUser/:username',verifyToken,tryCatch(getOneUser))
-.get('/getUsers/:username',verifyToken,tryCatch(getUsersByUsername))
+.get('/get_one_user/:username',verifyToken,tryCatch(getOneUser))
+.get('/get_users/:username',verifyToken,tryCatch(getUsersByUsername))
 
-.post('/postOneFile',upload.single('file'),uploadToCloudinay,tryCatch(postOneFile))
+.post('/post_one_file',upload.single('file'),verifyToken,uploadToCloudinay,tryCatch(postOneFile))
 
 
 export default routeer

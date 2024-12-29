@@ -47,8 +47,8 @@ const userLogin = async (req, res,next) => {
     const accessToken=jwt.sign({id:user._id},process.env.JWT_TOKEN,{expiresIn:"1d"})
     const refreshToken=jwt.sign({id:user._id},process.env.JWT_REFRESH_TOKEN,{expiresIn:"7d"})
     const userDetail={fullname:user.fullname,username:user.username,profile:user.profile}
+    res.cookie("accessToken",accessToken,{httpOnly:false,secure:true,sameSite:"none"})
     res.cookie("refreshToken",refreshToken,{httpOnly:true,secure:true,sameSite:"none"})
-    res.cookie("accessToken",accessToken,{httpOnly:true,secure:true,sameSite:"none"})
     res.status(200).json({message:"Login successful",userDetail})
 }
 
@@ -58,4 +58,39 @@ const userLogout = async (req, res) => {
     res.status(204)
 }
 
-export { userRegister, userLogin, userLogout }
+
+const refreshingToken = async (req, res, next) => {
+    if (!req.cookies) {
+      return next(new CustomError("No cookies found", 401));
+    }
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) {
+      return next(new CustomError("No refresh token found", 401));
+    }
+  
+    // Verifying the refresh token
+    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN);
+  
+    if (!decoded) {
+      return next(new CustomError("Invalid refresh token", 401));
+    }
+  
+    // Check if the user exists
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return next(new CustomError("User not found", 404));
+    }
+  
+    // Create a new access token
+  let accessToken = jwt.sign({ id: user._id }, process.env.JWT_TOKEN, {
+      expiresIn: "1d",
+    });
+  res.cookie("accessToken", accessToken, {
+    httpOnly: false,
+    secure: true,
+    sameSite: "none",
+  })
+    res.status(200).json({ message: "Token refreshed"});
+  };
+
+export { userRegister, userLogin, userLogout ,refreshingToken}
