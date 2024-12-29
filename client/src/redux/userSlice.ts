@@ -1,14 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { UserDetail } from "../utilities/interfaces";
 
-
-interface CurrentUser{
-    fullname: string,
-    username: string
-    profile: string
-}
 
 interface UserState {
-  currentUser: null | CurrentUser;
+  currentUser: null | UserDetail;
 }
 const userDetail = localStorage.getItem("user");
 
@@ -20,11 +15,16 @@ const userSlice = createSlice({
   name: "currentUser",
   initialState,
   reducers: {
-    setCurrentUser: (state, action) => {
+    setCurrentUser: (state:UserState, action): void => {
       state.currentUser = action.payload;
     },
+    updateUserProfilePicture:(state:UserState,action):void=>{
+      if(state.currentUser){
+        state.currentUser.profile=action.payload
+    }
+  },
   },
 });
 
-export const { setCurrentUser } = userSlice.actions;
+export const { setCurrentUser , updateUserProfilePicture} = userSlice.actions;
 export default userSlice.reducer;

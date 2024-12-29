@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
+import commonReducer from "./commonSlice";
 
 const store = configureStore({
     reducer: {
         currentUser: userReducer,
+        common: commonReducer
     },
 });
 
