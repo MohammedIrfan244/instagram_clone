@@ -1,21 +1,21 @@
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { UserDetail } from "../utilities/interfaces"
+import axiosErrorManager from "../utilities/axiosErrorManager"
+import axiosInstance from "../utilities/axiosInstance"
 
 
 function  ProfilePage(): JSX.Element {
     const {username}=useParams<string>()
     const [currUser,setCurrUser]=useState<UserDetail|null>(null)
     const getUser=async (username:string)=>{
-      try{
-        const response=await axios.get('http://localhost:3000/api/user/getOneUser/'+username,{withCredentials:true})
-        setCurrUser(response.data.user)
-      }catch(error){
-        if(axios.isAxiosError(error)){
-          console.log(error.response?.data)
-        }
-        setCurrUser(null)
+      try {
+        axiosInstance.get(`/user/get_one_user/${username}`).then((res)=>{
+          setCurrUser(res.data.user)
+          console.log(res.data)
+        })
+      } catch (error) {
+        console.log(axiosErrorManager(error))
       }
       }
     useEffect(()=>{

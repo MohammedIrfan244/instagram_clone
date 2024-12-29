@@ -7,6 +7,7 @@ import { Form, Field, Formik } from 'formik'
 import * as Yup from 'yup'
 import { useState } from "react";
 import axios from "axios";
+import axiosErrorManager from "../utilities/axiosErrorManager";
 
 
 interface FormValues {
@@ -34,19 +35,15 @@ function Register(): JSX.Element {
     try {
       setLoading(true)
       setError(null)
-      const response = await axios.post("http://localhost:3000/api/auth/register", values, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, values, {
         withCredentials: true
       })
       console.log(response.data)
       setLoading(false)
       navigate('/user/login')
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.response?.data)
-        setError(error.response?.data?.message)
-      } else {
-        console.log(error)
-      }
+    console.log(axiosErrorManager(error))
+      setError(axiosErrorManager(error));
       setLoading(false)
     }
   }

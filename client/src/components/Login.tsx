@@ -7,6 +7,7 @@ import windows from '../assets/5a902db47f96951c82922873.png';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '../redux/userSlice';
+import axiosErrorManager from '../utilities/axiosErrorManager';
 
 
 interface LoginData {
@@ -30,7 +31,7 @@ function Login(): JSX.Element {
     try {
       setLoading(true)
       setError(null);
-      const response = await axios.post("http://localhost:3000/api/auth/login", loginData, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, loginData, {
         withCredentials: true,
       }
       )
@@ -40,13 +41,8 @@ function Login(): JSX.Element {
       navigate('/');
       setLoading(false)
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.response?.data);
-        setError(error.response?.data?.message);
-      } else {
-        console.log(error);
-      }
-      setLoading(false)
+      console.log(axiosErrorManager(error))
+      setError(axiosErrorManager(error));
     }
   };
 
