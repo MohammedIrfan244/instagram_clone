@@ -1,20 +1,19 @@
-import { useNavigate } from "react-router-dom"
-import instagram from '../assets/instagram_text.png'
+import { useNavigate } from "react-router-dom";
+import instagram from '../assets/instagram_text.png';
 import { AiFillFacebook } from "react-icons/ai";
-import playstore from '../assets/5a902dbf7f96951c82922875.png'
-import windows from '../assets/5a902db47f96951c82922873.png'
-import { Form, Field, Formik } from 'formik'
-import * as Yup from 'yup'
+import playstore from '../assets/5a902dbf7f96951c82922875.png';
+import windows from '../assets/5a902db47f96951c82922873.png';
+import { Form, Field, Formik } from 'formik';
+import * as Yup from 'yup';
 import { useState } from "react";
 import axios from "axios";
 import axiosErrorManager from "../utilities/axiosErrorManager";
 
-
 interface FormValues {
-  email: string,
-  password: string,
-  fullname: string,
-  username: string
+  email: string;
+  password: string;
+  fullname: string;
+  username: string;
 }
 
 const RegisterSchema = Yup.object().shape({
@@ -22,31 +21,32 @@ const RegisterSchema = Yup.object().shape({
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
   fullname: Yup.string().required('Full Name is required'),
   username: Yup.string().required('Username is required').matches(/^\S*$/, 'Username cannot contain spaces')
-})
+});
 
 function Register(): JSX.Element {
-  const initialValues: FormValues = { email: '', password: '', fullname: '', username: '' }
-  const navigate = useNavigate()
-  const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
-
+  const initialValues: FormValues = { email: '', password: '', fullname: '', username: '' };
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
 
   const handleRegister = async (values: FormValues) => {
     try {
-      setLoading(true)
-      setError(null)
+      setLoading(true);
+      setError(null);
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, values, {
-        withCredentials: true
-      })
-      console.log(response.data)
-      setLoading(false)
-      navigate('/user/login')
+        withCredentials: true,
+      });
+      console.log(response.data);
+      setLoading(false);
+      navigate('/user/login');
     } catch (error) {
-    console.log(axiosErrorManager(error))
+      console.log(axiosErrorManager(error));
       setError(axiosErrorManager(error));
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
+
   return (
     <div className='w-[350px] h-auto'>
       <div className="border border-gray-700 w-full flex flex-col items-center px-10">
@@ -54,7 +54,10 @@ function Register(): JSX.Element {
           <img src={instagram} alt="instagram" />
         </div>
         <p className="text-gray-300 font-semibold text-sm text-center">Sign up to see photos and videos from your friends.</p>
-        <button className="bg-blue-500 focus:outline-none flex items-center gap-2 w-full justify-center mt-3 py-1.5 rounded-lg hover:bg-blue-600"><AiFillFacebook className='text-xl' /><p className='text-xs font-semibold'>Login with Facebook</p></button>
+        <button className="bg-blue-500 focus:outline-none flex items-center gap-2 w-full justify-center mt-3 py-1.5 rounded-lg hover:bg-blue-600">
+          <AiFillFacebook className='text-xl' />
+          <p className='text-xs font-semibold'>Login with Facebook</p>
+        </button>
         <div className='flex items-center w-full h-auto justify-center gap-4 mt-7'>
           <div className='bg-gray-700 w-2/5 h-[1px]' />
           <p className='text-gray-400 text-xs font-semibold'>OR</p>
@@ -64,22 +67,59 @@ function Register(): JSX.Element {
           initialValues={initialValues}
           validationSchema={RegisterSchema}
           onSubmit={(values) => {
-            handleRegister(values)
+            handleRegister(values);
           }}
         >
           {({ errors, touched }) => (
             <Form>
-              <Field name='email' type='email' placeholder='Email' className='bg-[#121212] text-xs px-2 focus:outline-none border-[1px] border-gray-700 w-full h-9 mt-7' />
+              <Field
+                name='email'
+                type='email'
+                placeholder='Email'
+                className='bg-[#121212] text-xs px-2 focus:outline-none border-[1px] border-gray-700 w-full h-9 mt-7'
+              />
               {errors.email && touched.email ? <div className='text-red-500 text-xs'>{errors.email}</div> : null}
-              <Field name='password' type='password' placeholder='Password' className='bg-[#121212] text-xs px-2 focus:outline-none border-[1px] border-gray-700 w-full h-9 mt-2' />
+              <div className="relative">
+                <Field
+                  name='password'
+                  type={passwordVisible ? 'text' : 'password'}
+                  placeholder='Password'
+                  className='bg-[#121212] text-xs px-2 focus:outline-none border-[1px] border-gray-700 w-full h-9 mt-2'
+                />
+                <button
+                  type="button"
+                  className="absolute right-2 top-4 text-xs text-white"
+                  onClick={() => setPasswordVisible((prev) => !prev)}
+                >
+                  {passwordVisible ? 'Hide' : 'Show'}
+                </button>
+              </div>
               {errors.password && touched.password ? <div className='text-red-500 text-xs'>{errors.password}</div> : null}
-              <Field name='fullname' type='text' placeholder='Full Name' className='bg-[#121212] text-xs px-2 focus:outline-none border-[1px] border-gray-700 w-full h-9 mt-2' />
+              <Field
+                name='fullname'
+                type='text'
+                placeholder='Full Name'
+                className='bg-[#121212] text-xs px-2 focus:outline-none border-[1px] border-gray-700 w-full h-9 mt-2'
+              />
               {errors.fullname && touched.fullname ? <div className='text-red-500 text-xs'>{errors.fullname}</div> : null}
-              <Field name='username' type='text' placeholder='Username' className='bg-[#121212] text-xs px-2 focus:outline-none border-[1px] border-gray-700 w-full h-9 mt-2' />
+              <Field
+                name='username'
+                type='text'
+                placeholder='Username'
+                className='bg-[#121212] text-xs px-2 focus:outline-none border-[1px] border-gray-700 w-full h-9 mt-2'
+              />
               {errors.username && touched.username ? <div className='text-red-500 text-xs'>{errors.username}</div> : null}
-              <p className='text-[11px] text-gray-300 mt-3 text-center'>People who use our service may have uploaded your contact information to Instagram. <span className='text-white hover:cursor-pointer'> Learn More</span></p>
-              <p className='text-gray-300 text-[11px] mt-2 text-center'>By signing up, you agree to our <span className='text-white hover:cursor-pointer'> Terms , Privacy Policy and Cookies Policy .</span></p>
-              <button type='submit' className='bg-blue-700 hover:bg-blue-500 mb-10 w-full h-8 mt-4 rounded-lg text-xs font-semibold'>{loading?"Signing up":"Sign up"}</button>
+              <p className='text-[11px] text-gray-300 mt-3 text-center'>
+                People who use our service may have uploaded your contact information to Instagram.{' '}
+                <span className='text-white hover:cursor-pointer'> Learn More</span>
+              </p>
+              <p className='text-gray-300 text-[11px] mt-2 text-center'>
+                By signing up, you agree to our{' '}
+                <span className='text-white hover:cursor-pointer'> Terms , Privacy Policy and Cookies Policy .</span>
+              </p>
+              <button type='submit' className='bg-blue-700 hover:bg-blue-500 mb-10 w-full h-8 mt-4 rounded-lg text-xs font-semibold'>
+                {loading ? "Signing up" : "Sign up"}
+              </button>
             </Form>
           )}
         </Formik>
@@ -97,7 +137,7 @@ function Register(): JSX.Element {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Register
+export default Register;

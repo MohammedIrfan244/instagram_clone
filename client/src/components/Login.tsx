@@ -9,18 +9,17 @@ import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '../redux/userSlice';
 import axiosErrorManager from '../utilities/axiosErrorManager';
 
-
 interface LoginData {
   identity: string;
   password: string;
 }
 
-
 function Login(): JSX.Element {
   const navigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const [error, setError] = useState<string | null>(null);
-  const [loading,setLoading]=useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const [loginData, setLoginData] = useState<LoginData>({
     identity: '',
     password: '',
@@ -29,26 +28,23 @@ function Login(): JSX.Element {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      setLoading(true)
+      setLoading(true);
       setError(null);
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, loginData, {
         withCredentials: true,
-      }
-      )
+      });
       localStorage.setItem('user', JSON.stringify(response.data.userDetail));
-      dispatch(setCurrentUser(response.data.userDetail))
+      dispatch(setCurrentUser(response.data.userDetail));
       setLoginData({ identity: '', password: '' });
       navigate('/');
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      console.log(axiosErrorManager(error))
+      console.log(axiosErrorManager(error));
       setError(axiosErrorManager(error));
     }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setLoginData((prev) => ({ ...prev, [name]: value }));
   };
@@ -68,19 +64,28 @@ function Login(): JSX.Element {
             className='bg-[#121212] text-xs px-2 focus:outline-none border-[1px] border-gray-700 w-full h-9 mt-7'
             placeholder='Username or Email'
           />
-          <input
-            type="password"
-            name="password"
-            value={loginData.password}
-            onChange={handleInputChange}
-            className='bg-[#121212] text-xs px-2 focus:outline-none border-[1px] border-gray-700 w-full h-9 mt-2'
-            placeholder='Password'
-          />
+          <div className='relative'>
+            <input
+              type={passwordVisible ? 'text' : 'password'}
+              name="password"
+              value={loginData.password}
+              onChange={handleInputChange}
+              className='bg-[#121212] text-xs px-2 focus:outline-none border-[1px] border-gray-700 w-full h-9 mt-2'
+              placeholder='Password'
+            />
+            <button
+              type="button"
+              className="absolute right-2 top-4 text-xs text-white"
+              onClick={() => setPasswordVisible((prev) => !prev)}
+            >
+              {passwordVisible ? 'Hide' : 'Show'}
+            </button>
+          </div>
           {error && <p className='text-red-500 text-xs mt-2'>{error}</p>}
           <button
             type='submit'
             className='bg-blue-500 hover:bg-blue-600 w-full h-8 mt-4 rounded-lg text-xs font-semibold'>
-            {loading?"Logging In":"Log In"}
+            {loading ? "Logging In" : "Log In"}
           </button>
         </form>
         <div className='flex items-center w-full h-auto justify-center gap-4 mt-7'>
@@ -92,7 +97,6 @@ function Login(): JSX.Element {
           <FaFacebook className='text-2xl text-blue-400' />
           Login with Facebook
         </button>
-        <button className='text-xs mt-5'>Forgot password?</button>
       </div>
       <div className='w-[350px] h-[60px] bg-black border border-gray-700 flex items-center mt-3 justify-center'>
         <p className='text-xs text-gray-100'>Don't have an account?</p>
