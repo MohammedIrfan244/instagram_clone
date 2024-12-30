@@ -34,4 +34,15 @@ const updateUserProfilePicture = async (req, res, next) => {
       res.status(200).json({ message: "Profile picture deleted successfully",profile:user.profile });
     };
 
-    export {updateUserProfilePicture,deleteUserProfilePicture}
+    const userUpdate=async (req,res,next)=>{
+      const {bio,gender}=req.body
+      console.log(bio,gender)
+      if(!bio||!gender){
+        return next(new CustomError("Please provide bio and gender",400))
+      }
+      const user=await User.findByIdAndUpdate(req.user.id,{bio,gender},{new:true})
+      const userDetail={fullname:user.fullname,username:user.username,profile:user.profile,email:user.email,bio:user.bio,gender:user.gender ,_id:user._id}
+      res.status(200).json({message:"Profile updated successfully",userDetail})
+    }
+
+    export {updateUserProfilePicture,deleteUserProfilePicture,userUpdate}

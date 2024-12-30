@@ -7,6 +7,7 @@ const getOneUser = async (req, res, next) => {
     return next(new CustomError("User not found", 404));
   }
   const userDetail = {
+    _id: user._id,
     fullname: user.fullname,
     username: user.username,
     profile: user.profile,

@@ -3,6 +3,7 @@ import User from "../models/userModel.js"
 import CustomError from '../utilities/customError.js'
 import bcrypt from "bcryptjs"
 import jwt from 'jsonwebtoken'
+import passport from 'passport'
 
 
 
@@ -46,7 +47,7 @@ const userLogin = async (req, res,next) => {
     }
     const accessToken=jwt.sign({id:user._id},process.env.JWT_TOKEN,{expiresIn:"1d"})
     const refreshToken=jwt.sign({id:user._id},process.env.JWT_REFRESH_TOKEN,{expiresIn:"7d"})
-    const userDetail={fullname:user.fullname,username:user.username,profile:user.profile,email:user.email,bio:user.bio,gender:user.gender}
+    const userDetail={fullname:user.fullname,username:user.username,profile:user.profile,email:user.email,bio:user.bio,gender:user.gender ,_id:user._id}
     res.cookie("accessToken",accessToken,{httpOnly:false,secure:true,sameSite:"none"})
     res.cookie("refreshToken",refreshToken,{httpOnly:true,secure:true,sameSite:"none"})
     res.status(200).json({message:"Login successful",userDetail})
@@ -55,7 +56,7 @@ const userLogin = async (req, res,next) => {
 const userLogout = async (req, res) => {
     res.clearCookie("refreshToken")
     res.clearCookie("accessToken")
-    res.status(204)
+    res.status(200).json({message:"logged out"})
 }
 
 
@@ -93,4 +94,9 @@ const refreshingToken = async (req, res, next) => {
     res.status(200).json({ message: "Token refreshed"});
   };
 
-export { userRegister, userLogin, userLogout ,refreshingToken}
+
+  const facebookLogin=passport.authenticate('facebook',{scope:'email'})
+
+  const facebookCallback=passport.authenticate('facebook',{failureRedirect:'/user/login',successRedirect:'/'})
+
+export { userRegister, userLogin, userLogout ,refreshingToken,facebookLogin,facebookCallback}

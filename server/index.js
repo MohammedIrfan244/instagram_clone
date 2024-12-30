@@ -6,6 +6,8 @@ import manageError from './middlewares/manageError.js'
 import connectDb from './config/mongoConfig.js'
 import authRoute from './routes/authRoute.js'
 import userRoute from './routes/userRoute.js'
+import session from 'express-session'
+import passport from './config/passport.js'
 
 
 const app = express()
@@ -16,8 +18,14 @@ connectDb()
 app.use(express.json())
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }))
 app.use(cookieParser())
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
 
-console.log("name",process.env.CLOUDINARY_NAME)
 
 app.use('/api/user',userRoute)
 app.use('/api/auth',authRoute)
