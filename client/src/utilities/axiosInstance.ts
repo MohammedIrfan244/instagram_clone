@@ -37,9 +37,10 @@ axiosInstance.interceptors.response.use(
             withCredentials: true,
           }
         );
-        const newAccessToken = response.data.token;
 
-        Cookies.set("accessToken", newAccessToken);
+        console.log(response.data);
+
+        const newAccessToken = Cookies.get("accessToken");
         axiosInstance.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${newAccessToken}`;

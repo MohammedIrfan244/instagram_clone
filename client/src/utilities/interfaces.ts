@@ -15,12 +15,14 @@ export interface Stroy {
   media: string;
 }
 export interface User {
+  _id: string;
   username: string;
   profile: string;
   fullname: string;
 }
 
 export interface UserDetail{
+  _id:string
   username:string
   profile:string
   fullname:string

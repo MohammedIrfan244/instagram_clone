@@ -3,10 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface CommonState{
     profileModal:boolean
+    followList:boolean
 }
 
 const INITIALSTATE:CommonState={
-    profileModal:false
+    profileModal:false,
+    followList:false
 }
 
 export const commonSlice=createSlice({
@@ -18,10 +20,16 @@ export const commonSlice=createSlice({
         },
         closeProfileModal:(state:CommonState):void=>{
             state.profileModal=false
+        },
+        openFollowList:(state:CommonState):void=>{
+            state.followList=true
+        },
+        closeFollowList:(state:CommonState):void=>{
+            state.followList=false
         }
     },
 })
 
-export const {openProfileModal,closeProfileModal}=commonSlice.actions
+export const {openProfileModal,closeProfileModal,openFollowList,closeFollowList}=commonSlice.actions
 export default commonSlice.reducer
 

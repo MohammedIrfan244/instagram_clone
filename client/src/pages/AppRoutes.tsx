@@ -7,6 +7,7 @@ import LoginPage from './LoginPage';
 import HomePage from './HomePage';
 import Navbar from '../components/Navbar';
 import ProfilePage from './ProfilePage';
+import EditPage from './EditPage';
 
 function AppRoutes(): JSX.Element {
   const { currentUser } = useSelector((state: RootState) => state.currentUser);
@@ -26,6 +27,7 @@ function AppRoutes(): JSX.Element {
         <Route path="/user/register" element={<RegisterPage />} />
         <Route path="/user/login" element={<LoginPage />} />
         <Route path="/:username" element={<ProfilePage/>} />
+        <Route path='/account/edit' element={currentUser?<EditPage/>:<LandingPage/>} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
     </>
