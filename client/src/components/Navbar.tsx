@@ -19,17 +19,17 @@ function Navbar() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchResults, setSearchResults] = useState<User[]>([]);
   const [isSearchWindowOpen, setIsSearchWindowOpen] = useState(false);
+  const [isMoreWindowOpen, setIsMoreWindowOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Debounce setup
   useEffect(() => {
     const timer = setTimeout(() => {
       if (searchQuery) {
         handleSearch();
       }
-    }, 200); // 500ms delay after user stops typing
+    }, 200);
 
-    return () => clearTimeout(timer); // Clean up timeout on change
+    return () => clearTimeout(timer);
   }, [searchQuery]);
 
   const handleSearch = async () => {
@@ -39,6 +39,22 @@ function Navbar() {
       console.log(searchResults);
     } catch (error) {
       console.log(axiosErrorManager(error));
+    }
+  };
+
+  const onSearchClick=(username:string)=>{
+    navigate(`/${username}`)
+    setIsSearchWindowOpen(false)
+  }
+
+  const handleLogout = async() => {
+      try{
+        await axiosInstance.post('/auth/logout')
+        localStorage.removeItem('user')
+        setIsMoreWindowOpen(false)
+        navigate('/user/login')
+    }catch(error){
+      console.log(axiosErrorManager(error))
     }
   };
 
@@ -61,7 +77,7 @@ function Navbar() {
         </NavLink>
         <button
           className="flex py-2 px-1 hover:bg-gray-700 rounded-lg text-sm items-center gap-3"
-          onClick={() => setIsSearchWindowOpen(!isSearchWindowOpen)} // Toggle search window visibility
+          onClick={() => setIsSearchWindowOpen(!isSearchWindowOpen)}
         >
           <FiSearch className="text-2xl" />
           Search
@@ -96,21 +112,21 @@ function Navbar() {
           Reels
         </NavLink>
         <NavLink
-          to={'/message'}
+          to={'/accout/message'}
           className="flex hover:bg-gray-700 rounded-lg text-sm items-center gap-3 py-2 px-1"
         >
           <RiMessengerLine className="text-2xl" />
           Message
         </NavLink>
         <NavLink
-          to={'/notification'}
+          to={'/account/notification'}
           className="flex hover:bg-gray-700 rounded-lg text-sm items-center gap-3 py-2 px-1"
         >
           <IoMdHeartEmpty className="text-2xl" />
           Notifications
         </NavLink>
         <NavLink
-          to={'/post'}
+          to={'/account/post'}
           className="flex hover:bg-gray-700 rounded-lg text-sm items-center gap-3 py-2 px-1"
         >
           <AiOutlinePlusSquare className="text-2xl" />
@@ -126,36 +142,68 @@ function Navbar() {
           </div>
           <NavLink to={`/${currentUser?.username}`}>Profile</NavLink>
         </div>
-        <NavLink
-          to={'/more'}
+        <button
           className="flex hover:bg-gray-700 rounded-lg text-sm items-center gap-2 mt-3 py-2 px-1"
+          onClick={() => setIsMoreWindowOpen(!isMoreWindowOpen)}
         >
           <FaBars className="text-2xl" />
           More
-        </NavLink>
+        </button>
       </div>
 
-      {/* Search Window (appears next to the Navbar) */}
+      {/* Search Window */}
       {isSearchWindowOpen && (
-        <div className="fixed left-[250px] top-0 bg-white w-[350px] h-full shadow-lg z-50 p-5">
+        <div className="fixed left-[250px] top-0 bg-black w-[350px] h-full z-50 p-5">
+          <p className='text-lg pb-5 border-b border-gray-600'>Search</p>
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search..."
-            className="w-full p-2 bg-gray-100 text-black rounded-md mb-3"
+            className="w-full p-2 focus:outline-none text-xs text-white bg-gray-700 rounded-md my-3"
           />
           <div className="text-black">
             {searchResults.length > 0 ? (
               searchResults.map((user, index) => (
                 <div key={index} className="py-2">
-                  <div onClick={()=>navigate(`/${user.username}`)}>{user.username}</div>
+                  <div onClick={() => onSearchClick(user.username)} className='flex gap-5 items-center'>
+                    <img
+                      src={user.profile}
+                      alt="Profile"
+                      className="object-cover w-10 h-10 rounded-full"
+                    />
+                    <div>
+                    <p className="text-xs text-white">{user.username}</p>
+                    <p className='text-xs text-white'>{user.fullname}</p>
+                    </div>
+                  </div>
                 </div>
               ))
             ) : (
-              <p>No results to show...</p>
+              <p className='text-sm text-white'>No results to show...</p>
             )}
           </div>
+        </div>
+      )}
+
+      {/* More Popup */}
+      {isMoreWindowOpen && (
+        <div className="fixed left-[250px] bottom-0 bg-[#363636] w-[200px] shadow-lg z-50 rounded-lg">
+          <button
+            className="block w-full text-left px-2 py-3 text-sm border-b border-gray-600"
+            onClick={()=>{
+              setIsMoreWindowOpen(false);
+              navigate('/account/edit')
+            }}
+          >
+            Settings
+          </button>
+          <button
+            className="block w-full text-left px-2 py-3 text-sm"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
         </div>
       )}
     </div>
