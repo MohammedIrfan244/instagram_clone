@@ -34,8 +34,7 @@ const UserProfile = (): JSX.Element => {
 
     const handleFollow = async () => {
         try {
-            const response = await axiosInstance.post(`/user/follow_user`, { followingId: currUser?._id });
-            console.log(response.data);
+            await axiosInstance.post(`/user/follow_user`, { followingId: currUser?._id });
             getFollowStatus();
             getFollowerCount();
         } catch (error) {
@@ -119,7 +118,7 @@ const UserProfile = (): JSX.Element => {
                     </div>
                     <p className="text-sm">{currUser?.fullname}</p>
                     <p className="text-sm">{currUser?.bio}</p>
-                    {currUser?._id && followList && <FollowList removeFollower={() => {}} title={title} _id={currUser?._id} />}
+                    {currUser?._id && followList && <FollowList currUser={false} removeFollower={() => {}} title={title} _id={currUser?._id} />}
                 </div>
             </div>
             {/* Highlight Section */}

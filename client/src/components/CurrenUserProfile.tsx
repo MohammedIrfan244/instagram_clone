@@ -108,7 +108,7 @@ function CurrenUserProfile(): JSX.Element {
           <p className="text-sm">{currentUser?.fullname}</p>
           <p className="text-sm">{currentUser?.bio}</p>
           {profileModal && <ProfilePicture />}
-          {currentUser?._id && followList && <FollowList removeFollower={title === "Followers" ? removeFollower : removeFollowing} title={title} _id={currentUser._id} />}
+          {currentUser?._id && followList && <FollowList currUser={true} removeFollower={title === "Followers" ? removeFollower : removeFollowing} title={title} _id={currentUser._id} />}
         </div>
       </div>
 

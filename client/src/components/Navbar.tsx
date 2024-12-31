@@ -30,6 +30,7 @@ function Navbar() {
     }, 200);
 
     return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
   const handleSearch = async () => {
@@ -162,7 +163,7 @@ function Navbar() {
             placeholder="Search..."
             className="w-full p-2 focus:outline-none text-xs text-white bg-gray-700 rounded-md my-3"
           />
-          <div className="text-black">
+          <div>
             {searchResults.length > 0 ? (
               searchResults.map((user, index) => (
                 <div key={index} className="py-2">

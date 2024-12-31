@@ -67,12 +67,20 @@ function Stories(): JSX.Element {
       </button>
 
       <Swiper
-        ref={swiperRef}
-        spaceBetween={2}
-        slidesPerView={8}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
-      >
+  ref={swiperRef}
+  spaceBetween={2}
+  breakpoints={{
+    320: {
+      slidesPerView: 4,
+    },
+    768: {
+      slidesPerView: 6,
+    },
+    1024: {
+      slidesPerView: 8,
+    },
+  }}
+>
         {stories.map((story) => (
           <SwiperSlide key={story.id}>
             <div className="flex flex-col items-center gap-2 h-[120px] justify-center">

@@ -7,14 +7,14 @@ import { updateUserProfilePicture } from "../redux/userSlice";
 
 function ProfilePicture(): JSX.Element {
     const dispatch = useDispatch();
-    const fileInputRef = useRef<HTMLInputElement>(null);  // Reference to the file input
+    const fileInputRef = useRef<HTMLInputElement>(null);  
 
     useEffect(() => {
-        // Disable scrolling when modal is open
+       
         document.body.style.overflow = 'hidden';
 
         return () => {
-            // Re-enable scrolling when modal is closed
+           
             document.body.style.overflow = 'auto';
         };
     }, []);
@@ -32,14 +32,14 @@ function ProfilePicture(): JSX.Element {
     };
 
     const uploadProfile = () => {
-        // Trigger file input click when the "Upload Image" button is clicked
+        
         if (fileInputRef.current) {
             fileInputRef.current.click();
         }
     };
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0]; // Get the selected file
+        const file = event.target.files?.[0]; 
 
         if (file) {
             const formData = new FormData();

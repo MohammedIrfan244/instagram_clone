@@ -9,7 +9,7 @@ interface SuggestedUsersProps {
 function SuggestedUsers({ user,message,but }: SuggestedUsersProps): JSX.Element {
 const navigate=useNavigate()
   return (
-    <div className="h-[100px] flex items-center justify-between w-[300px]">
+    <div className="h-[50px] flex items-center justify-between w-[300px]">
         <div className="flex items-center gap-4 hover:cursor-pointer"  onClick={()=>navigate(`/${user.username}`)}>
       <img src={user.profile} alt={user.username} className="w-11 h-11 rounded-full" />
       <div className="text-xs">
@@ -17,9 +17,9 @@ const navigate=useNavigate()
         <p className="text-gray-400">{message}</p>
       </div>
         </div>
-        <button className="text-blue-400 text-xs">{but}</button>
+        <button onClick={but==="View"?()=>navigate(`/${user.username}`):()=>{}} className="text-blue-400 text-xs">{but}</button>
     </div>
   )
 }
-
+  
 export default SuggestedUsers

@@ -39,9 +39,9 @@ function Login(): JSX.Element {
       navigate('/');
     } catch (error) {
       console.log(axiosErrorManager(error));
-      setError(axiosErrorManager(error)); // Display error message
+      setError(axiosErrorManager(error)); 
     } finally {
-      setLoading(false); // Ensure loading is turned off, even on error
+      setLoading(false); 
     }
   };
 
@@ -56,7 +56,7 @@ function Login(): JSX.Element {
         <div className='w-[190px] overflow-hidden'>
           <img src={instagram} alt="instagram" />
         </div>
-        <form onSubmit={handleLogin}>
+        <form className='w-full' onSubmit={handleLogin}>
           <input
             type="text"
             name="identity"

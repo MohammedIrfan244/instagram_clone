@@ -5,12 +5,14 @@ import axiosInstance from "../utilities/axiosInstance";
 import axiosErrorManager from "../utilities/axiosErrorManager";
 import { User } from "../utilities/interfaces";
 import { IoClose } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 
 interface FollowListProps {
   title: string;
   _id:string
   removeFollower:(id:string)=>void
+  currUser:boolean
 }
 
 interface FollowerList{
@@ -21,8 +23,9 @@ interface FollowingList{
   following:User
 }
 
-function FollowList({ title ,_id,removeFollower}: FollowListProps): JSX.Element {
+function FollowList({ title ,_id,removeFollower,currUser}: FollowListProps): JSX.Element {
   const dispatch=useDispatch()
+  const navigate=useNavigate()
   const [followerList,setFollowerList]=useState<FollowerList[]>([])
   const [followingList,setFollowingList]=useState<FollowingList[]>([])
 
@@ -51,6 +54,7 @@ function FollowList({ title ,_id,removeFollower}: FollowListProps): JSX.Element 
     }else{
       getFollowingList()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[title])
   
   return (
@@ -71,7 +75,7 @@ function FollowList({ title ,_id,removeFollower}: FollowListProps): JSX.Element 
               <p>{follower.follower.fullname}</p>
               </div>
               </div>
-              <button className="bg-[#7B7B7B] h-7 px-5 text-xs rounded-md text-center text-white" onClick={()=>removeFollower(follower.follower._id)}>Remove</button>
+              <button className="bg-[#7B7B7B] h-7 px-5 text-xs rounded-md text-center text-white" onClick={currUser?()=>removeFollower(follower.follower._id):()=>navigate(`/${follower.follower.username}`)}>{currUser?"Remove":"View"}</button>
             </div>
           )
         }):
@@ -85,7 +89,7 @@ function FollowList({ title ,_id,removeFollower}: FollowListProps): JSX.Element 
               <p>{following.following.fullname}</p>
               </div>
               </div>
-              <button className="bg-[#7B7B7B] h-7 px-5 text-xs rounded-md text-center text-white" onClick={()=>removeFollower(following.following._id)} >Remove</button>
+               <button className="bg-[#7B7B7B] h-7 px-5 text-xs rounded-md text-center text-white" onClick={currUser?()=>removeFollower(following.following._id):()=>navigate(`/${following.following.username}`)} >{currUser?"Remove":"View"}</button>
             </div>
           )
         })
