@@ -4,7 +4,7 @@ import verifyToken from '../middlewares/verifyToken.js'
 import upload from '../config/multerConfig.js'
 
 import { uploadToCloudinary } from '../middlewares/fileUpload.js'
-import { getOneUser, getUsersByUsername } from '../controllers/user/userQueryController.js'
+import { getOneUser, getUsersByUsername, suggestedUsers } from '../controllers/user/userQueryController.js'
 import { deleteUserProfilePicture, updateUserProfilePicture } from '../controllers/user/userProfileController.js'
 import { postOneFile } from '../controllers/user/userPostController.js'
 import { followToggle, getFollowCount, getFollowerList, getFollowingList, getFollowStatus, removeFollower } from '../controllers/user/userFollowController.js'
@@ -27,6 +27,7 @@ routeer
 .get('/follow_count/:id',verifyToken,idValidation,tryCatch(getFollowCount))
 .get('/follow_status/:id',verifyToken,idValidation,tryCatch(getFollowStatus))
 .post('/user_update',verifyToken,tryCatch(userUpdate))
+.get('/suggested_users',verifyToken,tryCatch(suggestedUsers))
 
 
 

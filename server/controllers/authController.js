@@ -69,20 +69,20 @@ const refreshingToken = async (req, res, next) => {
       return next(new CustomError("No refresh token found", 401));
     }
   
-    // Verifying the refresh token
+  
     const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN);
   
     if (!decoded) {
       return next(new CustomError("Invalid refresh token", 401));
     }
   
-    // Check if the user exists
+  
     const user = await User.findById(decoded.id);
     if (!user) {
       return next(new CustomError("User not found", 404));
     }
   
-    // Create a new access token
+   
   let accessToken = jwt.sign({ id: user._id }, process.env.JWT_TOKEN, {
       expiresIn: "1d",
     });
