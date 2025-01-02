@@ -167,7 +167,7 @@ function Navbar() {
             {searchResults.length > 0 ? (
               searchResults.map((user, index) => (
                 <div key={index} className="py-2">
-                  <div onClick={() => onSearchClick(user.username)} className='flex gap-5 items-center'>
+                  <div onClick={() => onSearchClick(user.username)} className='flex hover:cursor-pointer gap-5 items-center'>
                     <img
                       src={user.profile}
                       alt="Profile"

@@ -29,18 +29,18 @@ function HomePage(): JSX.Element {
   return (
     <div className="flex w-full min-h-screen">
        
-      {/* This is the main content for posts and stories*/}
+      {/* posts and stories*/}
       <div className='w-2/3 ps-[250px]  min-h-screen'>
       {/* This is the area for stories */}
       <div className='w-full h-auto'>
         <Stories/>
       </div>
-      {/* This is the area for posts */}
+      {/*area for posts */}
       <div className='w-full h-screen flex flex-col items-center justify-center'>
         NO POSTS YET
       </div>
       </div>
-      {/* This is the area for the suggestions */}
+      {/* area for the suggestions */}
         <div className='w-1/3 flex items-center flex-col'>
           <div className='w-[300px]'>
             <div className='my-7'>
