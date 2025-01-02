@@ -11,7 +11,6 @@ const uploadToCloudinary = async (req, res, next) => {
     const buffer = req.file.buffer;
     const resourceType = req.file.mimetype.startsWith("image") ? "image" : "video";
 
-    // Upload the file to Cloudinary
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         resource_type: resourceType,
@@ -23,13 +22,11 @@ const uploadToCloudinary = async (req, res, next) => {
           return next(new CustomError("Failed to upload to Cloudinary", 500));
         }
 
-        // Attach the uploaded file details to the request object
         req.uploadedFile = result;
         next();
       }
     );
 
-    // Convert the file buffer into a readable stream and pipe it to Cloudinary
     const bufferStream = new PassThrough();
     bufferStream.end(buffer);
     bufferStream.pipe(uploadStream);

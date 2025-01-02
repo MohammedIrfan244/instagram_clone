@@ -7,4 +7,10 @@ const joiUserSchema = joi.object({
     password: joi.string().required(),
 })
 
-export {joiUserSchema}
+const joiPostSchema = joi.object({
+    username: joi.string().required(),
+    caption: joi.string().required(),
+    media: joi.string().required(),
+})
+
+export {joiUserSchema, joiPostSchema}
