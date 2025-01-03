@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
-import axiosErrorManager from "../utilities/axiosErrorManager";
-import axiosInstance from "../utilities/axiosInstance";
-import { UserDetail } from "../utilities/interfaces";
+import axiosErrorManager from "../../utilities/axiosErrorManager";
+import axiosInstance from "../../utilities/axiosInstance";
+import { UserDetail } from "../../utilities/interfaces";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import FollowList from "../popups/FollowList";
-import { openFollowList } from "../redux/commonSlice";
+import { RootState } from "../../redux/store";
+import FollowList from "../../popups/FollowList";
+import { openFollowList } from "../../redux/commonSlice";
 
 interface FollowCount {
     followerCount: number;

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import Stories from '../components/Stories';
+import Stories from '../components/storiesComponents/Stories';
 import SuggestedUsers from '../shared/SuggestedUsers';
 import { User } from '../utilities/interfaces';
 import { useEffect, useState } from 'react';

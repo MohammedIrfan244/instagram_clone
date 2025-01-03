@@ -1,6 +1,6 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
-import { Stroy } from '../utilities/interfaces';
+import { Stroy } from '../../utilities/interfaces';
 import { useRef } from 'react';
 import { FaCircleChevronLeft ,FaCircleChevronRight} from "react-icons/fa6";
 

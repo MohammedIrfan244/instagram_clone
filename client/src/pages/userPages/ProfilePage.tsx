@@ -1,8 +1,8 @@
-import { RootState } from "../redux/store"
+import { RootState } from "../../redux/store"
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import CurrenUserProfile from "../components/CurrenUserProfile"
-import UserProfile from "../components/UserProfile"
+import UserProfile from "../../components/profilesComponents/UserProfile"
 
 
 

@@ -1,5 +1,5 @@
-import Login from "../components/Login";
-import LoginImage from "../components/LoginImage";
+import Login from "../../components/authComponents/Login";
+import LoginImage from "../../components/authComponents/LoginImage";
 
 function LandingPage(): JSX.Element {
   return (

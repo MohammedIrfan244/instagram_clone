@@ -6,8 +6,8 @@ import playstore from '../assets/5a902dbf7f96951c82922875.png';
 import windows from '../assets/5a902db47f96951c82922873.png';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setCurrentUser } from '../redux/userSlice';
-import axiosErrorManager from '../utilities/axiosErrorManager';
+import { setCurrentUser } from '../../redux/userSlice';
+import axiosErrorManager from '../../utilities/axiosErrorManager';
 
 interface LoginData {
   identity: string;

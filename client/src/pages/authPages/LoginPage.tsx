@@ -1,4 +1,4 @@
-import Login from "../components/Login"
+import Login from "../../components/authComponents/Login"
 
 
 function LoginPage(): JSX.Element {

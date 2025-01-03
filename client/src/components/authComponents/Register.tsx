@@ -7,7 +7,7 @@ import { Form, Field, Formik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
 import axios from "axios";
-import axiosErrorManager from "../utilities/axiosErrorManager";
+import axiosErrorManager from "../../utilities/axiosErrorManager";
 
 interface FormValues {
   email: string;

@@ -9,10 +9,10 @@ import { AiOutlinePlusSquare } from 'react-icons/ai';
 import { FaBars } from 'react-icons/fa6';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
-import axiosInstance from '../utilities/axiosInstance';
-import axiosErrorManager from '../utilities/axiosErrorManager';
-import { User } from '../utilities/interfaces';
+import { RootState } from '../../redux/store'
+import axiosInstance from '../../utilities/axiosInstance';
+import axiosErrorManager from '../../utilities/axiosErrorManager';
+import { User } from '../../utilities/interfaces';
 
 function Navbar() {
   const { currentUser } = useSelector((state: RootState) => state.currentUser);

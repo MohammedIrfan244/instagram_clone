@@ -1,13 +1,13 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
-import LandingPage from './LandingPage';
-import RegisterPage from './RegisterPage';
-import LoginPage from './LoginPage';
-import HomePage from './HomePage';
+import { RootState } from '../../redux/store';
+import LandingPage from '../authPages/LandingPage';
+import RegisterPage from '../RegisterPage';
+import LoginPage from '../authPages/LoginPage';
+import HomePage from '../HomePage';
 import Navbar from '../components/Navbar';
-import ProfilePage from './ProfilePage';
-import EditPage from './EditPage';
+import ProfilePage from '../userPages/ProfilePage';
+import EditPage from '../EditPage';
 
 function AppRoutes(): JSX.Element {
   const { currentUser } = useSelector((state: RootState) => state.currentUser);
