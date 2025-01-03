@@ -1,4 +1,4 @@
-import login from '../assets/instagram_home.png'
+import login from '../../assets/instagram_home.png'
 
 function LoginImage(): JSX.Element {
   return (

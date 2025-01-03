@@ -1,4 +1,4 @@
-import Register from '../components/auth/Register'
+import Register from '../../components/authComponents/Register'
 
 function RegisterPage(): JSX.Element {
   return (

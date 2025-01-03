@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import { RootState } from '../../redux/store';
 import { useState } from 'react';
-import axiosInstance from '../utilities/axiosInstance';
+import axiosInstance from '../../utilities/axiosInstance';
 import { useNavigate } from 'react-router-dom';
-import { setCurrentUser } from '../redux/userSlice';
-import axiosErrorManager from '../utilities/axiosErrorManager';
-import { openProfileModal } from '../redux/commonSlice';
-import ProfilePicture from '../popups/ProfilePicture';
+import { setCurrentUser } from '../../redux/userSlice';
+import axiosErrorManager from '../../utilities/axiosErrorManager';
+import { openProfileModal } from '../../redux/commonSlice';
+import ProfilePicture from '../../popups/ProfilePictureUpdate';
 
 function EditPage() {
   const { currentUser } = useSelector((state: RootState) => state.currentUser);

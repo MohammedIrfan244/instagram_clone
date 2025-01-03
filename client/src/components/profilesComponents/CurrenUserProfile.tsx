@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import ProfilePicture from "../popups/ProfilePicture";
-import FollowList from "../popups/FollowList";
-import { openProfileModal, openFollowList } from "../redux/commonSlice";
-import axiosErrorManager from "../utilities/axiosErrorManager";
-import axiosInstance from "../utilities/axiosInstance";
-import { RootState } from "../redux/store";
+import FollowList from "../../popups/FollowList";
+import { openProfileModal, openFollowList } from "../../redux/commonSlice";
+import axiosErrorManager from "../../utilities/axiosErrorManager";
+import axiosInstance from "../../utilities/axiosInstance";
+import { RootState } from "../../redux/store";
 import { IoIosSettings } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import ProfilePictureUpdate from "../../popups/ProfilePictureUpdate";
 
 
 interface FollowCount {
@@ -107,7 +107,7 @@ function CurrenUserProfile(): JSX.Element {
           </div>
           <p className="text-sm">{currentUser?.fullname}</p>
           <p className="text-sm">{currentUser?.bio}</p>
-          {profileModal && <ProfilePicture />}
+          {profileModal && <ProfilePictureUpdate />}
           {currentUser?._id && followList && <FollowList currUser={true} removeFollower={title === "Followers" ? removeFollower : removeFollowing} title={title} _id={currentUser._id} />}
         </div>
       </div>

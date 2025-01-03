@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import instagram from "../assets/instagram_text.png";
+import instagram from "../../assets/instagram_text.png";
 import { AiFillFacebook } from "react-icons/ai";
-import playstore from "../assets/5a902dbf7f96951c82922875.png";
-import windows from "../assets/5a902db47f96951c82922873.png";
+import playstore from "../../assets/5a902dbf7f96951c82922875.png";
+import windows from "../../assets/5a902db47f96951c82922873.png";
 import { Form, Field, Formik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";

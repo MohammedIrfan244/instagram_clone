@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import instagram from '../assets/instagram_text.png';
+import instagram from '../../assets/instagram_text.png';
 import { GoHome } from 'react-icons/go';
 import { FiSearch } from 'react-icons/fi';
 import { MdOutlineExplore } from 'react-icons/md';

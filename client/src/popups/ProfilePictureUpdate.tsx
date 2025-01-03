@@ -5,7 +5,7 @@ import axiosErrorManager from "../utilities/axiosErrorManager";
 import axiosInstance from "../utilities/axiosInstance";
 import { updateUserProfilePicture } from "../redux/userSlice";
 
-function ProfilePicture(): JSX.Element {
+function ProfilePictureUpdate(): JSX.Element {
     const dispatch = useDispatch();
     const fileInputRef = useRef<HTMLInputElement>(null);  
 
@@ -96,4 +96,4 @@ function ProfilePicture(): JSX.Element {
     );
 }
 
-export default ProfilePicture;
+export default ProfilePictureUpdate;
