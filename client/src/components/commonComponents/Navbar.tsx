@@ -126,13 +126,12 @@ function Navbar() {
           <IoMdHeartEmpty className="text-2xl" />
           Notifications
         </NavLink>
-        <NavLink
-          to={'/account/post'}
+        <button
           className="flex hover:bg-gray-700 rounded-lg text-sm items-center gap-3 py-2 px-1"
         >
           <AiOutlinePlusSquare className="text-2xl" />
           Create
-        </NavLink>
+        </button>
         <div className="flex hover:cursor-pointer text-sm items-center gap-3 hover:bg-gray-700 rounded-lg py-2 px-1">
           <div className="rounded-full w-7 h-7 overflow-hidden relative">
             <img

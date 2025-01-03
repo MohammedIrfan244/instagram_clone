@@ -5,7 +5,7 @@ import { UserDetail } from "../../utilities/interfaces";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import FollowList from "../../popups/FollowList";
+import FollowList from "../../popups/FollowListPopup";
 import { openFollowList } from "../../redux/commonSlice";
 
 interface FollowCount {

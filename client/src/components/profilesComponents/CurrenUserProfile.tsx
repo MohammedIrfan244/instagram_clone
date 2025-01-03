@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import FollowList from "../../popups/FollowList";
+import FollowList from "../../popups/FollowListPopup";
 import { openProfileModal, openFollowList } from "../../redux/commonSlice";
 import axiosErrorManager from "../../utilities/axiosErrorManager";
 import axiosInstance from "../../utilities/axiosInstance";
 import { RootState } from "../../redux/store";
 import { IoIosSettings } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import ProfilePictureUpdate from "../../popups/ProfilePictureUpdate";
+import ProfilePictureUpdate from "../../popups/ProfilePictureUpdatePopup";
 
 
 interface FollowCount {

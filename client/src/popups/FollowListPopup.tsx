@@ -23,7 +23,7 @@ interface FollowingList{
   following:User
 }
 
-function FollowList({ title ,_id,removeFollower,currUser}: FollowListProps): JSX.Element {
+function FollowListPopup({ title ,_id,removeFollower,currUser}: FollowListProps): JSX.Element {
   const dispatch=useDispatch()
   const navigate=useNavigate()
   const [followerList,setFollowerList]=useState<FollowerList[]>([])
@@ -101,4 +101,4 @@ function FollowList({ title ,_id,removeFollower,currUser}: FollowListProps): JSX
   )
 }
 
-export default FollowList
+export default FollowListPopup

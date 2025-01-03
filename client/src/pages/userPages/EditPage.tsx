@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { setCurrentUser } from '../../redux/userSlice';
 import axiosErrorManager from '../../utilities/axiosErrorManager';
 import { openProfileModal } from '../../redux/commonSlice';
-import ProfilePicture from '../../popups/ProfilePictureUpdate';
+import ProfilePicture from '../../popups/ProfilePictureUpdatePopup';
 
 function EditPage() {
   const { currentUser } = useSelector((state: RootState) => state.currentUser);

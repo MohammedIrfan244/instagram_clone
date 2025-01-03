@@ -4,11 +4,13 @@ import { createSlice } from "@reduxjs/toolkit";
 interface CommonState{
     profileModal:boolean
     followList:boolean
+    postPopup:boolean
 }
 
 const INITIALSTATE:CommonState={
     profileModal:false,
-    followList:false
+    followList:false,
+    postPopup:false
 }
 
 export const commonSlice=createSlice({
@@ -26,10 +28,16 @@ export const commonSlice=createSlice({
         },
         closeFollowList:(state:CommonState):void=>{
             state.followList=false
+        },
+        openPostPopup:(state:CommonState):void=>{
+            state.postPopup=true
+        },
+        closePostPopup:(state:CommonState):void=>{
+            state.postPopup=false
         }
     },
 })
 
-export const {openProfileModal,closeProfileModal,openFollowList,closeFollowList}=commonSlice.actions
+export const {openProfileModal,closeProfileModal,openFollowList,closeFollowList,openPostPopup,closePostPopup}=commonSlice.actions
 export default commonSlice.reducer
 
