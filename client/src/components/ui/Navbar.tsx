@@ -8,19 +8,23 @@ import { IoMdHeartEmpty } from 'react-icons/io';
 import { AiOutlinePlusSquare } from 'react-icons/ai';
 import { FaBars } from 'react-icons/fa6';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store'
 import axiosInstance from '../../utilities/axiosInstance';
 import axiosErrorManager from '../../utilities/axiosErrorManager';
 import { User } from '../../utilities/interfaces';
+import { openPostPopup } from '../../redux/commonSlice';
+import PostPopup from '../../popups/PostPopup';
 
 function Navbar() {
   const { currentUser } = useSelector((state: RootState) => state.currentUser);
+  const {postPopup}=useSelector((state:RootState)=>state.common)
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchResults, setSearchResults] = useState<User[]>([]);
   const [isSearchWindowOpen, setIsSearchWindowOpen] = useState(false);
   const [isMoreWindowOpen, setIsMoreWindowOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch=useDispatch()
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -127,6 +131,7 @@ function Navbar() {
           Notifications
         </NavLink>
         <button
+        onClick={()=>dispatch(openPostPopup())}
           className="flex hover:bg-gray-700 rounded-lg text-sm items-center gap-3 py-2 px-1"
         >
           <AiOutlinePlusSquare className="text-2xl" />
@@ -206,6 +211,9 @@ function Navbar() {
           </button>
         </div>
       )}
+      {
+        postPopup&&<PostPopup/>
+      }
     </div>
   );
 }

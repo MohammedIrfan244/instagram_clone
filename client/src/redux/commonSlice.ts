@@ -40,4 +40,3 @@ export const commonSlice=createSlice({
 
 export const {openProfileModal,closeProfileModal,openFollowList,closeFollowList,openPostPopup,closePostPopup}=commonSlice.actions
 export default commonSlice.reducer
-

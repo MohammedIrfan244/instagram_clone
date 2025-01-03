@@ -5,7 +5,7 @@ import LandingPage from '../authPages/LandingPage';
 import RegisterPage from '../authPages/RegisterPage';
 import LoginPage from '../authPages/LoginPage';
 import HomePage from '../HomePage';
-import Navbar from '../../components/commonComponents/Navbar';
+import Navbar from '../../components/ui/Navbar';
 import ProfilePage from '../userPages/ProfilePage';
 import EditPage from '../userPages/EditPage';
 
