@@ -42,6 +42,7 @@ function ProfilePictureUpdate(): JSX.Element {
         const file = event.target.files?.[0]; 
 
         if (file) {
+            console.log(file)
             const formData = new FormData();
             formData.append('file', file);
 

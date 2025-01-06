@@ -7,6 +7,7 @@ import { setCurrentUser } from '../../redux/userSlice';
 import axiosErrorManager from '../../utilities/axiosErrorManager';
 import { openProfileModal } from '../../redux/commonSlice';
 import ProfilePicture from '../../popups/ProfilePictureUpdatePopup';
+import BlueButton from '../../components/ui/BlueButton';
 
 function EditPage() {
   const { currentUser } = useSelector((state: RootState) => state.currentUser);
@@ -77,7 +78,8 @@ function EditPage() {
           <p>{currentUser?.fullname}</p>
         </div>
         </div>
-        <button className="bg-blue-500 text-white px-4 py-1 text-xs font-semibold rounded-md" onClick={()=>dispatch(openProfileModal())}>Change Profile</button>
+        {/* <button className="bg-blue-500 text-white px-4 py-1 text-xs font-semibold rounded-md" onClick={()=>dispatch(openProfileModal())}>Change Profile</button> */}
+        <BlueButton styles="bg-blue-text-white px-4 py-2 text-sm font-semibold rounded-md" loading={loading} loadingText={"Updating..."} text="Change Profile" onClick={()=>dispatch(openProfileModal())} />
       </div>
       <form onSubmit={handleSubmit} className="w-[400px] space-y-4">
         <div>
@@ -87,7 +89,6 @@ function EditPage() {
           <textarea
             id="bio"
             name="bio"
-            required
             value={formData.bio}
             onChange={handleChange}
             placeholder="Tell us about yourself..."
@@ -129,13 +130,14 @@ function EditPage() {
           </div>
         )}
         {error && <p className="text-red-500">{error}</p>}
-        <button
+        {/* <button
           type="submit"
           className="bg-blue-500 text-white px-4 py-1 rounded-md"
           disabled={loading}
         >
           {loading ? 'Updating...' : 'Submit'}
-        </button>
+        </button> */}
+        <BlueButton styles="bg-blue-text-white px-4 py-2 text-sm font-semibold rounded-md" onClick={()=>{}} loading={loading} loadingText={"Updating..."} text="Submit" />
       </form>
 {profileModal && <ProfilePicture />}
     </div>
