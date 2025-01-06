@@ -1,5 +1,8 @@
 import Follow from "../../models/followModel.js";
 import User from "../../models/userModel.js";
+import Like from "../../models/likeModel.js";
+import Comment from '../../models/commentModel.js';
+import Post from "../../models/postModel.js";
 import CustomError from "../../utilities/customError.js";
 
 const getOneUser = async (req, res, next) => {
@@ -34,7 +37,7 @@ const getUsersByUsername = async (req, res, next) => {
 };
 
 const suggestedUsers = async (req, res, next) => {
-  try {
+
     const followings = await Follow.find({ follower: req.user.id }).select('following');
     if (followings.length === 0) {
       return res.status(200).json({ suggestedUsers: [] });
@@ -62,11 +65,23 @@ const suggestedUsers = async (req, res, next) => {
       .limit(5);
 
     res.status(200).json({ suggestedUsers });
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
 };
 
+const getLikedPosts = async (req, res, next) => {
+  const likedPosts = await Like.find({ user: req.user.id }).populate('post');
+  if (likedPosts.length === 0) {
+    return res.status(200).json({ posts: [], message: "No liked posts found" });
+  }
+  res.status(200).json({ posts: likedPosts });
+}
 
-export { getOneUser, getUsersByUsername, suggestedUsers };
+const getCommentedPosts = async (req, res, next) => {
+  const commentedPosts = await Comment.find({ user: req.user.id }).populate('post');
+  if (commentedPosts.length === 0) {
+    return res.status(200).json({ posts: [], message: "No commented posts found" });
+  }
+  res.status(200).json({ posts: commentedPosts });
+} 
+
+
+export { getOneUser, getUsersByUsername, suggestedUsers, getLikedPosts, getCommentedPosts };

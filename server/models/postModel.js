@@ -7,7 +7,6 @@ const postSchema = new mongoose.Schema({
   },
   caption: {
     type: String,
-    required: true,
   },
   media: {
     type: String,
@@ -17,13 +16,9 @@ const postSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  likes: {
-    type: [String],
-    default: [],
-  },
-  comments: {
-    type: [String],
-    default: [],
+  likesCount: {
+    type: Number,
+    default: 0,
   },
   commentsCount: {
     type: Number,
@@ -36,6 +31,10 @@ const postSchema = new mongoose.Schema({
   savesCount: {
     type: Number,
     default: 0,
+  },
+  isReel: {
+    type: Boolean,
+    default: false,
   },
 });
 

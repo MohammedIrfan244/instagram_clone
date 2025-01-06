@@ -21,6 +21,7 @@ const userRegister = async (req, res,next) => {
     if(usernameExist){
         return next(new CustomError("Username already in use",400))
     }
+    console.log(value)
     const salt=await bcrypt.genSalt(10)
     const hashedPassword=await bcrypt.hash(password,salt)
     const fallBackProfile="https://i.pinimg.com/736x/20/05/e2/2005e27a39fa5f6d97b2e0a95233b2be.jpg"

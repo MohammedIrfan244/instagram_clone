@@ -31,7 +31,7 @@ const uploadToCloudinary = async (req, res, next) => {
     bufferStream.end(buffer);
     bufferStream.pipe(uploadStream);
   } catch (error) {
-    console.error("Middleware Error:", error.message);
+    console.error("Middleware Upload Error:", error.message);
     next(new CustomError("An unexpected error occurred", 500));
   }
 };
