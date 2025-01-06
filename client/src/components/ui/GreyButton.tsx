@@ -1,0 +1,18 @@
+
+interface GreyButtonProps {
+    styles:string
+    text:string | JSX.Element
+    onClick:()=>void
+    loadingText:string | JSX.Element
+    loading:boolean
+}
+
+function GreyButton({styles,text,loading,loadingText,onClick}:GreyButtonProps): JSX.Element {
+  return (
+    <button className={`bg-[#333333] font-semibold hover:bg-[#262626] ${styles}`} onClick={onClick}>
+        {loading?loadingText:text}
+    </button>
+  )
+}
+
+export default GreyButton

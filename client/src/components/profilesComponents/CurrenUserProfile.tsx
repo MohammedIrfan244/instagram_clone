@@ -8,6 +8,7 @@ import { RootState } from "../../redux/store";
 import { IoIosSettings } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import ProfilePictureUpdate from "../../popups/ProfilePictureUpdatePopup";
+import GreyButton from "../ui/GreyButton";
 
 
 interface FollowCount {
@@ -79,7 +80,7 @@ function CurrenUserProfile(): JSX.Element {
 
   return (
     <>
-      {/* profile section */}
+      
       <div className="flex h-[250px] items-center">
         <div className="w-[400px] flex justify-center h-full items-center">
           <img
@@ -92,10 +93,12 @@ function CurrenUserProfile(): JSX.Element {
         <div className="space-y-5">
           <div className="flex gap-3">
             <p className="text-lg">{currentUser?.username}</p>
-            <button className="text-sm bg-[#262626] px-3 py-1 rounded-md" onClick={() => navigate('/account/edit')}>
+            {/* <button className="text-sm bg-[#262626] px-3 py-1 rounded-md" onClick={() => navigate('/account/edit')}>
               Edit Profile
-            </button>
-            <button className="text-sm bg-[#262626] px-3 py-1 rounded-md">View Archive</button>
+            </button> */}
+            <GreyButton styles="text-sm bg-[#262626] px-3 py-1 rounded-md" loading={false} loadingText={""} text="Edit Profile" onClick={() => navigate('/account/edit')} />
+            {/* <button className="text-sm bg-[#262626] px-3 py-1 rounded-md">View Archive</button> */}
+            <GreyButton styles="text-sm bg-[#262626] px-3 py-1 rounded-md" loading={false} loadingText={""} text="View Archive" onClick={() => navigate('/archive')} />
             <button className="text-3xl" onClick={() => navigate('/account/edit')}>
               <IoIosSettings />
             </button>

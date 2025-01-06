@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import instagram from "../../assets/instagram_text.png";
 import { AiFillFacebook } from "react-icons/ai";
 import playstore from "../../assets/5a902dbf7f96951c82922875.png";
 import windows from "../../assets/5a902db47f96951c82922873.png";
@@ -8,6 +7,8 @@ import * as Yup from "yup";
 import { useState } from "react";
 import axios from "axios";
 import axiosErrorManager from "../../utilities/axiosErrorManager";
+import BlueButton from "../ui/BlueButton";
+import InstaText from "../ui/InstaText";
 
 interface FormValues {
   email: string;
@@ -24,6 +25,7 @@ const RegisterSchema = Yup.object().shape({
   fullname: Yup.string().required("Full Name is required"),
   username: Yup.string()
     .required("Username is required")
+    .matches(/^[a-z_]*$/, "Username can only contain lowercase letters and underscores")
     .matches(/^\S*$/, "Username cannot contain spaces"),
 });
 
@@ -35,6 +37,7 @@ function Register(): JSX.Element {
   const [otpStep, setOtpStep] = useState<boolean>(false);
   const [otp, setOtp] = useState<string>("");
   const [formData, setFormData] = useState<FormValues | null>(null);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleRegister = async (values: FormValues) => {
     try {
@@ -56,14 +59,10 @@ function Register(): JSX.Element {
     try {
       setLoading(true);
       setError(null);
-
-      
       await axios.post(`${import.meta.env.VITE_API_URL}/auth/validate-otp`, {
         email: formData.email,
         otp,
       });
-
-      
       await axios.post(`${import.meta.env.VITE_API_URL}/auth/complete-registration`, formData);
       setLoading(false);
       navigate("/user/login");
@@ -76,16 +75,11 @@ function Register(): JSX.Element {
   return (
     <div className="w-[350px] h-auto">
       <div className="border border-gray-700 w-full flex flex-col items-center px-10">
-        <div className="w-[190px] overflow-hidden mt-5">
-          <img src={instagram} alt="instagram" />
-        </div>
+        <InstaText styles="w-[190px] overflow-hidden mt-5"/>
         <p className="text-gray-300 font-semibold text-sm text-center">
           Sign up to see photos and videos from your friends.
         </p>
-        <button className="bg-blue-500 focus:outline-none flex items-center gap-2 w-full justify-center mt-3 py-1.5 rounded-lg hover:bg-blue-600">
-          <AiFillFacebook className="text-xl" />
-          <p className="text-xs font-semibold">Login with Facebook</p>
-        </button>
+        <BlueButton styles="focus:outline-none flex items-center gap-2 w-full justify-center mt-3 py-2 rounded-lg" text={<><AiFillFacebook/><p className="text-sm font-semibold">Login with Facebook</p></>} onClick={() => {}} loadingText="Loading..." loading={loading} />
         <div className="flex items-center w-full h-auto justify-center gap-4 mt-7">
           <div className="bg-gray-700 w-2/5 h-[1px]" />
           <p className="text-gray-400 text-xs font-semibold">OR</p>
@@ -101,13 +95,7 @@ function Register(): JSX.Element {
               onChange={(e) => setOtp(e.target.value)}
               className="bg-[#121212] text-xs px-2 focus:outline-none border-[1px] border-gray-700 w-full h-9 mt-7"
             />
-            <button
-              onClick={handleOTPSubmit}
-              disabled={loading}
-              className="bg-blue-700 hover:bg-blue-500 mb-10 w-full h-8 mt-4 rounded-lg text-xs font-semibold"
-            >
-              {loading ? "Verifying..." : "Submit OTP"}
-            </button>
+            <BlueButton styles="focus:outline-none flex items-center text-xs font-semibold mb-2 gap-2 w-full justify-center mt-3 py-2 rounded-lg" text="Submit OTP" onClick={handleOTPSubmit} loadingText="Verifying..." loading={loading} />
             {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
           </div>
         ) : (
@@ -127,12 +115,21 @@ function Register(): JSX.Element {
                 {errors.email && touched.email ? (
                   <div className="text-red-500 text-xs">{errors.email}</div>
                 ) : null}
-                <Field
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  className="bg-[#121212] text-xs px-2 focus:outline-none border-[1px] border-gray-700 w-full h-9 mt-2"
-                />
+                <div className="relative w-full">
+                  <Field
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    className="bg-[#121212] text-xs px-2 focus:outline-none border-[1px] border-gray-700 w-full h-9 mt-2"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-2 top-3 text-gray-400 text-xs font-semibold focus:outline-none"
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
                 {errors.password && touched.password ? (
                   <div className="text-red-500 text-xs">{errors.password}</div>
                 ) : null}
@@ -155,12 +152,14 @@ function Register(): JSX.Element {
                   <div className="text-red-500 text-xs">{errors.username}</div>
                 ) : null}
                 {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
-                <button
-                  type="submit"
-                  className="bg-blue-700 hover:bg-blue-500 mb-10 w-full h-8 mt-4 rounded-lg text-xs font-semibold"
-                >
-                  {loading ? "Signing up" : "Sign up"}
-                </button>
+                <p className="text-gray-400 text-[11px] mt-2 text-center">
+                  People who use our service may have uploaded your contact
+                  information to Instagram.
+                </p>
+                <p className="text-gray-400 text-[11px] mt-2 text-center">
+                  By sighning up, you agree to our Terms and Conditions
+                </p>
+                <BlueButton styles="focus:outline-none flex items-center gap-2 w-full justify-center text-sm font-semibold   mb-10 mt-3 py-2 rounded-lg" text="Sign up" onClick={() => {}} loadingText="Signing up..." loading={loading} />
               </Form>
             )}
           </Formik>

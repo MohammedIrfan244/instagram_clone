@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import instagram from '../../assets/instagram_text.png';
 import { FaFacebook } from "react-icons/fa";
 import playstore from '../../assets/5a902dbf7f96951c82922875.png';
 import windows from '../../assets/5a902db47f96951c82922873.png';
@@ -8,6 +7,8 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '../../redux/userSlice';
 import axiosErrorManager from '../../utilities/axiosErrorManager';
+import BlueButton from '../ui/BlueButton';
+import InstaText from '../ui/InstaText';
 
 interface LoginData {
   identity: string;
@@ -53,9 +54,10 @@ function Login(): JSX.Element {
   return (
     <>
       <div className="bg-black w-[350px] h-[415px] border border-gray-700 flex flex-col items-center px-10 pt-7">
-        <div className='w-[190px] overflow-hidden'>
+        {/* <div className='w-[190px] overflow-hidden'>
           <img src={instagram} alt="instagram" />
-        </div>
+        </div> */}
+        <InstaText styles='w-[190px] overflow-hidden' />
         <form className='w-full' onSubmit={handleLogin}>
           <input
             type="text"
@@ -86,13 +88,14 @@ function Login(): JSX.Element {
             </button>
           </div>
           {error && <p className='text-red-500 text-xs mt-2'>{error}</p>}
-          <button
+          {/* <button
             type='submit'
             className='bg-blue-500 hover:bg-blue-600 w-full h-8 mt-4 rounded-lg text-xs font-semibold'
             disabled={loading}
           >
             {loading ? "Logging In..." : "Log In"}
-          </button>
+          </button> */}
+          <BlueButton styles="w-full h-8 mt-4 rounded-lg text-xs font-semibold" text="Log In" loading={loading} loadingText="Logging In..." onClick={() => handleLogin} />
         </form>
         <div className='flex items-center w-full h-auto justify-center gap-4 mt-7'>
           <div className='bg-gray-700 w-2/5 h-[1px]' />
@@ -107,7 +110,7 @@ function Login(): JSX.Element {
       <div className='w-[350px] h-[60px] bg-black border border-gray-700 flex items-center mt-3 justify-center'>
         <p className='text-xs text-gray-100'>Don't have an account?</p>
         <button
-          className='text-xs text-blue-500 font-semibold ms-1'
+          className='text-xs text-blue-500 font-bold ms-1'
           onClick={() => navigate('/user/register')}>
           Sign up
         </button>
