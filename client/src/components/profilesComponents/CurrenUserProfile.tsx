@@ -152,7 +152,7 @@ function CurrenUserProfile(): JSX.Element {
           <MdBookmarkBorder />Saved
           </button>
         </div>
-        {component==="post"?<PostGrid isCurrUser={true} username=""/>:component==="reel"?<ReelGrid isCurrUser={false} username=""/>:<SavedGrid/>}
+        {component==="post"?<PostGrid isCurrUser={true} username=""/>:component==="reel"?<ReelGrid isCurrUser={true} username=""/>:<SavedGrid/>}
       </div>
     </>
   );

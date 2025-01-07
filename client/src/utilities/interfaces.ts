@@ -1,11 +1,11 @@
 export interface Post {
   id: string;
-  thumbnail: string;
   username: string;
-  date: string;
   media: string;
-  likes: number;
+  likesCount: number;
   caption: string;
+  commentsCount: number;
+  isReel: boolean;
 }
 
 export interface Stroy {

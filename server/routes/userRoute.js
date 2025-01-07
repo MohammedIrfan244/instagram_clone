@@ -10,9 +10,11 @@ import {
   getHomePageFeed,
   getLikedPosts,
   getOneUser,
+  getReelFeed,
   getSavedPosts,
   getUsersByUsername,
   suggestedUsers,
+  userProfilePic,
 } from "../controllers/user/userQueryController.js";
 import {
   deleteUserProfilePicture,
@@ -88,6 +90,7 @@ router
     tryCatch(deleteUserProfilePicture)
   )
   .post("/user_update", verifyToken, tryCatch(userUpdate))
+.get('/profile_pic/:username',tryCatch(userProfilePic))
 
   // users
   .get("/get_users/:username", verifyToken, tryCatch(getUsersByUsername))
@@ -115,6 +118,7 @@ router
   .get("/post/saved_posts", verifyToken, tryCatch(getSavedPosts))
   .get("/post/home_page", verifyToken, tryCatch(getHomePageFeed))
   .get("/post/explore_page", verifyToken, tryCatch(getExploreFeed))
+  .get('/post/reel_page',verifyToken,tryCatch(getReelFeed))
   .get("/post/get_like_count/:id", verifyToken, tryCatch(likesCount))
   .get("/post/get_comment_count/:id", verifyToken, tryCatch(commentsCount));
 

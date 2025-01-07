@@ -1,0 +1,38 @@
+import axiosErrorManager from "../utilities/axiosErrorManager"
+import axiosInstance from "../utilities/axiosInstance"
+import { useEffect, useState } from "react"
+import { Post } from "../utilities/interfaces"
+import ReelPostCard from "../shared/ReelPostCard"
+
+
+function ReelPage():JSX.Element {
+    const [reels,setReels]=useState<Post[]>([])
+    const [loading,setLoading]=useState<boolean>(false)
+
+    const fetchReels= async():Promise<void>=>{
+        try{
+            setLoading(true)
+            const response=await axiosInstance.get('/user/post/reel_page')
+            setReels(response.data.reels)
+            console.log(response.data.reels)
+        }catch(error){
+            console.log(axiosErrorManager(error))
+        }
+        finally{
+            setLoading(false)
+        }
+    }
+
+    useEffect(()=>{
+        fetchReels()
+    },[])
+  return (
+    <div className="ps-[250px] flex flex-col items-center">
+      {loading && <p>Loading...</p>}
+      {!loading && reels.length===0 && <p>No reels available</p>}
+      {reels.map((reel,index)=><ReelPostCard key={index} media={reel.media} username={reel.username} likesCount={reel.likesCount} commentsCount={reel.commentsCount} caption={reel.caption}/>) }
+    </div>
+  )
+}
+
+export default ReelPage

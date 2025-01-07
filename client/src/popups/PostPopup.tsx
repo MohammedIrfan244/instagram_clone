@@ -93,35 +93,37 @@ function PostPopup(): JSX.Element {
           <p className="text-white text-sm font-semibold">Create new post</p>
         </div>
         {/* Second section */}
-        <div className="bg-[#262626] flex-col flex gap-5 justify-center items-center w-[430px] h-auto p-5">
+        <div className="bg-[#262626] flex overflow-hidden items-center w-[700px] h-[400px] ">
           {selectedFile ? (
             <>
               {fileType === "image" ? (
                 <img
                   src={fileUrl}
                   alt="Selected"
-                  className="w-[300px] h-[300px] object-cover rounded-lg"
+                  className="w-1/2 h-full object-contain"
                 />
               ) : (
                 <video
                   src={fileUrl}
                   controls
-                  className="w-[300px] h-[300px] object-cover rounded-lg"
+                  className="w-1/2 h-full object-contail"
                 />
               )}
+              <div className="w-1/2 h-full flex flex-col justify-between p-10 items-center">
               <textarea
                 placeholder="Write a caption (optional)..."
                 value={caption}
                 onChange={(e) => setCaption(e.target.value)}
-                className="w-full h-24 bg-[#121212] text-white text-sm p-2 rounded-lg border border-gray-700 focus:outline-none"
+                className="w-full h-[70%] bg-[#121212] text-white text-sm p-2 rounded-lg border border-gray-700 focus:outline-none"
               />
               <BlueButton
-                styles="text-sm font-semibold"
+                styles="text-xs font-semibold w-full py-2"
                 text="Upload Post"
                 loading={isUploading}
                 loadingText="Uploading..."
                 onClick={handlePostUpload}
               />
+              </div>
             </>
           ) : (
             <>
@@ -130,7 +132,7 @@ function PostPopup(): JSX.Element {
                 Choose photos and videos here
               </p>
               <BlueButton
-                styles="text-sm font-semibold"
+                styles="font-semibold py-2 px-4 text-xs"
                 text="Select File"
                 loading={false}
                 loadingText="Loading..."

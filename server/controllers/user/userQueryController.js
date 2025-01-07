@@ -39,6 +39,14 @@ const getUsersByUsername = async (req, res, next) => {
   res.status(200).json(users);
 };
 
+const userProfilePic = async(req,res,next)=>{
+  const user=await User.findOne({username:req.params.username})
+  if(!user){
+    return next(new CustomError("User not found",404))
+  }
+  res.status(200).json({profile:user.profile})
+}
+
 const suggestedUsers = async (req, res, next) => {
   const followings = await Follow.find({ follower: req.user.id }).select(
     "following"
@@ -93,9 +101,10 @@ const getHomePageFeed = async (req, res, next) => {
       .json({ posts: [], message: "No followed users found" });
   }
   const followedUserIds = followedUsers.map((f) => f.following.toString());
-  const followedPosts = await Post.find({ username: { $in: followedUserIds } })
+  const followedUsersUsername= await User.find({ _id: { $in: followedUserIds } }).select("username")
+  const followedUsersUsernameArr=followedUsersUsername.map((f)=>f.username)
+  const followedPosts = await Post.find({ username: { $in: followedUsersUsernameArr } })
     .sort({ createdAt: -1 })
-    .populate("user");
   res.status(200).json({ posts: followedPosts });
 };
 
@@ -106,6 +115,14 @@ const getExploreFeed = async (req, res, next) => {
   }
   res.status(200).json({ posts });
 };
+
+const getReelFeed=async(req,res,next)=>{
+  const reels=await Post.find({isReel:true}).sort({createdAt:-1})
+  if(reels.length===0){
+    return res.status(200).json({reels:[],message:"No reels found"})
+  }
+  res.status(200).json({reels})
+}
 
 const getCommentedPosts = async (req, res, next) => {
   const commentedPosts = await Comment.find({ user: req.user.id }).populate(
@@ -137,5 +154,7 @@ export {
   getCommentedPosts,
   getSavedPosts,
   getHomePageFeed,
+  userProfilePic,
+  getReelFeed,
   getExploreFeed,
 };

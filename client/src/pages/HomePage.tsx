@@ -6,6 +6,7 @@ import { User } from '../utilities/interfaces';
 import { useEffect, useState } from 'react';
 import axiosInstance from '../utilities/axiosInstance';
 import axiosErrorManager from '../utilities/axiosErrorManager';
+import HomeGrid from '../components/PostComponents/HomeGrid';
 
 
 
@@ -36,8 +37,8 @@ function HomePage(): JSX.Element {
         <Stories/>
       </div>
       {/*area for posts */}
-      <div className='w-full h-screen flex flex-col items-center justify-center'>
-        NO POSTS YET
+      <div className='flex flex-col items-center'>
+      <HomeGrid/>
       </div>
       </div>
       {/* area for the suggestions */}
