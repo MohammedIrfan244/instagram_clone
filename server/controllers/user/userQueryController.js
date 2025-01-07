@@ -3,6 +3,7 @@ import User from "../../models/userModel.js";
 import Like from "../../models/likeModel.js";
 import Comment from '../../models/commentModel.js';
 import Post from "../../models/postModel.js";
+import SavedPost from "../../models/savedPostModel.js";
 import CustomError from "../../utilities/customError.js";
 
 const getOneUser = async (req, res, next) => {
@@ -75,6 +76,24 @@ const getLikedPosts = async (req, res, next) => {
   res.status(200).json({ posts: likedPosts });
 }
 
+const getHomePageFeed=async (req,res,next)=>{
+  const followedUsers=await Follow.find({follower:req.user.id}).select('following')
+  if(followedUsers.length===0){
+    return res.status(200).json({posts:[],message:"No followed users found"})
+  }
+  const followedUserIds=followedUsers.map(f=>f.following.toString())
+  const followedPosts=await Post.find({username:{$in:followedUserIds}}).sort({createdAt:-1}).populate('user')
+  res.status(200).json({posts:followedPosts})
+}
+
+const getExploreFeed=async (req,res,next)=>{
+  const posts=await Post.find().sort({createdAt:-1}).populate('user')
+  if(posts.length===0){
+    return res.status(200).json({posts:[],message:"No posts found"})
+  }
+  res.status(200).json({posts})
+}
+
 const getCommentedPosts = async (req, res, next) => {
   const commentedPosts = await Comment.find({ user: req.user.id }).populate('post');
   if (commentedPosts.length === 0) {
@@ -83,5 +102,13 @@ const getCommentedPosts = async (req, res, next) => {
   res.status(200).json({ posts: commentedPosts });
 } 
 
+const getSavedPosts=async (req,res,next)=>{
+  const savedPosts=await SavedPost.find({user:req.user.id}).populate('post')
+  if(savedPosts.length===0){
+    return res.status(200).json({posts:[],message:"No saved posts found"})
+  }
+  res.status(200).json({posts:savedPosts})
+}
 
-export { getOneUser, getUsersByUsername, suggestedUsers, getLikedPosts, getCommentedPosts };
+
+export { getOneUser, getUsersByUsername, suggestedUsers, getLikedPosts, getCommentedPosts ,getSavedPosts , getHomePageFeed , getExploreFeed};

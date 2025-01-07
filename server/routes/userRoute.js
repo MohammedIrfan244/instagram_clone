@@ -15,6 +15,7 @@ import { userUpdate } from '../controllers/user/userProfileController.js'
 const router=express.Router()
 
 router
+
 .get('/get_one_user/:username',verifyToken,tryCatch(getOneUser))
 .get('/get_users/:username',verifyToken,tryCatch(getUsersByUsername))
 .post('/update_user/profile_picture',verifyToken,upload.single('file'),uploadToCloudinary,tryCatch(updateUserProfilePicture))
