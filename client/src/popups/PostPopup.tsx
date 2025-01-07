@@ -73,10 +73,10 @@ function PostPopup(): JSX.Element {
       console.log(axiosErrorManager(error));
         setIsUploading(false);
     }
-    // finally{
-    //   setCaption("")
-    //   setSelectedFile(null);
-    // }
+    finally{
+      setCaption("")
+      setSelectedFile(null);
+    }
     
   };
 

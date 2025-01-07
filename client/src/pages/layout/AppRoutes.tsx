@@ -8,6 +8,7 @@ import HomePage from '../HomePage';
 import Navbar from '../../components/ui/Navbar';
 import ProfilePage from '../userPages/ProfilePage';
 import EditPage from '../userPages/EditPage';
+import FeedPage from '../FeedPage'
 
 function AppRoutes(): JSX.Element {
   const { currentUser } = useSelector((state: RootState) => state.currentUser);
@@ -28,6 +29,7 @@ function AppRoutes(): JSX.Element {
         <Route path="/user/login" element={<LoginPage />} />
         <Route path="/:username" element={<ProfilePage/>} />
         <Route path='/account/edit' element={currentUser?<EditPage/>:<LandingPage/>} />
+        <Route path='/explore/_feed' element={<FeedPage/>}/>
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
     </>
