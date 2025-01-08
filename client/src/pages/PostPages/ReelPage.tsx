@@ -1,8 +1,8 @@
-import axiosErrorManager from "../utilities/axiosErrorManager"
-import axiosInstance from "../utilities/axiosInstance"
+import axiosErrorManager from "../../utilities/axiosErrorManager"
+import axiosInstance from "../../utilities/axiosInstance"
 import { useEffect, useState } from "react"
-import { Post } from "../utilities/interfaces"
-import ReelPostCard from "../shared/ReelPostCard"
+import { Post } from "../../utilities/interfaces"
+import ReelPostCard from "../../shared/ReelPostCard"
 
 
 function ReelPage():JSX.Element {
@@ -30,7 +30,7 @@ function ReelPage():JSX.Element {
     <div className="ps-[250px] flex flex-col items-center">
       {loading && <p>Loading...</p>}
       {!loading && reels.length===0 && <p>No reels available</p>}
-      {reels.map((reel,index)=><ReelPostCard key={index} media={reel.media} username={reel.username} likesCount={reel.likesCount} commentsCount={reel.commentsCount} caption={reel.caption}/>) }
+      {reels.map((reel,index)=><ReelPostCard key={index} id={reel._id} media={reel.media} username={reel.username} likesCount={reel.likesCount} commentsCount={reel.commentsCount} caption={reel.caption}/>) }
     </div>
   )
 }

@@ -26,7 +26,7 @@ function ProfileCirc({ username }: ProfileCircProps): JSX.Element {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         },[])
   return (
-    <div className="w-8 h-8 overflow-hidden rounded-full"onClick={()=>navigate(`/${username}`)} >
+    <div className="w-8 h-8 overflow-hidden hover:cursor-pointer rounded-full"onClick={()=>navigate(`/${username}`)} >
       <img src={profile} alt="Profile" />
     </div>
   )

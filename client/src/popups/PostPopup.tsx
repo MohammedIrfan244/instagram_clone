@@ -10,7 +10,7 @@ import axiosErrorManager from "../utilities/axiosErrorManager";
 function PostPopup(): JSX.Element {
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [fileUrl,setFileUrl] = useState<string>("");
+  const [fileUrl, setFileUrl] = useState<string>("");
   const [fileType, setFileType] = useState<"image" | "video" | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [caption, setCaption] = useState<string>("");
@@ -26,10 +26,7 @@ function PostPopup(): JSX.Element {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const file = event.target.files?.[0];
     if (file) {
-      // const fileURL = URL.createObjectURL(file);
       setFileUrl(URL.createObjectURL(file));
-      console.log(file,"og")
-
       if (file.type.startsWith("image/")) {
         setFileType("image");
       } else if (file.type.startsWith("video/")) {
@@ -53,7 +50,6 @@ function PostPopup(): JSX.Element {
   };
 
   const handlePostUpload = async (): Promise<void> => {
-    console.log(selectedFile);
     if (!selectedFile) return;
 
     setIsUploading(true);
@@ -61,23 +57,21 @@ function PostPopup(): JSX.Element {
     try {
       const formData = new FormData();
       formData.append("file", selectedFile);
-      formData.append("caption", caption);  
-      const response =await axiosInstance.post("user/post/post_one_file", formData, {
+      formData.append("caption", caption);
+      const response = await axiosInstance.post("user/post/post_one_file", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
       console.log(response.data);
-        setIsUploading(false);
+      setIsUploading(false);
     } catch (error) {
       console.log(axiosErrorManager(error));
-        setIsUploading(false);
-    }
-    finally{
-      setCaption("")
+      setIsUploading(false);
+    } finally {
+      setCaption("");
       setSelectedFile(null);
     }
-    
   };
 
   return (
@@ -93,7 +87,11 @@ function PostPopup(): JSX.Element {
           <p className="text-white text-sm font-semibold">Create new post</p>
         </div>
         {/* Second section */}
-        <div className="bg-[#262626] flex overflow-hidden items-center w-[700px] h-[400px] ">
+        <div
+          className={`bg-[#262626] ${
+            selectedFile ? "flex-row w-[700px]" : "flex-col justify-center w-[430px]"
+          } flex overflow-hidden items-center h-[400px]`}
+        >
           {selectedFile ? (
             <>
               {fileType === "image" ? (
@@ -106,23 +104,23 @@ function PostPopup(): JSX.Element {
                 <video
                   src={fileUrl}
                   controls
-                  className="w-1/2 h-full object-contail"
+                  className="w-1/2 h-full object-contain"
                 />
               )}
               <div className="w-1/2 h-full flex flex-col justify-between p-10 items-center">
-              <textarea
-                placeholder="Write a caption (optional)..."
-                value={caption}
-                onChange={(e) => setCaption(e.target.value)}
-                className="w-full h-[70%] bg-[#121212] text-white text-sm p-2 rounded-lg border border-gray-700 focus:outline-none"
-              />
-              <BlueButton
-                styles="text-xs font-semibold w-full py-2"
-                text="Upload Post"
-                loading={isUploading}
-                loadingText="Uploading..."
-                onClick={handlePostUpload}
-              />
+                <textarea
+                  placeholder="Write a caption (optional)..."
+                  value={caption}
+                  onChange={(e) => setCaption(e.target.value)}
+                  className="w-full h-[70%] bg-[#121212] text-white text-sm p-2 rounded-lg border border-gray-700 focus:outline-none"
+                />
+                <BlueButton
+                  styles="text-xs font-semibold w-full py-2"
+                  text="Upload Post"
+                  loading={isUploading}
+                  loadingText="Uploading..."
+                  onClick={handlePostUpload}
+                />
               </div>
             </>
           ) : (

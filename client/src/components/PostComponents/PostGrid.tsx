@@ -2,17 +2,13 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../utilities/axiosInstance";
 import axiosErrorManager from "../../utilities/axiosErrorManager";
 import PostCard from "../../shared/PostCard";
+import { Post } from "../../utilities/interfaces";
 
 interface PostGridProps {
   isCurrUser: boolean;
   username: string;
 }
-interface Post {
-  isReel: boolean;
-  media: string;
-  likesCount: number;
-  commentsCount: number;
-}
+
 function PostGrid({ isCurrUser, username }: PostGridProps): JSX.Element {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -24,7 +20,6 @@ function PostGrid({ isCurrUser, username }: PostGridProps): JSX.Element {
         : `/user/post/get_user_posts/${username}`;
       setLoading(true);
       const response = await axiosInstance.get(url);
-      console.log(response.data)
       setPosts(response.data?.posts || []);
     } catch (error) {
       console.error(axiosErrorManager(error));
@@ -32,6 +27,16 @@ function PostGrid({ isCurrUser, username }: PostGridProps): JSX.Element {
       setLoading(false);
     }
   };
+
+  const deletePost=async(id:string)=>{
+    try {
+      const response=await axiosInstance.delete(`/user/post/delete_post/${id}`)
+      fetchPosts()
+      console.log(response.data)
+    } catch (error) {
+      console.log(axiosErrorManager(error))
+    }
+  }
 
   useEffect(() => {
     fetchPosts();
@@ -45,6 +50,9 @@ function PostGrid({ isCurrUser, username }: PostGridProps): JSX.Element {
       {posts.map((post, index) => (
         <PostCard
           key={index}
+          id={post._id}
+          ownPost={true}
+          onDelete={()=>deletePost(post._id)}
           isReel={post.isReel}
           media={post.media}
           likesCount={post.likesCount}

@@ -7,10 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import FollowList from "../../popups/FollowListPopup";
 import { openFollowList } from "../../redux/commonSlice";
-import { MdBookmarkBorder } from "react-icons/md";
 import PostGrid from "../PostComponents/PostGrid";
 import ReelGrid from "../PostComponents/ReelGrid";
-import SavedGrid from "../PostComponents/SavedGrid";
 import { IoMdGrid } from "react-icons/io";
 
 interface FollowCount {
@@ -152,12 +150,9 @@ const UserProfile = (): JSX.Element => {
             ></path>
           </svg> Reels
           </button>
-          <button className="flex items-center gap-2" onClick={()=>setComponent("saved")} >
-          <MdBookmarkBorder />Saved
-          </button>
         </div>
         {
-            component==="post"?<PostGrid isCurrUser={false} username={username || ""}/>:component==="reel"?<ReelGrid isCurrUser={false} username={username || ""} />:<SavedGrid/>
+            component==="post"?<PostGrid isCurrUser={false} username={username || ""}/>:<ReelGrid isCurrUser={false} username={username || ""} />
         }
       </div>
         </>

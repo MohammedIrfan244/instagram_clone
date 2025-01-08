@@ -13,6 +13,8 @@ import {
   getReelFeed,
   getSavedPosts,
   getUsersByUsername,
+  isLiked,
+  isSaved,
   suggestedUsers,
   userProfilePic,
 } from "../controllers/user/userQueryController.js";
@@ -25,13 +27,16 @@ import {
   commentsCount,
   deleteComment,
   deletePost,
+  getCommnetBox,
   getCurrUserPosts,
   getCurrUserReels,
+  getOnePost,
   getUserPosts,
   getUserReels,
   likePost,
   likesCount,
   postOneFile,
+  savePost,
 } from "../controllers/user/userPostController.js";
 import {
   followToggle,
@@ -108,7 +113,7 @@ router
   .post("/post/comment_post/:id", verifyToken, tryCatch(commentPost))
   .post("/post/like_post/:id", verifyToken, tryCatch(likePost))
   .delete("/post/delete_post/:id", verifyToken, tryCatch(deletePost))
-  .delete("post/delete_comment/:id", verifyToken, tryCatch(deleteComment))
+  .delete("/post/delete_comment/:id", verifyToken, tryCatch(deleteComment))
   .get("/post/get_curruser_posts", verifyToken, tryCatch(getCurrUserPosts))
   .get("/post/get_curruser_reels", verifyToken, tryCatch(getCurrUserReels))
   .get("/post/get_user_posts/:username", verifyToken, tryCatch(getUserPosts))
@@ -120,6 +125,11 @@ router
   .get("/post/explore_page", verifyToken, tryCatch(getExploreFeed))
   .get('/post/reel_page',verifyToken,tryCatch(getReelFeed))
   .get("/post/get_like_count/:id", verifyToken, tryCatch(likesCount))
-  .get("/post/get_comment_count/:id", verifyToken, tryCatch(commentsCount));
+  .get("/post/get_comment_count/:id", verifyToken, tryCatch(commentsCount))
+  .get("/post/get_one_post/:id", verifyToken, tryCatch(getOnePost))
+  .get("/post/is_liked/:id", verifyToken, tryCatch(isLiked))
+  .get("/post/is_saved/:id", verifyToken, tryCatch(isSaved))
+  .post("/post/save_post/:id", verifyToken, tryCatch(savePost))
+  .get("/post/get_comments/:id", verifyToken, tryCatch(getCommnetBox));
 
 export default router;

@@ -1,4 +1,4 @@
-import ExploreGrid from "../components/PostComponents/ExploreGrid"
+import ExploreGrid from "../../components/PostComponents/ExploreGrid"
 
 function FeedPage() {
   return (

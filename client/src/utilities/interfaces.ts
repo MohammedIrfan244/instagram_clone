@@ -1,5 +1,5 @@
 export interface Post {
-  id: string;
+  _id: string;
   username: string;
   media: string;
   likesCount: number;
@@ -9,7 +9,7 @@ export interface Post {
 }
 
 export interface Stroy {
-  id: string;
+  _id: string;
   username: string;
   thumbnail: string;
   media: string;

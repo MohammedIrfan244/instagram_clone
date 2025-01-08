@@ -100,12 +100,14 @@ const getHomePageFeed = async (req, res, next) => {
       .status(200)
       .json({ posts: [], message: "No followed users found" });
   }
+  const currUserPost=await Post.find({username:req.user.username}).sort({createdAt:-1})
   const followedUserIds = followedUsers.map((f) => f.following.toString());
   const followedUsersUsername= await User.find({ _id: { $in: followedUserIds } }).select("username")
   const followedUsersUsernameArr=followedUsersUsername.map((f)=>f.username)
   const followedPosts = await Post.find({ username: { $in: followedUsersUsernameArr } })
     .sort({ createdAt: -1 })
-  res.status(200).json({ posts: followedPosts });
+    const result=currUserPost.concat(followedPosts)
+  res.status(200).json({ posts: result });
 };
 
 const getExploreFeed = async (req, res, next) => {
@@ -136,12 +138,28 @@ const getCommentedPosts = async (req, res, next) => {
   res.status(200).json({ posts: commentedPosts });
 };
 
+const isLiked=async (req,res,next)=>{
+  const like=await Like.findOne({post:req.params.id,user:req.user.id})
+  if(like){
+    return res.status(200).json({isLiked:true})
+  }
+  res.status(200).json({isLiked:false})
+}
+
+const isSaved=async (req,res,next)=>{
+  const saved=await SavedPost.findOne({post:req.params.id,user:req.user.id})
+  if(saved){
+    return res.status(200).json({isSaved:true})
+  }
+  res.status(200).json({isSaved:false})
+}
+
 const getSavedPosts = async (req, res, next) => {
-  const savedPosts = await SavedPost.find({ user: req.user.id }).populate(
-    "post"
-  );
+  const savedPosts = await SavedPost.find({ user: req.user.id }).populate("post");
   if (savedPosts.length === 0) {
-    return res.status(200).json({ posts: [], message: "No saved posts found" });
+    return res
+      .status(200)
+      .json({ posts: [], message: "No saved posts found" });
   }
   res.status(200).json({ posts: savedPosts });
 };
@@ -157,4 +175,6 @@ export {
   userProfilePic,
   getReelFeed,
   getExploreFeed,
+  isLiked,
+  isSaved
 };

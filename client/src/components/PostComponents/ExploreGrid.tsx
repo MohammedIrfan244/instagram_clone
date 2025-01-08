@@ -2,14 +2,10 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../utilities/axiosInstance";
 import axiosErrorManager from "../../utilities/axiosErrorManager";
 import PostCard from "../../shared/PostCard";
+import { Post } from "../../utilities/interfaces";
 
 
-interface Post {
-  isReel: boolean;
-  media: string;
-  likesCount: number;
-  commentsCount: number;
-}
+
 function ExploreGrid(): JSX.Element {
   const [feed, setFeed] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -19,7 +15,7 @@ function ExploreGrid(): JSX.Element {
       const url = "/user/post/explore_page"
       setLoading(true);
       const response = await axiosInstance.get(url);
-      console.log(response.data)
+     
       setFeed(response.data?.posts || []);
     } catch (error) {
       console.error(axiosErrorManager(error));
@@ -39,6 +35,9 @@ function ExploreGrid(): JSX.Element {
       {feed.map((post, index) => (
         <PostCard
           key={index}
+          onDelete={()=>{}}
+          ownPost={false}
+          id={post._id}
           isReel={post.isReel}
           media={post.media}
           likesCount={post.likesCount}

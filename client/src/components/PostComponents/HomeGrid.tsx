@@ -15,7 +15,6 @@ function HomeGrid(): JSX.Element {
         setLoading(true)
         const response=await axiosInstance.get('/user/post/home_page')
         setPosts(response.data.posts)
-        console.log(response.data)
       }catch(error){
         console.log(axiosErrorManager(error))
       }finally{
@@ -29,7 +28,7 @@ function HomeGrid(): JSX.Element {
     <div>
       {loading && <p>Loading...</p>}
       {!loading && posts.length===0 && <p>No posts available</p>}
-      {posts.map((post,index)=><HomePostCard key={index} media={post.media} username={post.username} likesCount={post.likesCount} commentsCount={post.commentsCount} caption={post.caption} isReel={post.isReel}/>)}
+      {posts.map((post,index)=><HomePostCard key={index} id={post._id} media={post.media} username={post.username} likesCount={post.likesCount} commentsCount={post.commentsCount} caption={post.caption} isReel={post.isReel}/>)}
     </div>
   )
 }
