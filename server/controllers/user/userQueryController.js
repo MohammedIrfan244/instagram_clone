@@ -92,22 +92,14 @@ const getLikedPosts = async (req, res, next) => {
 };
 
 const getHomePageFeed = async (req, res, next) => {
-  const followedUsers = await Follow.find({ follower: req.user.id }).select(
-    "following"
-  );
-  if (followedUsers.length === 0) {
-    return res
-      .status(200)
-      .json({ posts: [], message: "No followed users found" });
-  }
-  const currUserPost=await Post.find({username:req.user.username}).sort({createdAt:-1})
-  const followedUserIds = followedUsers.map((f) => f.following.toString());
-  const followedUsersUsername= await User.find({ _id: { $in: followedUserIds } }).select("username")
-  const followedUsersUsernameArr=followedUsersUsername.map((f)=>f.username)
-  const followedPosts = await Post.find({ username: { $in: followedUsersUsernameArr } })
-    .sort({ createdAt: -1 })
-    const result=currUserPost.concat(followedPosts)
-  res.status(200).json({ posts: result });
+  const followers = await Follow.find({ following: req.user.id }).populate("follower","username").select("follower")
+  const followings = await Follow.find({ follower: req.user.id }).populate("following","username").select("following")
+  const followersUsernames = followers.map((f) => f.follower.username);
+  const followingsUsernames = followings.map((f) => f.following.username);
+  const currentUsername=await User.findById(req.user.id).select("username")
+  const allUsernames = [...followersUsernames, ...followingsUsernames, currentUsername.username];
+  const posts = await Post.find({ username: { $in: allUsernames } }).sort({ createdAt: -1 });
+    res.status(200).json({posts})
 };
 
 const getExploreFeed = async (req, res, next) => {

@@ -28,15 +28,15 @@ function PostGrid({ isCurrUser, username }: PostGridProps): JSX.Element {
     }
   };
 
-  const deletePost=async(id:string)=>{
-    try {
-      const response=await axiosInstance.delete(`/user/post/delete_post/${id}`)
-      fetchPosts()
-      console.log(response.data)
-    } catch (error) {
-      console.log(axiosErrorManager(error))
-    }
-  }
+  // const deletePost=async(id:string)=>{
+  //   try {
+  //     const response=await axiosInstance.delete(`/user/post/delete_post/${id}`)
+  //     fetchPosts()
+  //     console.log(response.data)
+  //   } catch (error) {
+  //     console.log(axiosErrorManager(error))
+  //   }
+  // }
 
   useEffect(() => {
     fetchPosts();
@@ -51,8 +51,8 @@ function PostGrid({ isCurrUser, username }: PostGridProps): JSX.Element {
         <PostCard
           key={index}
           id={post._id}
-          ownPost={true}
-          onDelete={()=>deletePost(post._id)}
+          // ownPost={true}
+          // onDelete={()=>deletePost(post._id)}
           isReel={post.isReel}
           media={post.media}
           likesCount={post.likesCount}

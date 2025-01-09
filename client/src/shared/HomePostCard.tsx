@@ -1,5 +1,5 @@
 import ProfileCirc from "../components/ui/ProfileCirc";
-import { SlOptions } from "react-icons/sl";
+// import { SlOptions } from "react-icons/sl";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { IoChatbubbleOutline } from "react-icons/io5";
@@ -10,6 +10,10 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axiosErrorManager from "../utilities/axiosErrorManager";
 import axiosInstance from "../utilities/axiosInstance";
+// import { useDispatch, useSelector } from "react-redux";
+// import { openOptionsPopup } from "../redux/commonSlice";
+// import { RootState } from "../redux/store";
+// import PostOption from "../popups/PostOption";
 
 interface HomePostCardProps {
   media: string;
@@ -19,6 +23,7 @@ interface HomePostCardProps {
   caption: string;
   id:string;
   isReel: boolean;
+  onDelete: () => void;
 }
 
 function HomePostCard({
@@ -29,11 +34,15 @@ function HomePostCard({
   caption,
   id,
   isReel,
+  // onDelete
 }: HomePostCardProps): JSX.Element {
   const [isLiked,setIsLiked]=useState<boolean>(false)
+  // const {optionsPopup}=useSelector((state:RootState)=>state.common)
   const [likeCount,setLikeCount]=useState<number>(likesCount)
   const [isSaved,setIsSaved]=useState<boolean>(false)
   const navigate=useNavigate()
+  // const {currentUser}=useSelector((state:RootState)=>state.currentUser)
+  // const dispatch=useDispatch()
   const getIsLiked=async()=>{
     try{
       const response=await axiosInstance.get(`/user/post/is_liked/${id}`)
@@ -82,6 +91,7 @@ const likePost=async()=>{
 useEffect(()=>{
 getIsLiked()
 getIsSaved()
+// eslint-disable-next-line react-hooks/exhaustive-deps
 },[id])
 
 useEffect(()=>{
@@ -95,7 +105,7 @@ console.log(isLiked,isSaved)
           <ProfileCirc username={username} />
           <p>{username}</p>
         </div>
-        <SlOptions />
+        {/* <button onClick={()=>dispatch(openOptionsPopup())}><SlOptions /></button> */}
       </div>
       {isReel ? (
         <video
@@ -138,6 +148,7 @@ console.log(isLiked,isSaved)
       <p className="text-xs text-gray-300">View all {commentsCount} comments</p>
       <p className="text-xs text-gray-300 pb-5">Add a comment ...</p>
       </div>
+      {/* {optionsPopup && <PostOption username={username} currentUser={currentUser?currentUser.username:""} onDelete={onDelete} isCurrentUser={currentUser?.username===username} isPost={true}  />} */}
     </div>
   );
 }

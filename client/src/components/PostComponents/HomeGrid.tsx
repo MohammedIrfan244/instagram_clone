@@ -21,6 +21,15 @@ function HomeGrid(): JSX.Element {
         setLoading(false)
       }
     }
+    const deletePost=async(id:string)=>{
+      try {
+        const response=await axiosInstance.delete(`/user/post/delete_post/${id}`)
+        fetchHomeFeed()
+        console.log(response.data)
+      } catch (error) {
+        console.log(axiosErrorManager(error))
+      }
+    }
     useEffect(()=>{
       fetchHomeFeed()
     },[])
@@ -28,7 +37,7 @@ function HomeGrid(): JSX.Element {
     <div>
       {loading && <p>Loading...</p>}
       {!loading && posts.length===0 && <p>No posts available</p>}
-      {posts.map((post,index)=><HomePostCard key={index} id={post._id} media={post.media} username={post.username} likesCount={post.likesCount} commentsCount={post.commentsCount} caption={post.caption} isReel={post.isReel}/>)}
+      {posts.map((post,index)=><HomePostCard onDelete={()=>{deletePost(post._id)}} key={index} id={post._id} media={post.media} username={post.username} likesCount={post.likesCount} commentsCount={post.commentsCount} caption={post.caption} isReel={post.isReel}/>)}
     </div>
   )
 }

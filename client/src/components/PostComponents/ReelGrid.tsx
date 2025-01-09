@@ -23,15 +23,15 @@ function ReelGrid({isCurrUser,username}:ReelsProp) {
             console.log(axiosErrorManager(error))
         }
     }
-    const deletePost=async(id:string)=>{
-        try{
-            const response=await axiosInstance.delete(`/user/post/delete_post/${id}`)
-            fetchData()
-            console.log(response.data)
-        }catch(error){
-            console.log(axiosErrorManager(error))
-        }
-    }
+    // const deletePost=async(id:string)=>{
+    //     try{
+    //         const response=await axiosInstance.delete(`/user/post/delete_post/${id}`)
+    //         fetchData()
+    //         console.log(response.data)
+    //     }catch(error){
+    //         console.log(axiosErrorManager(error))
+    //     }
+    // }
     useEffect(()=>{
         fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,7 +39,7 @@ function ReelGrid({isCurrUser,username}:ReelsProp) {
   return (
     <div>
       {
-        reels.map((reel,index)=><ReelCard key={index} id={reel._id} onDelete={()=>deletePost(reel._id)} media={reel.media} commentsCount={reel.commentsCount} likesCount={reel.likesCount}/>)
+        reels.map((reel,index)=><ReelCard key={index} id={reel._id}  media={reel.media} commentsCount={reel.commentsCount} likesCount={reel.likesCount}/>)
       }
     </div>
   )

@@ -5,11 +5,13 @@ interface CommonState{
     profileModal:boolean
     followList:boolean
     postPopup:boolean
+    optionsPopup:boolean
 }
 
 const INITIALSTATE:CommonState={
     profileModal:false,
     followList:false,
+    optionsPopup:false,
     postPopup:false
 }
 
@@ -34,9 +36,15 @@ export const commonSlice=createSlice({
         },
         closePostPopup:(state:CommonState):void=>{
             state.postPopup=false
+        },
+        openOptionsPopup:(state:CommonState):void=>{
+            state.optionsPopup=true
+        },
+        closeOptionsPopup:(state:CommonState):void=>{
+            state.optionsPopup=false
         }
     },
 })
 
-export const {openProfileModal,closeProfileModal,openFollowList,closeFollowList,openPostPopup,closePostPopup}=commonSlice.actions
+export const {openProfileModal,closeProfileModal,openOptionsPopup,closeOptionsPopup,openFollowList,closeFollowList,openPostPopup,closePostPopup}=commonSlice.actions
 export default commonSlice.reducer

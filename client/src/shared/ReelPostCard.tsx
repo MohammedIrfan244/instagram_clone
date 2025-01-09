@@ -9,6 +9,10 @@ import { MdOutlineBookmarkBorder, MdBookmark } from "react-icons/md";
 import axiosInstance from "../utilities/axiosInstance";
 import axiosErrorManager from "../utilities/axiosErrorManager";
 import { useNavigate } from "react-router-dom";
+// import PostOption from "../popups/PostOption"; 
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { openOptionsPopup } from "../redux/commonSlice";
 
 interface ReelPostCardProps {
   media: string;
@@ -16,6 +20,7 @@ interface ReelPostCardProps {
   caption: string;
   likesCount: number;
   commentsCount: number;
+  onDelete: () => void;
   id: string;
 }
 
@@ -23,6 +28,7 @@ function ReelPostCard({
   media,
   username,
   caption,
+  // onDelete,
   likesCount,
   commentsCount,
   id,
@@ -30,7 +36,11 @@ function ReelPostCard({
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(likesCount);
   const [isSaved, setIsSaved] = useState<boolean>(false);
-const navigate=useNavigate()
+  // const {optionsPopup}=useSelector((state:RootState)=>state.common)
+  const navigate = useNavigate();
+  const dispatch=useDispatch()
+  const {currentUser}=useSelector((state:RootState)=>state.currentUser)
+
   const getIsLiked = async () => {
     try {
       const response = await axiosInstance.get(`/user/post/is_liked/${id}`);
@@ -57,7 +67,9 @@ const navigate=useNavigate()
       console.log(axiosErrorManager(error));
     }
   };
-
+useEffect(()=>{
+console.log(username,currentUser)
+},[currentUser,username])
   const likePost = async () => {
     try {
       const response = await axiosInstance.post(`/user/post/like_post/${id}`);
@@ -80,6 +92,7 @@ const navigate=useNavigate()
   useEffect(() => {
     getIsLiked();
     getIsSaved();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (
@@ -121,8 +134,19 @@ const navigate=useNavigate()
         <button onClick={savePost}>
           {isSaved ? <MdBookmark className="text-white" /> : <MdOutlineBookmarkBorder />}
         </button>
-        <SlOptions />
+        <button onClick={() =>dispatch(openOptionsPopup()) }>
+          <SlOptions />
+        </button>
       </div>
+      {/* {optionsPopup && (
+        <PostOption
+          onDelete={onDelete}
+          username={username}
+          currentUser={currentUser?currentUser.username:""}
+          isCurrentUser={currentUser?.username === username}
+          isPost={true}
+        />
+      )} */}
     </div>
   );
 }

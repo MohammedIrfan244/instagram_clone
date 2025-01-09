@@ -22,6 +22,15 @@ function ReelPage():JSX.Element {
             setLoading(false)
         }
     }
+    const deletePost=async(id:string)=>{
+      try {
+        const response=await axiosInstance.delete(`/user/post/delete_post/${id}`)
+        fetchReels()
+        console.log(response.data)
+      } catch (error) {
+        console.log(axiosErrorManager(error))
+      }
+    }
 
     useEffect(()=>{
         fetchReels()
@@ -30,7 +39,7 @@ function ReelPage():JSX.Element {
     <div className="ps-[250px] flex flex-col items-center">
       {loading && <p>Loading...</p>}
       {!loading && reels.length===0 && <p>No reels available</p>}
-      {reels.map((reel,index)=><ReelPostCard key={index} id={reel._id} media={reel.media} username={reel.username} likesCount={reel.likesCount} commentsCount={reel.commentsCount} caption={reel.caption}/>) }
+      {reels.map((reel,index)=><ReelPostCard onDelete={()=>deletePost(reel._id)} key={index+reel._id} id={reel._id} media={reel.media} username={reel.username} likesCount={reel.likesCount} commentsCount={reel.commentsCount} caption={reel.caption}/>) }
     </div>
   )
 }

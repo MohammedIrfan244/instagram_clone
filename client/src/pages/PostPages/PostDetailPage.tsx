@@ -10,9 +10,11 @@ import { IoChatbubbleOutline } from "react-icons/io5";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import { MdOutlineBookmarkBorder, MdBookmark } from "react-icons/md";
 import { BiSmile } from "react-icons/bi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { MdDeleteOutline } from "react-icons/md";
+import { SlOptions } from "react-icons/sl";
+import { closeOptionsPopup, openOptionsPopup } from "../../redux/commonSlice";
+import PostOption from "../../popups/PostOption";
 
 interface Comment {
   _id: string;
@@ -24,14 +26,19 @@ interface Comment {
 function PostDetailPage() {
   const { id } = useParams();
   const {currentUser}=useSelector((state:RootState)=>state.currentUser)
+  const {optionsPopup}=useSelector((state:RootState)=>state.common)
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [option,setOption]=useState<string>("")
+  const [commentId,setCommentId]=useState<string>("")
+  const [commenter,setCommenter]=useState<string>("")
   const [comment,setComment]= useState<string>("")
   const [commentBox,setCommentBox]= useState<Comment[]>([])
 
   const navigate = useNavigate();
+  const dispatch=useDispatch()
 
   const fetchData = async () => {
     try {
@@ -60,6 +67,13 @@ function PostDetailPage() {
     }
   };
 
+  const optionHandle=(opt:string,id:string,user:string)=>{
+    setOption(opt)
+    setCommentId(id)
+    setCommenter(user)
+    dispatch(openOptionsPopup())
+  }
+
   const savePost = async () => {
     try {
       const response = await axiosInstance.post(`/user/post/save_post/${id}`);
@@ -79,18 +93,32 @@ function PostDetailPage() {
     }
   };
 
-  const deleteComment = async (id:string) => {
+  const deleteComment = async () => {
     try {
-      const response = await axiosInstance.delete(`/user/post/delete_comment/${id}`);
+      const response = await axiosInstance.delete(`/user/post/delete_comment/${commentId}`);
       console.log(response.data);
       fetchData();
       getCommnetBox();
+      dispatch(closeOptionsPopup())
     } catch (error) {
       console.log(axiosErrorManager(error));
     }
   };
 
-  const postComment = async () => {
+  
+
+  const deletePost=async()=>{
+    try {
+      const response=await axiosInstance.delete(`/user/post/delete_post/${id}`)
+      navigate('/')
+      console.log(response.data)
+    } catch (error) {
+      console.log(axiosErrorManager(error))
+    }
+  }
+
+  const postComment = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       const response = await axiosInstance.post(`/user/post/comment_post/${id}`,{comment});
       console.log(response.data)
@@ -106,6 +134,7 @@ function PostDetailPage() {
   useEffect(() => {
     fetchData();
     getCommnetBox();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const closeModal = () => {
@@ -156,11 +185,14 @@ function PostDetailPage() {
           )}
         </div>
         <div className="w-[500px] h-full text-white ps-5 text-sm">
-          <div className="border-b border-gray-700 gap-3 font-semibold flex items-center h-[50px]">
+          <div className="border-b border-gray-700 gap-3 font-semibold flex justify-between w-full items-center h-[50px]">
+            <div className="flex gap-3">
             <ProfileCirc username={post.username} />
             <p>{post.username}</p>
+            </div>
+            <button onClick={()=>optionHandle("post","","")}><SlOptions/></button>
           </div>
-          <div className="space-y-2 h-[430px] border-b border-gray-600">
+          <div className="space-y-2 h-[430px] overflow-y-scroll scrollbar-none scrollbar-thumb-black border-b border-gray-600">
             <div className="gap-3 flex items-center h-[50px]">
               <ProfileCirc username={post.username} />
               <p className="font-semibold">{post.username}</p>
@@ -169,16 +201,17 @@ function PostDetailPage() {
             {
   commentBox.map((comment) => {
     return (
-      <div key={comment.comment} className="gap-3 flex items-center h-[50px] relative">
+      <div key={comment.comment} className="gap-3 flex  items-center h-[50px] relative">
         <ProfileCirc username={comment.user.username} />
         <p className="font-semibold">{comment.user.username}</p>
         <p>{comment.comment}</p>
         {comment.user.username === currentUser?.username && (
           <button
-            onClick={() => deleteComment(comment._id)}
-            className="absolute right-0 text-red-500 text-sm"
+            // onClick={() => deleteComment(comment._id)}
+            onClick={() => optionHandle("comment",comment._id,comment.user.username)}
+            className="absolute right-0 text-sm"
           >
-            <MdDeleteOutline />
+            <SlOptions/>
           </button>
         )}
       </div>
@@ -207,7 +240,7 @@ function PostDetailPage() {
               </div>
               <p className="font-semibold">{post.likesCount} Likes</p>
             </div>
-            <div className="w-full relative flex items-center">
+            <form onSubmit={(e)=>postComment(e)} className="w-full relative flex items-center">
               <BiSmile className="absolute left-0 text-2xl" />
               <input
                 placeholder="Add a comment ..."
@@ -217,11 +250,12 @@ function PostDetailPage() {
                 onChange={(e)=>setComment(e.target.value)}
                 className="w-full bg-black ps-10 h-[50px] focus:outline-none placeholder:text-gray-400 placeholder:text-sm"
               />
-              <button onClick={postComment} className="text-sm font-semibold text-gray-400">Post</button>
-            </div>
+              <button type="submit" className="text-sm font-semibold text-gray-400">Post</button>
+            </form>
           </div>
         </div>
       </div>
+      {optionsPopup && <PostOption key={post._id} isPost={true} isCurrentUser={option==="post"?currentUser?.username===post.username:currentUser?.username===commenter} onDelete={option==="post"?deletePost:deleteComment}  />}
     </div>
   );
 }
