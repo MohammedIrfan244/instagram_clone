@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Post } from "../../utilities/interfaces";
 import axiosErrorManager from "../../utilities/axiosErrorManager";
 import axiosInstance from "../../utilities/axiosInstance";
-import ProfileCirc from "../../components/ui/ProfileCirc";
+import ProfileCirc from "../../components/ui/ProfileCirc";  // Make sure this is used correctly!
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { IoChatbubbleOutline } from "react-icons/io5";
@@ -19,35 +19,36 @@ import PostOption from "../../popups/PostOption";
 interface Comment {
   _id: string;
   comment: string;
-  user:{
-    username:string
-  }
+  user: {
+    username: string;
+  };
 }
+
 function PostDetailPage() {
   const { id } = useParams();
-  const {currentUser}=useSelector((state:RootState)=>state.currentUser)
-  const {optionsPopup}=useSelector((state:RootState)=>state.common)
+  const { currentUser } = useSelector((state: RootState) => state.currentUser);
+  const { optionsPopup } = useSelector((state: RootState) => state.common);
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(false);
-  const [option,setOption]=useState<string>("")
-  const [commentId,setCommentId]=useState<string>("")
-  const [commenter,setCommenter]=useState<string>("")
-  const [comment,setComment]= useState<string>("")
-  const [commentBox,setCommentBox]= useState<Comment[]>([])
+  const [option, setOption] = useState<string>("");
+  const [commentId, setCommentId] = useState<string>("");
+  const [commenter, setCommenter] = useState<string>("");
+  const [comment, setComment] = useState<string>("");
+  const [commentBox, setCommentBox] = useState<Comment[]>([]);
 
   const navigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const response = await axiosInstance.get(`/user/post/get_one_post/${id}`);
-      const isLiked= await axiosInstance.get(`/user/post/is_liked/${id}`)
-      const isSaved= await axiosInstance.get(`/user/post/is_saved/${id}`)
-      setIsLiked(isLiked.data.isLiked)
-      setIsSaved(isSaved.data.isSaved)
+      const isLiked = await axiosInstance.get(`/user/post/is_liked/${id}`);
+      const isSaved = await axiosInstance.get(`/user/post/is_saved/${id}`);
+      setIsLiked(isLiked.data.isLiked);
+      setIsSaved(isSaved.data.isSaved);
       setPost(response.data.post);
     } catch (error) {
       console.log(axiosErrorManager(error));
@@ -55,7 +56,6 @@ function PostDetailPage() {
       setLoading(false);
     }
   };
-
 
   const likePost = async () => {
     try {
@@ -67,12 +67,12 @@ function PostDetailPage() {
     }
   };
 
-  const optionHandle=(opt:string,id:string,user:string)=>{
-    setOption(opt)
-    setCommentId(id)
-    setCommenter(user)
-    dispatch(openOptionsPopup())
-  }
+  const optionHandle = (opt: string, id: string, user: string) => {
+    setOption(opt);
+    setCommentId(id);
+    setCommenter(user);
+    dispatch(openOptionsPopup());
+  };
 
   const savePost = async () => {
     try {
@@ -87,7 +87,7 @@ function PostDetailPage() {
     try {
       const response = await axiosInstance.get(`/user/post/get_comments/${id}`);
       setCommentBox(response.data.comments);
-      console.log("comments",response.data.comments);
+      console.log("comments", response.data.comments);
     } catch (error) {
       console.log(axiosErrorManager(error));
     }
@@ -99,35 +99,33 @@ function PostDetailPage() {
       console.log(response.data);
       fetchData();
       getCommnetBox();
-      dispatch(closeOptionsPopup())
+      dispatch(closeOptionsPopup());
     } catch (error) {
       console.log(axiosErrorManager(error));
     }
   };
 
-  
-
-  const deletePost=async()=>{
+  const deletePost = async () => {
     try {
-      const response=await axiosInstance.delete(`/user/post/delete_post/${id}`)
-      navigate('/')
-      console.log(response.data)
+      const response = await axiosInstance.delete(`/user/post/delete_post/${id}`);
+      navigate('/');
+      console.log(response.data);
     } catch (error) {
-      console.log(axiosErrorManager(error))
+      console.log(axiosErrorManager(error));
     }
-  }
+  };
 
   const postComment = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post(`/user/post/comment_post/${id}`,{comment});
-      console.log(response.data)
-      setComment("")
+      const response = await axiosInstance.post(`/user/post/comment_post/${id}`, { comment });
+      console.log(response.data);
+      setComment("");
       fetchData();
       getCommnetBox();
     } catch (error) {
       console.log(axiosErrorManager(error));
-      setComment("")
+      setComment("");
     }
   };
 
@@ -141,18 +139,10 @@ function PostDetailPage() {
     navigate(-1);
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p>Loading...</p>
-      </div>
-    );
-  }
-
   if (!post) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <p>Post not found</p>
+        <span className="spinner"></span>
       </div>
     );
   }
@@ -160,13 +150,13 @@ function PostDetailPage() {
   return (
     <div className="bg-black bg-opacity-50 h-screen w-full z-10 top-0 right-0 flex justify-center items-center absolute">
       <button
-        className="absolute top-3 font-bold right-3 text-gray-600"
+        className="absolute top-3 font-bold right-3 text-white"
         onClick={closeModal}
       >
         ✕
       </button>
       <div className="flex h-[600px] w-auto">
-        <div className="flex w-auto h-full">
+        <div className={loading?"h-[600px] w-[500px] flex justify-center item-center":"flex w-auto max-w-[700px] h-full"}>
           {!post.isReel ? (
             <img
               src={post.media}
@@ -183,14 +173,15 @@ function PostDetailPage() {
               loop
             ></video>
           )}
+          {loading&&<span className="spinner"/>}
         </div>
         <div className="w-[500px] h-full text-white ps-5 text-sm">
           <div className="border-b border-gray-700 gap-3 font-semibold flex justify-between w-full items-center h-[50px]">
             <div className="flex gap-3">
-            <ProfileCirc username={post.username} />
-            <p>{post.username}</p>
+              <ProfileCirc username={post.username} />
+              <p>{post.username}</p>
             </div>
-            <button onClick={()=>optionHandle("post","","")}><SlOptions/></button>
+            <button onClick={() => optionHandle("post", "", "")}><SlOptions /></button>
           </div>
           <div className="space-y-2 h-[430px] overflow-y-scroll scrollbar-none scrollbar-thumb-black border-b border-gray-600">
             <div className="gap-3 flex items-center h-[50px]">
@@ -198,27 +189,21 @@ function PostDetailPage() {
               <p className="font-semibold">{post.username}</p>
               <p>{post.caption}</p>
             </div>
-            {
-  commentBox.map((comment) => {
-    return (
-      <div key={comment.comment} className="gap-3 flex  items-center h-[50px] relative">
-        <ProfileCirc username={comment.user.username} />
-        <p className="font-semibold">{comment.user.username}</p>
-        <p>{comment.comment}</p>
-        {comment.user.username === currentUser?.username && (
-          <button
-            // onClick={() => deleteComment(comment._id)}
-            onClick={() => optionHandle("comment",comment._id,comment.user.username)}
-            className="absolute right-0 text-sm"
-          >
-            <SlOptions/>
-          </button>
-        )}
-      </div>
-    );
-  })
-}
-
+            {commentBox.map((comment) => (
+              <div key={comment._id} className="gap-3 flex items-center h-[50px] relative">
+                <ProfileCirc username={comment.user.username} />
+                <p className="font-semibold">{comment.user.username}</p>
+                <p>{comment.comment}</p>
+                {comment.user.username === currentUser?.username && (
+                  <button
+                    onClick={() => optionHandle("comment", comment._id, comment.user.username)}
+                    className="absolute right-0 text-sm"
+                  >
+                    <SlOptions />
+                  </button>
+                )}
+              </div>
+            ))}
           </div>
           <div className="h-[100px] w-full">
             <div className="border-b border-gray-600">
@@ -240,14 +225,14 @@ function PostDetailPage() {
               </div>
               <p className="font-semibold">{post.likesCount} Likes</p>
             </div>
-            <form onSubmit={(e)=>postComment(e)} className="w-full relative flex items-center">
+            <form onSubmit={(e) => postComment(e)} className="w-full relative flex items-center">
               <BiSmile className="absolute left-0 text-2xl" />
               <input
                 placeholder="Add a comment ..."
                 type="text"
                 name="comment"
                 value={comment}
-                onChange={(e)=>setComment(e.target.value)}
+                onChange={(e) => setComment(e.target.value)}
                 className="w-full bg-black ps-10 h-[50px] focus:outline-none placeholder:text-gray-400 placeholder:text-sm"
               />
               <button type="submit" className="text-sm font-semibold text-gray-400">Post</button>
@@ -255,7 +240,14 @@ function PostDetailPage() {
           </div>
         </div>
       </div>
-      {optionsPopup && <PostOption key={post._id} isPost={true} isCurrentUser={option==="post"?currentUser?.username===post.username:currentUser?.username===commenter} onDelete={option==="post"?deletePost:deleteComment}  />}
+      {optionsPopup && (
+        <PostOption
+          key={post._id}
+          isPost={option === "post"}
+          isCurrentUser={option === "post" ? currentUser?.username === post.username : currentUser?.username === commenter}
+          onDelete={option === "post" ? deletePost : deleteComment}
+        />
+      )}
     </div>
   );
 }

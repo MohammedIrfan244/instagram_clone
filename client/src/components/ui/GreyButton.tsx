@@ -7,10 +7,10 @@ interface GreyButtonProps {
     loading:boolean
 }
 
-function GreyButton({styles,text,loading,loadingText,onClick}:GreyButtonProps): JSX.Element {
+function GreyButton({styles,text,loading,onClick}:GreyButtonProps): JSX.Element {
   return (
     <button className={`bg-[#333333] font-semibold hover:bg-[#262626] ${styles}`} onClick={onClick}>
-        {loading?loadingText:text}
+        {loading?<span className="spinner"/>:text}
     </button>
   )
 }

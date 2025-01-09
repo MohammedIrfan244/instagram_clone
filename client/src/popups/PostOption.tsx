@@ -23,12 +23,24 @@ function PostOption({
       .writeText(url)
       .then(() => {
         setShareText("Copied"); 
-        setTimeout(() => setShareText("Copy Link"), 2000); 
+        setTimeout(() => setShareText("Copy Link"), 2000);
+        dispatch(closeOptionsPopup());
       })
       .catch((err) => {
         console.error("Failed to copy URL: ", err);
-      });
-  };
+        dispatch(closeOptionsPopup())
+    });
+};
+
+const clickHandler=()=>{
+    try{
+        onDelete()
+        dispatch(closeOptionsPopup())
+    }catch(error){
+        console.log(error)
+        dispatch(closeOptionsPopup())
+    }
+  }
 
   return (
     <div className="fixed top-0 left-0 w-full h-screen flex justify-center items-center">
@@ -50,7 +62,7 @@ function PostOption({
         {isCurrentUser && (
           <button
             className="h-[50px] text-sm text-red-500 font-semibold border-gray-500 w-full border-b"
-            onClick={onDelete}
+            onClick={clickHandler}
           >
             Delete
           </button>

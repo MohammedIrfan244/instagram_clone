@@ -4,37 +4,53 @@ import axiosInstance from "../../utilities/axiosInstance";
 import { Post } from "../../utilities/interfaces";
 import PostCard from "../../shared/PostCard";
 
-
-interface SavedPost{
-  post:Post
+interface SavedPost {
+  post: Post;
 }
+
 function SavedGrid() {
+  const [posts, setPosts] = useState<SavedPost[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-    const [posts,setPosts]=useState<SavedPost[]>([])
-
-    const fetchData=async()=>{
-        try{
-            const url = "/user/post/saved_posts"
-            const response=await axiosInstance.get(url)
-            setPosts(response.data.posts)
-          }catch(error){
-            console.log(axiosErrorManager(error))
-          }finally{
-          console.log(posts)
-        }
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const url = "/user/post/saved_posts";
+      const response = await axiosInstance.get(url);
+      setPosts(response.data.posts || []);
+    } catch (error) {
+      console.log(axiosErrorManager(error));
+    } finally {
+      setLoading(false);
     }
-    useEffect(()=>{
-        fetchData()
+  };
+
+  useEffect(() => {
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+  }, []);
+
   return (
     <div>
-      {
-        posts.map((post,index)=><PostCard key={index} onDelete={()=>{}} ownPost={false}  isReel={post.post.isReel} id={post.post._id} media={post.post.media} likesCount={post.post.likesCount} commentsCount={post.post.commentsCount} />)
-      }
+      {loading && (
+        <div className="flex items-center justify-center w-full h-96">
+          <div className="spinner"></div>
+        </div>
+      )}
+      {!loading && posts.length === 0 && <p>No saved posts available</p>}
+      {!loading &&
+        posts.map((savedPost, index) => (
+          <PostCard
+            key={index}
+            isReel={savedPost.post.isReel}
+            id={savedPost.post._id}
+            media={savedPost.post.media}
+            likesCount={savedPost.post.likesCount}
+            commentsCount={savedPost.post.commentsCount}
+          />
+        ))}
     </div>
-  )
+  );
 }
 
-export default SavedGrid
-
+export default SavedGrid;

@@ -118,7 +118,6 @@ function PostPopup(): JSX.Element {
                   styles="text-xs font-semibold w-full py-2"
                   text="Upload Post"
                   loading={isUploading}
-                  loadingText="Uploading..."
                   onClick={handlePostUpload}
                 />
               </div>
@@ -133,7 +132,6 @@ function PostPopup(): JSX.Element {
                 styles="font-semibold py-2 px-4 text-xs"
                 text="Select File"
                 loading={false}
-                loadingText="Loading..."
                 onClick={handleUploadClick}
               />
             </>

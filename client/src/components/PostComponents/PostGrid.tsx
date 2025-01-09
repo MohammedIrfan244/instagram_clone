@@ -28,15 +28,6 @@ function PostGrid({ isCurrUser, username }: PostGridProps): JSX.Element {
     }
   };
 
-  // const deletePost=async(id:string)=>{
-  //   try {
-  //     const response=await axiosInstance.delete(`/user/post/delete_post/${id}`)
-  //     fetchPosts()
-  //     console.log(response.data)
-  //   } catch (error) {
-  //     console.log(axiosErrorManager(error))
-  //   }
-  // }
 
   useEffect(() => {
     fetchPosts();
@@ -44,21 +35,25 @@ function PostGrid({ isCurrUser, username }: PostGridProps): JSX.Element {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-      {loading && <p>Loading...</p>}
+    <div>
+      {loading && (
+        <div className="w-full h-[300px] flex items-center justify-center">
+          <span className="spinner"></span>
+        </div>
+      )}
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 md:grid-cols-3">
       {!loading && posts.length === 0 && <p>No posts available</p>}
       {posts.map((post, index) => (
         <PostCard
-          key={index}
-          id={post._id}
-          // ownPost={true}
-          // onDelete={()=>deletePost(post._id)}
-          isReel={post.isReel}
-          media={post.media}
-          likesCount={post.likesCount}
-          commentsCount={post.commentsCount}
+        key={index}
+        id={post._id}
+        isReel={post.isReel}
+        media={post.media}
+        likesCount={post.likesCount}
+        commentsCount={post.commentsCount}
         />
       ))}
+      </div>
     </div>
   );
 }

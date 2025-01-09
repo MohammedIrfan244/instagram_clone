@@ -5,12 +5,14 @@ interface SuggestedUsersProps {
   user: User;
   message: string;
   but:string;
+  loading:boolean
 }
-function SuggestedUsers({ user,message,but }: SuggestedUsersProps): JSX.Element {
+function SuggestedUsers({ user,message,but,loading }: SuggestedUsersProps): JSX.Element {
 const navigate=useNavigate()
   return (
     <div className="h-[50px] flex items-center justify-between w-[300px]">
         <div className="flex items-center gap-4 hover:cursor-pointer"  onClick={()=>navigate(`/${user.username}`)}>
+          {loading&&<span className="spinner"/>}
       <img src={user.profile} alt={user.username} className="w-11 h-11 rounded-full" />
       <div className="text-xs">
         <p>{user.username}</p>

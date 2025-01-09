@@ -95,7 +95,7 @@ function Login(): JSX.Element {
           >
             {loading ? "Logging In..." : "Log In"}
           </button> */}
-          <BlueButton styles="w-full h-8 mt-4 rounded-lg text-xs font-semibold" text="Log In" loading={loading} loadingText="Logging In..." onClick={() => handleLogin} />
+          <BlueButton styles="w-full h-8 mt-2 rounded-lg text-xs font-semibold" text="Log In" loading={loading} onClick={() => handleLogin} />
         </form>
         <div className='flex items-center w-full h-auto justify-center gap-4 mt-7'>
           <div className='bg-gray-700 w-2/5 h-[1px]' />
