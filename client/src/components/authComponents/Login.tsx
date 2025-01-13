@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaFacebook } from "react-icons/fa";
+// import { FaFacebook } from "react-icons/fa";
 import playstore from '../../assets/5a902dbf7f96951c82922875.png';
 import windows from '../../assets/5a902db47f96951c82922873.png';
 import axios from 'axios';
@@ -58,7 +58,7 @@ function Login(): JSX.Element {
           <img src={instagram} alt="instagram" />
         </div> */}
         <InstaText styles='w-[190px] overflow-hidden' />
-        <form className='w-full' onSubmit={handleLogin}>
+        <form className='w-full mt-[50px]' onSubmit={handleLogin}>
           <input
             type="text"
             name="identity"
@@ -97,15 +97,15 @@ function Login(): JSX.Element {
           </button> */}
           <BlueButton styles="w-full h-8 mt-2 rounded-lg text-xs font-semibold" text="Log In" loading={loading} onClick={() => handleLogin} />
         </form>
-        <div className='flex items-center w-full h-auto justify-center gap-4 mt-7'>
+        {/* <div className='flex items-center w-full h-auto justify-center gap-4 mt-7'>
           <div className='bg-gray-700 w-2/5 h-[1px]' />
           <p className='text-gray-400 text-xs font-semibold'>OR</p>
           <div className='bg-gray-700 w-2/5 h-[1px]' />
-        </div>
-        <button className="flex items-center gap-2 text-xs font-semibold text-blue-500 hover:text-white mt-7">
+        </div> */}
+        {/* <button className="flex items-center gap-2 text-xs font-semibold text-blue-500 hover:text-white mt-7">
           <FaFacebook className='text-2xl text-blue-400' />
           Login with Facebook
-        </button>
+        </button> */}
       </div>
       <div className='w-[350px] h-[60px] bg-black border border-gray-700 flex items-center mt-3 justify-center'>
         <p className='text-xs text-gray-100'>Don't have an account?</p>

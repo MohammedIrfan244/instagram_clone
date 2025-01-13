@@ -5,6 +5,7 @@ const joiUserSchema = joi.object({
     username: joi.string().required(),
     email: joi.string().required(),
     password: joi.string().required(),
+    otp: joi.string().required()
 })
 
 const joiPostSchema = joi.object({

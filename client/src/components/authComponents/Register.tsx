@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { AiFillFacebook } from "react-icons/ai";
+// import { AiFillFacebook } from "react-icons/ai";
 import playstore from "../../assets/5a902dbf7f96951c82922875.png";
 import windows from "../../assets/5a902db47f96951c82922873.png";
 import { Form, Field, Formik } from "formik";
@@ -43,7 +43,8 @@ function Register(): JSX.Element {
     try {
       setLoading(true);
       setError(null);
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, values);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/send_otp`, { email: values.email, username: values.username });
+      console.log(response.data)
       setLoading(false);
       setOtpStep(true); 
       setFormData(values);
@@ -55,15 +56,12 @@ function Register(): JSX.Element {
 
   const handleOTPSubmit = async () => {
     if (!formData) return;
-
+    console.log(formData);
     try {
       setLoading(true);
       setError(null);
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/validate-otp`, {
-        email: formData.email,
-        otp,
-      });
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/complete-registration`, formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/verify_otp`, {...formData, otp});
+      console.log(response.data);
       setLoading(false);
       navigate("/user/login");
     } catch (error) {
@@ -79,12 +77,12 @@ function Register(): JSX.Element {
         <p className="text-gray-300 font-semibold text-sm text-center">
           Sign up to see photos and videos from your friends.
         </p>
-        <BlueButton styles="focus:outline-none flex items-center gap-2 w-full justify-center mt-3 py-2 rounded-lg" text={<><AiFillFacebook/><p className="text-sm font-semibold">Login with Facebook</p></>} onClick={() => {}} loading={loading} />
-        <div className="flex items-center w-full h-auto justify-center gap-4 mt-7">
+        {/* <BlueButton styles="focus:outline-none flex items-center gap-2 w-full justify-center mt-3 py-2 rounded-lg" text={<><AiFillFacebook/><p className="text-sm font-semibold">Login with Facebook</p></>} onClick={() => {}} loading={loading} /> */}
+        {/* <div className="flex items-center w-full h-auto justify-center gap-4 mt-7">
           <div className="bg-gray-700 w-2/5 h-[1px]" />
           <p className="text-gray-400 text-xs font-semibold">OR</p>
           <div className="bg-gray-700 w-2/5 h-[1px]" />
-        </div>
+        </div> */}
 
         {otpStep ? (
           <div className="w-full flex flex-col items-center">
