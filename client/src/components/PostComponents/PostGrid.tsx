@@ -41,7 +41,7 @@ function PostGrid({ isCurrUser, username }: PostGridProps): JSX.Element {
           <span className="spinner"></span>
         </div>
       )}
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 md:grid-cols-3">
+    <div className="grid-cols-3 grid w-screen">
       {!loading && posts.length === 0 && <p>No posts available</p>}
       {posts.map((post, index) => (
         <PostCard

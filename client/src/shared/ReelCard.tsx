@@ -19,7 +19,6 @@ function ReelCard({  media, likesCount, id,commentsCount }: ReelCardProps): JSX.
       
         <video src={media} className="w-full h-full object-cover"></video>
       <div className="absolute top-0 right-0 w-full h-full z-10 bg-black bg-opacity-50 hidden group-hover:flex justify-center items-center">
-        {/* <button onClick={onDelete} className="text-red-500 absolute top-2 right-2 z-10"><MdDeleteOutline /></button> */}
       <div className="flex items-center gap-3 ">
       <p className="flex items-center font-semibold"><IoMdHeart className="text-2xl"/> {likesCount}</p>
       <p className="flex items-center font-semibold"> <BiSolidMessageRounded className="text-2xl"/> {commentsCount}</p>

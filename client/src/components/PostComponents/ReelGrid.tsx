@@ -36,21 +36,22 @@ function ReelGrid({ isCurrUser, username }: ReelsProp) {
   return (
     <div>
       {loading && (
-        <div className="flex items-center justify-center w-screen lg:w-full h-96">
-          <div className="spinner"></div>
+        <div className="w-full h-[300px] flex items-center justify-center">
+          <span className="spinner"></span>
         </div>
       )}
-      {!loading && reels.length === 0 && <p>No reels available</p>}
-      {!loading &&
-        reels.map((reel, index) => (
-          <ReelCard
-            key={index}
-            id={reel._id}
-            media={reel.media}
-            commentsCount={reel.commentsCount}
-            likesCount={reel.likesCount}
-          />
-        ))}
+    <div className="grid-cols-3 grid w-screen">
+      {!loading && reels.length === 0 && <p>No posts available</p>}
+      {reels.map((post, index) => (
+        <ReelCard
+        key={index}
+        id={post._id}
+        media={post.media}
+        likesCount={post.likesCount}
+        commentsCount={post.commentsCount}
+        />
+      ))}
+      </div>
     </div>
   );
 }

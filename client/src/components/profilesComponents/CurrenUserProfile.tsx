@@ -70,7 +70,7 @@ function CurrenUserProfile(): JSX.Element {
   }, [currentUser]);
 
   const handleImageLoad = () => {
-    setLoadingImage(false); // Hide spinner once the image is loaded
+    setLoadingImage(false);
   };
 
   const handleFollowersClick = (): void => {
@@ -86,70 +86,74 @@ function CurrenUserProfile(): JSX.Element {
   return (
     <>
       <div className="flex lg:h-[250px] mt-20 lg:mt-0 items-center">
-        <div className="lg:w-[400px] flex justify-center h-full items-center">
-          <div className="relative w-[100px] lg:w-[150px] h-[100px] lg:h-[150px] rounded-full">
-            {loadingImage && (
-              <div className="absolute inset-0 flex justify-center items-center bg-[#363636] rounded-full">
-                <span className="spinner"></span>
-              </div>
-            )}
-            <img
-              src={currentUser?.profile}
-              className="w-[75px] lg:w-[150px] h-[75px] lg:h-[150px] hover:cursor-pointer rounded-full"
-              alt="profile"
-              onLoad={handleImageLoad}
-              onClick={() => dispatch(openProfileModal())}
-            />
-          </div>
-        </div>
-        <div className="space-y-5">
-          <div className="flex gap-3">
-            <p className="text-lg">{currentUser?.username}</p>
-            <div>
-            <GreyButton
-              styles="text-sm bg-[#262626] px-3 py-1 rounded-md"
-              loading={false}
-              loadingText={""}
-              text="Edit Profile"
-              onClick={() => navigate("/account/edit")}
-            />
-            <GreyButton
-              styles="text-sm bg-[#262626] px-3 py-1 rounded-md"
-              loading={false}
-              loadingText={""}
-              text="View Archive"
-              onClick={() => {}}
-            />
+        <div className="w-screen flex h-auto items-center py-3 lg:py-0">
+          <div className="h-auto w-[100px] lg:w-[400px] flex justify-center items-center">
+            <div className="relative w-[75px] lg:w-[150px] h-[75px] lg:h-[150px] rounded-full">
+              {loadingImage && (
+                <div className="absolute inset-0 flex justify-center items-center bg-[#363636] rounded-full">
+                  <span className="spinner"></span>
+                </div>
+              )}
+              <img
+                src={currentUser?.profile}
+                className="w-full h-full object-cover hover:cursor-pointer rounded-full"
+                alt="profile"
+                onLoad={handleImageLoad}
+                onClick={() => dispatch(openProfileModal())}
+              />
             </div>
-            {/* <button className="text-3xl" onClick={() => navigate("/account/edit")}>
-              <IoIosSettings />
-            </button> */}
-            <SettingButton onClick={() => navigate("/account/edit")} style="text-3xl"/>
           </div>
-          <div className="flex gap-10">
-            <p>0 posts</p>
-            <button onClick={handleFollowersClick}>{followCount.followerCount} followers</button>
-            <button onClick={handleFollowingsClick}>{followCount.followingCount} following</button>
+          <div className="space-y-5 ps-2 lg:ps-0">
+            <div className="flex flex-col lg:flex-row gap-3">
+              <p className="text-xl font-semibold">{currentUser?.username}</p>
+              <div className="space-x-3">
+                <GreyButton
+                  styles="text-sm bg-[#262626] lg:px-3 lg:py-1 px-4 py-2 rounded-md"
+                  loading={false}
+                  loadingText={""}
+                  text="Edit Profile"
+                  onClick={() => navigate("/account/edit")}
+                />
+                <GreyButton
+                  styles="text-sm bg-[#262626] px-4 py-2 lg:px-3 lg:py-1 rounded-md"
+                  loading={false}
+                  loadingText={""}
+                  text="View Archive"
+                  onClick={() => { }}
+                />
+              </div>
+              <SettingButton onClick={() => navigate("/account/edit")} style="text-3xl hidden lg:block" />
+            </div>
+            <div className=" gap-10 hidden lg:flex">
+              <p>0 posts</p>
+              <button onClick={handleFollowersClick}>{followCount.followerCount} followers</button>
+              <button onClick={handleFollowingsClick}>{followCount.followingCount} following</button>
+            </div>
+            </div>
+            <div className="hidden lg:block">
+              <p className="text-sm">{currentUser?.fullname}</p>
+              <p className="text-sm">{currentUser?.bio}</p>
           </div>
-          <p className="text-sm">{currentUser?.fullname}</p>
-          <p className="text-sm">{currentUser?.bio}</p>
           {profileModal && <ProfilePictureUpdate />}
           {currentUser?._id && followList && (
             <FollowList
-              currUser={true}
-              removeFollower={title === "Followers" ? removeFollower : removeFollowing}
-              title={title}
+            currUser={true}
+            removeFollower={title === "Followers" ? removeFollower : removeFollowing}
+            title={title}
               _id={currentUser._id}
             />
           )}
         </div>
       </div>
-
+      <div className="lg:hidden p-5 space-y-2 ">
+          <p className="text-sm font-semibold">{currentUser?.fullname}</p>
+          <p className="text-sm">{currentUser?.bio}</p>
+      </div>
       {/* highlight section */}
       <div></div>
 
       {/* post section */}
-      <div className="border-t border-gray-800 mx-24 h-auto">
+      <div className="border-t border-gray-800 lg:mx-24 h-auto">
         <div className="h-10 flex items-center gap-20 text-gray-400 font-extralight text-sm justify-center">
           <button
             className={`flex items-center gap-2 ${component === "post" ? "text-white font-semibold" : ""}`}
