@@ -6,10 +6,16 @@ import { MdOutlineExplore } from 'react-icons/md';
 import { RiMessengerLine } from 'react-icons/ri';
 import { IoMdHeartEmpty } from 'react-icons/io';
 import { AiOutlinePlusSquare } from 'react-icons/ai';
+// filled version
+import { GoHomeFill } from "react-icons/go";
+import { MdExplore } from "react-icons/md";
+import { RiMessengerFill } from "react-icons/ri";
+import { IoMdHeart } from "react-icons/io";
+
 import { FaBars } from 'react-icons/fa6';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/store'
+import { RootState } from '../../redux/store';
 import axiosInstance from '../../utilities/axiosInstance';
 import axiosErrorManager from '../../utilities/axiosErrorManager';
 import { User } from '../../utilities/interfaces';
@@ -18,13 +24,13 @@ import PostPopup from '../../popups/PostPopup';
 
 function Navbar() {
   const { currentUser } = useSelector((state: RootState) => state.currentUser);
-  const {postPopup}=useSelector((state:RootState)=>state.common)
+  const { postPopup } = useSelector((state: RootState) => state.common);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchResults, setSearchResults] = useState<User[]>([]);
   const [isSearchWindowOpen, setIsSearchWindowOpen] = useState(false);
   const [isMoreWindowOpen, setIsMoreWindowOpen] = useState(false);
   const navigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -34,7 +40,7 @@ function Navbar() {
     }, 200);
 
     return () => clearTimeout(timer);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
   const handleSearch = async () => {
@@ -47,19 +53,19 @@ function Navbar() {
     }
   };
 
-  const onSearchClick=(username:string)=>{
-    navigate(`/${username}`)
-    setIsSearchWindowOpen(false)
-  }
+  const onSearchClick = (username: string) => {
+    navigate(`/${username}`);
+    setIsSearchWindowOpen(false);
+  };
 
-  const handleLogout = async() => {
-      try{
-        await axiosInstance.post('/auth/logout')
-        localStorage.removeItem('user')
-        setIsMoreWindowOpen(false)
-        navigate('/user/login')
-    }catch(error){
-      console.log(axiosErrorManager(error))
+  const handleLogout = async () => {
+    try {
+      await axiosInstance.post('/auth/logout');
+      localStorage.removeItem('user');
+      setIsMoreWindowOpen(false);
+      navigate('/user/login');
+    } catch (error) {
+      console.log(axiosErrorManager(error));
     }
   };
 
@@ -75,28 +81,42 @@ function Navbar() {
         />
         <NavLink
           to={'/'}
-          className="flex py-2 px-1 hover:bg-gray-700 rounded-lg text-sm items-center gap-3 mt-5"
+          className={({ isActive }) =>
+            `flex py-2 px-1 hover:bg-gray-700 rounded-lg group items-center gap-3 mt-5 ${
+              isActive ? 'font-semibold' : ''
+            }`
+          }
         >
-          <GoHome className="text-2xl" />
-          Home
+          {({ isActive }) =>
+            isActive ? <><GoHomeFill className="text-3xl" />Home</> : <><GoHome className="text-3xl" />Home</>
+          }
         </NavLink>
         <button
-          className="flex py-2 px-1 hover:bg-gray-700 rounded-lg text-sm items-center gap-3"
+          className="flex py-2 px-1 hover:bg-gray-700 rounded-lg  items-center gap-3"
           onClick={() => setIsSearchWindowOpen(!isSearchWindowOpen)}
         >
-          <FiSearch className="text-2xl" />
+          <FiSearch className="text-3xl" />
           Search
         </button>
         <NavLink
           to={'/explore/_feed'}
-          className="flex py-2 px-1 hover:bg-gray-700 rounded-lg text-sm items-center gap-3"
+          className={({ isActive }) =>
+            `flex py-2 px-1 hover:bg-gray-700 rounded-lg  items-center gap-3 ${
+              isActive ? 'font-semibold' : ''
+            }`
+          }
         >
-          <MdOutlineExplore className="text-2xl" />
-          Explore
+          {({ isActive }) =>
+            isActive ? <><MdExplore className="text-3xl" />Explore</> : <><MdOutlineExplore className="text-3xl" />Explore</>
+          }
         </NavLink>
         <NavLink
           to={'/feed/reels'}
-          className="flex hover:bg-gray-700 rounded-lg items-center py-2 px-1 gap-3"
+          className={({ isActive }) =>
+            `flex hover:bg-gray-700 rounded-lg items-center py-2 px-1 gap-3 ${
+              isActive ? 'font-semibold' : ''
+            }`
+          }
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -118,26 +138,45 @@ function Navbar() {
         </NavLink>
         <NavLink
           to={'/accout/message'}
-          className="flex hover:bg-gray-700 rounded-lg text-sm items-center gap-3 py-2 px-1"
+          className={({ isActive }) =>
+            `flex hover:bg-gray-700 rounded-lg  items-center gap-3 py-2 px-1 ${
+              isActive ? 'font-semibold' : ''
+            }`
+          }
         >
-          <RiMessengerLine className="text-2xl" />
-          Message
+         {({ isActive }) =>
+            isActive ? <><RiMessengerFill className="text-3xl" />Message</> : <><RiMessengerLine className="text-3xl" />Message</>
+          }
         </NavLink>
         <NavLink
           to={'/account/notification'}
-          className="flex hover:bg-gray-700 rounded-lg text-sm items-center gap-3 py-2 px-1"
+          className={({ isActive }) =>
+            `flex hover:bg-gray-700 rounded-lg  items-center gap-3 py-2 px-1 ${
+              isActive ? 'font-semibold' : ''
+            }`
+          }
         >
-          <IoMdHeartEmpty className="text-2xl" />
-          Notifications
+          {({ isActive }) =>
+            isActive ? (
+              <>
+                <IoMdHeart className="text-3xl" />
+                Notification
+              </>
+            ) : (
+              <>
+                <IoMdHeartEmpty className="text-3xl" />
+                Notification
+              </>
+            )}
         </NavLink>
         <button
-        onClick={()=>dispatch(openPostPopup())}
-          className="flex hover:bg-gray-700 rounded-lg text-sm items-center gap-3 py-2 px-1"
+          onClick={() => dispatch(openPostPopup())}
+          className="flex hover:bg-gray-700 rounded-lg  items-center gap-3 py-2 px-1"
         >
-          <AiOutlinePlusSquare className="text-2xl" />
+          <AiOutlinePlusSquare className="text-3xl" />
           Create
         </button>
-        <div className="flex hover:cursor-pointer text-sm items-center gap-3 hover:bg-gray-700 rounded-lg py-2 px-1">
+        <div className="flex hover:cursor-pointer  items-center gap-3 hover:bg-gray-700 rounded-lg py-2 px-1">
           <div className="rounded-full w-7 h-7 overflow-hidden relative">
             <img
               src={currentUser?.profile}
@@ -145,13 +184,20 @@ function Navbar() {
               className="object-cover w-full h-full"
             />
           </div>
-          <NavLink to={`/${currentUser?.username}`}>Profile</NavLink>
+          <NavLink
+            to={`/${currentUser?.username}`}
+            className={({ isActive }) =>
+              isActive ? 'font-semibold' : ''
+            }
+          >
+            Profile
+          </NavLink>
         </div>
         <button
-          className="flex hover:bg-gray-700 rounded-lg text-sm items-center gap-2 mt-3 py-2 px-1"
+          className="flex hover:bg-gray-700 rounded-lg  items-center gap-2 mt-3 py-2 px-1"
           onClick={() => setIsMoreWindowOpen(!isMoreWindowOpen)}
         >
-          <FaBars className="text-2xl" />
+          <FaBars className="text-3xl" />
           More
         </button>
       </div>
@@ -159,7 +205,7 @@ function Navbar() {
       {/* Search Window */}
       {isSearchWindowOpen && (
         <div className="fixed left-[250px] top-0 bg-black w-[350px] h-full z-50 p-5">
-          <p className='text-lg pb-5 border-b border-gray-600'>Search</p>
+          <p className="text-lg pb-5 border-b border-gray-600">Search</p>
           <input
             type="text"
             value={searchQuery}
@@ -171,21 +217,24 @@ function Navbar() {
             {searchResults.length > 0 ? (
               searchResults.map((user, index) => (
                 <div key={index} className="py-2">
-                  <div onClick={() => onSearchClick(user.username)} className='flex hover:cursor-pointer gap-5 items-center'>
+                  <div
+                    onClick={() => onSearchClick(user.username)}
+                    className="flex hover:cursor-pointer gap-5 items-center"
+                  >
                     <img
                       src={user.profile}
                       alt="Profile"
                       className="object-cover w-10 h-10 rounded-full"
                     />
                     <div>
-                    <p className="text-xs text-white">{user.username}</p>
-                    <p className='text-xs text-white'>{user.fullname}</p>
+                      <p className="text-xs text-white">{user.username}</p>
+                      <p className="text-xs text-white">{user.fullname}</p>
                     </div>
                   </div>
                 </div>
               ))
             ) : (
-              <p className='text-sm text-white'>No results to show...</p>
+              <p className=" text-white">No results to show...</p>
             )}
           </div>
         </div>
@@ -195,25 +244,23 @@ function Navbar() {
       {isMoreWindowOpen && (
         <div className="fixed left-[250px] bottom-0 bg-[#363636] w-[200px] shadow-lg z-50 rounded-lg">
           <button
-            className="block w-full text-left px-2 py-3 text-sm border-b border-gray-600"
-            onClick={()=>{
+            className="block w-full text-left px-2 py-3  border-b border-gray-600"
+            onClick={() => {
               setIsMoreWindowOpen(false);
-              navigate('/account/edit')
+              navigate('/account/edit');
             }}
           >
             Settings
           </button>
           <button
-            className="block w-full text-left px-2 py-3 text-sm"
+            className="block w-full text-left px-2 py-3 "
             onClick={handleLogout}
           >
             Logout
           </button>
         </div>
       )}
-      {
-        postPopup&&<PostPopup/>
-      }
+      {postPopup && <PostPopup />}
     </div>
   );
 }
