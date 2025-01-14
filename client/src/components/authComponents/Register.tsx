@@ -77,13 +77,6 @@ function Register(): JSX.Element {
         <p className="text-gray-300 font-semibold text-sm text-center">
           Sign up to see photos and videos from your friends.
         </p>
-        {/* <BlueButton styles="focus:outline-none flex items-center gap-2 w-full justify-center mt-3 py-2 rounded-lg" text={<><AiFillFacebook/><p className="text-sm font-semibold">Login with Facebook</p></>} onClick={() => {}} loading={loading} /> */}
-        {/* <div className="flex items-center w-full h-auto justify-center gap-4 mt-7">
-          <div className="bg-gray-700 w-2/5 h-[1px]" />
-          <p className="text-gray-400 text-xs font-semibold">OR</p>
-          <div className="bg-gray-700 w-2/5 h-[1px]" />
-        </div> */}
-
         {otpStep ? (
           <div className="w-full flex flex-col items-center">
             <input

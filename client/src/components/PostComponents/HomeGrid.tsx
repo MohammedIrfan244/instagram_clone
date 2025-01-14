@@ -20,24 +20,24 @@ function HomeGrid(): JSX.Element {
     }
   };
 
-  const deletePost = async (id: string) => {
-    try {
-      const response = await axiosInstance.delete(`/user/post/delete_post/${id}`);
-      fetchHomeFeed();
-      console.log(response.data);
-    } catch (error) {
-      console.log(axiosErrorManager(error));
-    }
-  };
+  // const deletePost = async (id: string) => {
+  //   try {
+  //     const response = await axiosInstance.delete(`/user/post/delete_post/${id}`);
+  //     fetchHomeFeed();
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.log(axiosErrorManager(error));
+  //   }
+  // };
 
   useEffect(() => {
     fetchHomeFeed();
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex flex-col items-center w-screen lg:w-auto justify-center min-h-screen">
       {loading && (
-        <div className="flex items-center justify-center w-full h-screen">
+        <div className="flex items-center justify-center w-screen lg:w-full h-screen">
           <div className="spinner"></div>
         </div>
       )}
@@ -45,9 +45,6 @@ function HomeGrid(): JSX.Element {
       {!loading &&
         posts.map((post, index) => (
           <HomePostCard
-            onDelete={() => {
-              deletePost(post._id);
-            }}
             key={index}
             id={post._id}
             media={post.media}

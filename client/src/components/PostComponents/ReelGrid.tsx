@@ -36,7 +36,7 @@ function ReelGrid({ isCurrUser, username }: ReelsProp) {
   return (
     <div>
       {loading && (
-        <div className="flex items-center justify-center w-full h-96">
+        <div className="flex items-center justify-center w-screen lg:w-full h-96">
           <div className="spinner"></div>
         </div>
       )}

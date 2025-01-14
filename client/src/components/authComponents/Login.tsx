@@ -54,9 +54,6 @@ function Login(): JSX.Element {
   return (
     <>
       <div className="bg-black w-[350px] h-[415px] border border-gray-700 flex flex-col items-center px-10 pt-7">
-        {/* <div className='w-[190px] overflow-hidden'>
-          <img src={instagram} alt="instagram" />
-        </div> */}
         <InstaText styles='w-[190px] overflow-hidden' />
         <form className='w-full mt-[50px]' onSubmit={handleLogin}>
           <input

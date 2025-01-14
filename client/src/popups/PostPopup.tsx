@@ -75,22 +75,22 @@ function PostPopup(): JSX.Element {
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="w-auto overflow-hidden h-auto rounded-2xl relative">
+    <div className="fixed inset-0 flex flex-col items-center justify-center w-screen bg-black bg-opacity-50 z-50">
+      <div className="w-screen lg:w-auto overflow-hidden rounded-2xl relative">
         <button
           onClick={() => dispatch(closePostPopup())}
           className="absolute right-1 top-3 text-white"
         >
           <IoMdClose />
         </button>
-        <div className="bg-black w-[430px] h-[50px] flex justify-center items-center">
+        <div className="bg-black w-full h-[50px] flex justify-center items-center">
           <p className="text-white text-sm font-semibold">Create new post</p>
         </div>
         {/* Second section */}
         <div
           className={`bg-[#262626] ${
-            selectedFile ? "flex-row w-[700px]" : "flex-col justify-center w-[430px]"
-          } flex overflow-hidden items-center h-[400px]`}
+            selectedFile ? "flex-row w-screen lg:w-[700px]" : "flex-col justify-center w-[430px]"
+          } flex overflow-hidden items-center h-auto`}
         >
           {selectedFile ? (
             <>
@@ -107,12 +107,12 @@ function PostPopup(): JSX.Element {
                   className="w-1/2 h-full object-contain"
                 />
               )}
-              <div className="w-1/2 h-full flex flex-col justify-between p-10 items-center">
+              <div className="w-1/2 h-full flex flex-col justify-between gap-10 lg:p-10 items-center">
                 <textarea
                   placeholder="Write a caption (optional)..."
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
-                  className="w-full h-[70%] bg-[#121212] text-white text-sm p-2 rounded-lg border border-gray-700 focus:outline-none"
+                  className="w-full bg-[#121212] text-white text-sm p-2 rounded-lg border border-gray-700 focus:outline-none"
                 />
                 <BlueButton
                   styles="text-xs font-semibold w-full py-2"

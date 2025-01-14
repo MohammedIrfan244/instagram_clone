@@ -16,7 +16,7 @@ function PostCard({ isReel, media,  id, likesCount, commentsCount }: PostCardPro
 
   return (
     <div
-      className="w-[300px] h-[300px] overflow-hidden relative group"
+      className="w-[130px] h-[150px] lg:w-[310px] lg:h-[300px] overflow-hidden relative group"
       onClick={() => navigate(`/feed/post/${id}`)}
     >
       {isReel ? (

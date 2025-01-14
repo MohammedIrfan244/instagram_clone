@@ -96,14 +96,14 @@ console.log(username,currentUser)
   }, [id]);
 
   return (
-    <div className="w-[400px] h-[600px] py-5 items-center flex">
-      <div className="w-[350px] relative h-full rounded-md overflow-hidden">
+    <div className="lg:w-[400px] w-screen h-screen justify-center relative mb-20 lg:mb-0 lg:h-[600px] py-5 items-center flex">
+      <div className="lg:w-[350px] w-screen lg:h-full rounded-md overflow-hidden">
         <video
           src={media}
           autoPlay
           loop
           muted
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
         ></video>
         <div className="absolute bottom-0 left-2 space-y-1 py-2">
           <div className="flex gap-2 items-center">
@@ -113,7 +113,7 @@ console.log(username,currentUser)
           <p className="text-xs font-bold">{caption}</p>
         </div>
       </div>
-      <div className="w-[50px] h-full text-xl flex flex-col items-center justify-end gap-5">
+      <div className="w-[50px] absolute right-0 h-full text-xl flex flex-col items-center justify-end gap-5">
         <div className="flex flex-col items-center gap-1">
           <button onClick={likePost}>
             {isLiked ? (

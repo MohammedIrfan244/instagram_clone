@@ -148,15 +148,15 @@ function PostDetailPage() {
   }
 
   return (
-    <div className="bg-black bg-opacity-50 h-screen w-full z-10 top-0 right-0 flex justify-center items-center absolute">
+    <div className="bg-black bg-opacity-50 h-screen w-screen lg:w-full z-10 top-0 mt-16 lg:mt-0 right-0 flex justify-center items-center absolute">
       <button
         className="absolute top-3 font-bold right-3 text-white"
         onClick={closeModal}
       >
         ✕
       </button>
-      <div className="flex h-[600px] w-auto">
-        <div className={loading?"h-[600px] w-[500px] flex justify-center item-center":"flex w-auto max-w-[700px] h-full"}>
+      <div className="flex flex-col lg:flex w-screen h-[600px] lg:w-auto">
+        <div className={loading?"h-[600px] w-screen flex justify-center item-center":"flex w-auto max-w-screen-sm lg:max-w-[700px] h-full"}>
           {!post.isReel ? (
             <img
               src={post.media}
@@ -175,7 +175,7 @@ function PostDetailPage() {
           )}
           {loading&&<span className="spinner"/>}
         </div>
-        <div className="w-[500px] h-full text-white ps-5 text-sm">
+        <div className="w-screen h-full pb-24 lg:pb-0 text-white ps-5 text-sm">
           <div className="border-b border-gray-700 gap-3 font-semibold flex justify-between w-full items-center h-[50px]">
             <div className="flex gap-3">
               <ProfileCirc username={post.username} />
@@ -183,7 +183,7 @@ function PostDetailPage() {
             </div>
             <button onClick={() => optionHandle("post", "", "")}><SlOptions /></button>
           </div>
-          <div className="space-y-2 h-[430px] overflow-y-scroll scrollbar-none scrollbar-thumb-black border-b border-gray-600">
+          <div className="space-y-2 h-[200px] lg:h-[430px] overflow-y-scroll scrollbar-none scrollbar-thumb-black border-b border-gray-600">
             <div className="gap-3 flex items-center h-[50px]">
               <ProfileCirc username={post.username} />
               <p className="font-semibold">{post.username}</p>

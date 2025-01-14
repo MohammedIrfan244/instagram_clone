@@ -32,12 +32,11 @@ function HomePage(): JSX.Element {
     }
   },[currentUser])
   return (
-    <div className="flex w-full min-h-screen">
-       
+    <div className="flex w-screen lg:w-full min-h-screen">
       {/* posts and stories*/}
-      <div className='w-2/3 ps-[250px]  min-h-screen'>
+      <div className='lg:w-2/3 w-screen lg:ps-[250px]  min-h-screen'>
       {/* This is the area for stories */}
-      <div className='w-full h-auto'>
+      <div className='w-full mt-20 lg:mt-0 h-auto'>
         <Stories/>
       </div>
       {/*area for posts */}
@@ -46,13 +45,13 @@ function HomePage(): JSX.Element {
       </div>
       </div>
       {/* area for the suggestions */}
-        <div className='w-1/3 flex items-center flex-col'>
+        <div className='w-1/3 hidden lg:flex items-center flex-col'>
           <div className='w-[300px]'>
             <div className='my-7'>
           {currentUser && <SuggestedUsers loading={loading} user={currentUser} but={"Switch"} message={currentUser?.fullname || ''}/>}
             </div>
           <p className='text-sm mb-5 font-semibold text-gray-400'>Suggested for you</p>
-          {suggestedUsers.length===0?<p className='text-sm text-gray-400'>No suggested users</p>:suggestedUsers.map(user=>(<SuggestedUsers loading={loading} key={user._id} user={user} but={"View"} message={user?.fullname || ''}/>))}
+          {suggestedUsers.length===0?<p className='text-sm text-gray-400 hidden lg:block'>No suggested users</p>:suggestedUsers.map(user=>(<SuggestedUsers loading={loading} key={user._id} user={user} but={"View"} message={user?.fullname || ''}/>))}
           </div>
         </div>
     </div>

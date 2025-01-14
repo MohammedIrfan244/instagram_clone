@@ -5,7 +5,6 @@ import { openProfileModal, openFollowList } from "../../redux/commonSlice";
 import axiosErrorManager from "../../utilities/axiosErrorManager";
 import axiosInstance from "../../utilities/axiosInstance";
 import { RootState } from "../../redux/store";
-import { IoIosSettings } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import ProfilePictureUpdate from "../../popups/ProfilePictureUpdatePopup";
 import GreyButton from "../ui/GreyButton";
@@ -14,6 +13,7 @@ import { MdBookmarkBorder } from "react-icons/md";
 import PostGrid from "../PostComponents/PostGrid";
 import ReelGrid from "../PostComponents/ReelGrid";
 import SavedGrid from "../PostComponents/SavedGrid";
+import SettingButton from "../ui/SettingButton";
 
 interface FollowCount {
   followerCount: number;
@@ -85,17 +85,17 @@ function CurrenUserProfile(): JSX.Element {
 
   return (
     <>
-      <div className="flex h-[250px] items-center">
-        <div className="w-[400px] flex justify-center h-full items-center">
-          <div className="relative w-[150px] h-[150px] rounded-full">
+      <div className="flex lg:h-[250px] mt-20 lg:mt-0 items-center">
+        <div className="lg:w-[400px] flex justify-center h-full items-center">
+          <div className="relative w-[100px] lg:w-[150px] h-[100px] lg:h-[150px] rounded-full">
             {loadingImage && (
               <div className="absolute inset-0 flex justify-center items-center bg-[#363636] rounded-full">
-                <span className="spinner"></span> {/* Replace with your spinner */}
+                <span className="spinner"></span>
               </div>
             )}
             <img
               src={currentUser?.profile}
-              className="w-[150px] h-[150px] hover:cursor-pointer rounded-full"
+              className="w-[75px] lg:w-[150px] h-[75px] lg:h-[150px] hover:cursor-pointer rounded-full"
               alt="profile"
               onLoad={handleImageLoad}
               onClick={() => dispatch(openProfileModal())}
@@ -105,6 +105,7 @@ function CurrenUserProfile(): JSX.Element {
         <div className="space-y-5">
           <div className="flex gap-3">
             <p className="text-lg">{currentUser?.username}</p>
+            <div>
             <GreyButton
               styles="text-sm bg-[#262626] px-3 py-1 rounded-md"
               loading={false}
@@ -119,9 +120,11 @@ function CurrenUserProfile(): JSX.Element {
               text="View Archive"
               onClick={() => {}}
             />
-            <button className="text-3xl" onClick={() => navigate("/account/edit")}>
+            </div>
+            {/* <button className="text-3xl" onClick={() => navigate("/account/edit")}>
               <IoIosSettings />
-            </button>
+            </button> */}
+            <SettingButton onClick={() => navigate("/account/edit")} style="text-3xl"/>
           </div>
           <div className="flex gap-10">
             <p>0 posts</p>

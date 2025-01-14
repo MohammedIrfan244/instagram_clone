@@ -81,7 +81,7 @@ function HomePostCard({
         setShowCopyPopup(true);
         setTimeout(() => {
           setShowCopyPopup(false);
-        }, 3000); // Hide popup after 3 seconds
+        }, 3000); 
       })
       .catch((err) => alert(err));
   };
@@ -102,7 +102,7 @@ function HomePostCard({
   }, [id]);
 
   return (
-    <div className="h-auto text-white border-b border-gray-600 space-y-2 pt-5 w-[500px]">
+    <div className="h-auto text-white border-b border-gray-600 px-2 space-y-2 pt-5 w-[400px] lg:w-[500px]">
       <div className="flex justify-between w-full items-center text-sm font-semibold">
         <div className="flex items-center gap-2">
           <ProfileCirc username={username} />

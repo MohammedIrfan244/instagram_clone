@@ -36,7 +36,7 @@ function ReelPage(): JSX.Element {
     fetchReels()
   }, [])
   return (
-    <div className="ps-[250px] flex flex-col items-center">
+    <div className="lg:ps-[250px] flex flex-col items-center">
       {loading && (
         <div className="h-[500px] w-[300px] flex justify-center items-center">
           <span className="spinner"/>

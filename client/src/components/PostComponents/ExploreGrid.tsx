@@ -26,9 +26,9 @@ function ExploreGrid(): JSX.Element {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1 pt-16 pe-20 ps-28 h-auto">
+    <div className="grid w-screen lg:w-full grid-cols-3 gap-1 pt-16 lg:pe-20 lg:ps-28 h-auto">
       {loading && (
-        <div className="w-[300px] h-[300px] bg-[#363636] flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center">
           <span className="spinner"></span>
         </div>
       )}

@@ -6,49 +6,49 @@ import { FaCircleChevronLeft ,FaCircleChevronRight} from "react-icons/fa6";
 
 const stories: Stroy[] = [
   {
-    id: '1',
+    _id: '1',
     username: 'john_doe',
     thumbnail: 'https://i.pinimg.com/736x/b0/3a/26/b03a26e167ba0099af4e5b5eab93e1e9.jpg',
     media: 'test',
   },
   {
-    id: '2',
+    _id: '2',
     username: 'isabella',
     thumbnail: 'https://i.pinimg.com/736x/b0/3a/26/b03a26e167ba0099af4e5b5eab93e1e9.jpg',
     media: 'test',
   },
   {
-    id: '3',
+    _id: '3',
     username: 'jack_doe',
     thumbnail: 'https://i.pinimg.com/736x/b0/3a/26/b03a26e167ba0099af4e5b5eab93e1e9.jpg',
     media: 'test',
   },
   {
-    id: '4',
+    _id: '4',
     username: 'jane_doe',
     thumbnail: 'https://i.pinimg.com/736x/b0/3a/26/b03a26e167ba0099af4e5b5eab93e1e9.jpg',
     media: 'test',
   },
   {
-    id: '5',
+    _id: '5',
     username: 'susan_doe',
     thumbnail: 'https://i.pinimg.com/736x/b0 /3a/26/b03a26e167ba0099af4e5b5eab93e1e9.jpg',
     media: 'test',
   },
   {
-    id: '6',
+    _id: '6',
     username: 'mary_doe',
     thumbnail: 'https://i.pinimg.com/736x/b0/3a/26/b03a26e167ba0099af4e5b5eab93e1e9.jpg',
     media: 'test',
   },
   {
-    id: '7',
+    _id: '7',
     username: 'zack_doe',
     thumbnail: 'https://i.pinimg.com/736x/b0/3a/26/b03a26e167ba0099af4e5b5eab93e1e9.jpg',
     media: 'test',
   },
   {
-    id: '8',
+    _id: '8',
     username: 'olivia_doe',
     thumbnail: 'https://i.pinimg.com/736x/b0/3a/26/b03a26e167ba0099af4e5b5eab93e1e9.jpg',
     media: 'test',
@@ -60,7 +60,7 @@ function Stories(): JSX.Element {
   const swiperRef = useRef<any>(null);
 
   return (
-    <div className="w-full mx-10 h-auto relative">
+    <div className="w-screen lg:w-full lg:mx-10 h-auto relative">
       <button className="absolute left-0 ps-5 top-1/2 transform -translate-y-1/2 text-white text-xl z-10" onClick={() => swiperRef.current?.swiper.slidePrev()}
       >
         <FaCircleChevronLeft />
@@ -71,7 +71,7 @@ function Stories(): JSX.Element {
   spaceBetween={2}
   breakpoints={{
     320: {
-      slidesPerView: 4,
+      slidesPerView: 5,
     },
     768: {
       slidesPerView: 6,
@@ -82,7 +82,7 @@ function Stories(): JSX.Element {
   }}
 >
         {stories.map((story) => (
-          <SwiperSlide key={story.id}>
+          <SwiperSlide key={story._id} id={story._id}>
             <div className="flex flex-col items-center gap-2 h-[120px] justify-center">
               <div className="relative w-[50px] h-[50px] mt-2 border border-gray-600 p-[2px] rounded-full">
                 <img

@@ -11,7 +11,7 @@ function  ProfilePage(): JSX.Element {
   const {username}=useParams()
   const {currentUser}=useSelector((state:RootState)=>state.currentUser)
    return (
-      <div className=" ps-[250px] ">
+      <div className="lg:ps-[250px] ">
         {username===currentUser?.username?<CurrenUserProfile/>:<UserProfile/>}
       </div>
    )
