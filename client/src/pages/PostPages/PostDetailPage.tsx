@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Post } from "../../utilities/interfaces";
 import axiosErrorManager from "../../utilities/axiosErrorManager";
@@ -15,6 +15,7 @@ import { RootState } from "../../redux/store";
 import { SlOptions } from "react-icons/sl";
 import { closeOptionsPopup, openOptionsPopup } from "../../redux/commonSlice";
 import PostOption from "../../popups/PostOption";
+import { BiVolumeMute, BiVolumeFull } from "react-icons/bi";
 
 interface Comment {
   _id: string;
@@ -36,6 +37,10 @@ function PostDetailPage() {
   const [commentId, setCommentId] = useState<string>("");
   const [commenter, setCommenter] = useState<string>("");
   const [comment, setComment] = useState<string>("");
+  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const [progress, setProgress] = useState<number>(0);
+  const [isMuted,setIsMuted]=useState<boolean>(false)
+  const videoRef = useRef<HTMLVideoElement | null>(null); 
   const [commentBox, setCommentBox] = useState<Comment[]>([]);
 
   const navigate = useNavigate();
@@ -54,6 +59,36 @@ function PostDetailPage() {
       console.log(axiosErrorManager(error));
     } finally {
       setLoading(false);
+    }
+  };
+
+  const togglePlayPause = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      if (isMuted) {
+        videoRef.current.muted = false;
+      } else {
+        videoRef.current.muted = true;
+      }
+      setIsMuted(!isMuted);
+    }
+  };
+
+  const updateProgress = () => {
+    if (videoRef.current) {
+      const percentage =
+        (videoRef.current.currentTime / videoRef.current.duration) * 100;
+      setProgress(percentage || 0);
     }
   };
 
@@ -156,7 +191,7 @@ function PostDetailPage() {
         ✕
       </button>
       <div className="flex flex-col  lg:flex-row lg:max-w-[90%] w-screen h-[600px] lg:w-auto">
-        <div className={loading?"h-[600px] w-screen flex justify-center item-center":"flex w-auto justify-center lg:min-w-[400px] lg:max-w-[700px] h-full"}>
+        <div className={loading?"h-[600px] w-screen flex justify-center item-center":"flex relative w-auto justify-center lg:min-w-[400px] lg:max-w-[700px] h-full"}>
           {!post.isReel ? (
             <img
               src={post.media}
@@ -170,9 +205,24 @@ function PostDetailPage() {
               src={post.media}
               autoPlay
               loop
+              muted={isMuted}
+              ref={videoRef}
+              onTimeUpdate={updateProgress}
+              onClick={togglePlayPause}
             ></video>
           )}
           {loading&&<span className="spinner"/>}
+          {post.isReel && (
+            <>
+            <button className="absolute top-3 font-bold right-3 text-white text-3xl" onClick={toggleMute}>{isMuted?<BiVolumeMute/>:<BiVolumeFull/>}</button>
+            <div className="absolute bottom-0 w-full h-1 bg-gray-600">
+              <div
+                className="h-full bg-white"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+            </>
+          )}
         </div>
         <div className="w-screen h-full pb-24 lg:pb-0 text-white ps-5 text-sm">
           <div className="border-b border-gray-700 gap-3 font-semibold flex justify-between w-full items-center h-[50px]">
