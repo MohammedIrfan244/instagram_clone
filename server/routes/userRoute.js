@@ -48,6 +48,7 @@ import {
 } from "../controllers/user/userFollowController.js";
 import idValidation from "../middlewares/idValidation.js";
 import { userUpdate } from "../controllers/user/userProfileController.js";
+import { getStories, getOneStory, likeStory, postStory } from "../controllers/user/userStoryController.js";
 
 const router = express.Router();
 
@@ -130,6 +131,13 @@ router
   .get("/post/is_liked/:id", verifyToken, tryCatch(isLiked))
   .get("/post/is_saved/:id", verifyToken, tryCatch(isSaved))
   .post("/post/save_post/:id", verifyToken, tryCatch(savePost))
-  .get("/post/get_comments/:id", verifyToken, tryCatch(getCommnetBox));
+  .get("/post/get_comments/:id", verifyToken, tryCatch(getCommnetBox))
+
+  // story
+
+  .post("/story/post_one_file", verifyToken, upload.single("file"), uploadToCloudinary, tryCatch(postStory))
+  .get("story/get_follow_user_story", verifyToken, tryCatch(getStories))
+  .post("/story/like_story/:id", verifyToken, tryCatch(likeStory))
+  .get("/story/get_one_story/:id", verifyToken, tryCatch(getOneStory));
 
 export default router;
