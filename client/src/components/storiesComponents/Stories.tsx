@@ -29,6 +29,7 @@ interface Story {
           profileImage:string
       },
     }];
+    seenBy: string[]
 }
 
 function Stories(): JSX.Element {
@@ -37,6 +38,7 @@ function Stories(): JSX.Element {
   const [showStory, setShowStory] = useState<boolean>(false);
   const [isLiked,setIsLiked]=useState<boolean>(false)
   const {storyDetailsPopup}=useSelector((state: RootState) => state.common);
+  const {currentUser}=useSelector((state:RootState)=>state.currentUser)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const swiperRef = useRef<any>(null);
   console.log(storyDetailsPopup)
@@ -149,7 +151,7 @@ function Stories(): JSX.Element {
             <IoMdClose />
           </button>
           {story && story.media && story.media.length > 0 && (
-            <div className='w-auto h-auto relative pb-20 bg-black rounded-xl'>
+            <div className='w-auto h-auto relative bg-black rounded-xl'>
               <ReactInstaStories
                 stories={story.media}
                 defaultInterval={3000}
@@ -159,11 +161,19 @@ function Stories(): JSX.Element {
                 onAllStoriesEnd={() => setShowStory(false)} 
                 keyboardNavigation={true}
               />
-              <div className='absolute bottom-5 w-full flex justify-between items-center px-5'>
+              {
+                story.user.username==currentUser?.username?(
+                  <div className='flex justify-center items-center p-5 text-sm font-semibold'>
+                    <p >Seen by {story.seenBy.length}</p>
+                  </div>
+                ):(
+                  <div className=' w-full flex justify-between items-center p-5'>
               <input type="text" placeholder={`Replay to ${story.user.username}`} className='bg-transparent py-1 px-4 border-2 border-white text-white placeholder:text-sm rounded-3xl' />
               <button className='text-3xl' onClick={()=>likeStory(story._id)} >{isLiked ? <FaHeart/> : <FaRegHeart/>}</button>
               <button className='text-3xl'><PiPaperPlaneTilt/></button>
               </div>
+                )
+              }
             </div>
           )}
         </div>

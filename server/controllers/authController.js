@@ -1,14 +1,12 @@
-import { joiUserSchema } from "../models/joiSchema.js"
-import Otp from "../models/otpModel.js"
-import User from "../models/userModel.js"
-import CustomError from '../utilities/customError.js'
-import bcrypt from "bcryptjs"
-import jwt from 'jsonwebtoken'
-import passport from 'passport'
-import generateOTP from "../utilities/otpGenerator.js"
-import transporter from "../config/nodemailerConfig.js"
-
-
+import { joiUserSchema } from "../models/joiSchema.js";
+import Otp from "../models/otpModel.js";
+import User from "../models/userModel.js";
+import CustomError from "../utilities/customError.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import passport from "passport";
+import generateOTP from "../utilities/otpGenerator.js";
+import transporter from "../config/nodemailerConfig.js";
 
 // const userRegister = async (req, res,next) => {
 //     const {value,error}=joiUserSchema.validate(req.body)
@@ -68,7 +66,7 @@ const verifyOtpAndRegister = async (req, res, next) => {
   if (error) {
     return next(new CustomError(error.message, 400));
   }
-  const { email, otp, username, password ,fullname} = value;
+  const { email, otp, username, password, fullname } = value;
   const otpEntry = await Otp.findOne({ email, otp });
   if (!otpEntry) {
     Otp.deleteMany({ email });
@@ -87,68 +85,98 @@ const verifyOtpAndRegister = async (req, res, next) => {
   res.status(201).json({ message: "User registered successfully" });
 };
 
-const userLogin = async (req, res,next) => {
-    const {identity,password}=req.body
-    const user=await User.findOne({email:identity}) || await User.findOne({username:identity})
-    if(!user){
-        return next(new CustomError("Invalid credentials",400))
-    }
-    const validPassword=await bcrypt.compare(password,user.password)
-    if(!validPassword){
-        return next(new CustomError("Invalid credentials",400))
-    }
-    const accessToken=jwt.sign({id:user._id},process.env.JWT_TOKEN,{expiresIn:"1d"})
-    const refreshToken=jwt.sign({id:user._id},process.env.JWT_REFRESH_TOKEN,{expiresIn:"7d"})
-    const userDetail={fullname:user.fullname,username:user.username,profile:user.profile,email:user.email,bio:user.bio,gender:user.gender ,_id:user._id}
-    res.cookie("accessToken",accessToken,{httpOnly:false,secure:true,sameSite:"none"})
-    res.cookie("refreshToken",refreshToken,{httpOnly:true,secure:true,sameSite:"none"})
-    res.status(200).json({message:"Login successful",userDetail})
-}
-
-const userLogout = async (req, res) => {
-    res.clearCookie("refreshToken")
-    res.clearCookie("accessToken")
-    res.status(200).json({message:"logged out"})
-}
-
-
-const refreshingToken = async (req, res, next) => {
-    if (!req.cookies) {
-      return next(new CustomError("No cookies found", 401));
-    }
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) {
-      return next(new CustomError("No refresh token found", 401));
-    }
-  
-  
-    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN);
-  
-    if (!decoded) {
-      return next(new CustomError("Invalid refresh token", 401));
-    }
-  
-  
-    const user = await User.findById(decoded.id);
-    if (!user) {
-      return next(new CustomError("User not found", 404));
-    }
-  
-   
-  let accessToken = jwt.sign({ id: user._id }, process.env.JWT_TOKEN, {
-      expiresIn: "1d",
-    });
+const userLogin = async (req, res, next) => {
+  const { identity, password } = req.body;
+  const user =
+    (await User.findOne({ email: identity })) ||
+    (await User.findOne({ username: identity }));
+  if (!user) {
+    return next(new CustomError("Invalid credentials", 400));
+  }
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (!validPassword) {
+    return next(new CustomError("Invalid credentials", 400));
+  }
+  const accessToken = jwt.sign({ id: user._id }, process.env.JWT_TOKEN, {
+    expiresIn: "1d",
+  });
+  const refreshToken = jwt.sign(
+    { id: user._id },
+    process.env.JWT_REFRESH_TOKEN,
+    { expiresIn: "7d" }
+  );
+  const userDetail = {
+    fullname: user.fullname,
+    username: user.username,
+    profile: user.profile,
+    email: user.email,
+    bio: user.bio,
+    gender: user.gender,
+    _id: user._id,
+  };
   res.cookie("accessToken", accessToken, {
     httpOnly: false,
     secure: true,
     sameSite: "none",
-  })
-    res.status(200).json({ message: "Token refreshed"});
-  };
+  });
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+  res.status(200).json({ message: "Login successful", userDetail });
+};
 
+const userLogout = async (req, res) => {
+  res.clearCookie("refreshToken");
+  res.clearCookie("accessToken");
+  res.status(200).json({ message: "logged out" });
+};
 
-  const facebookLogin=passport.authenticate('facebook',{scope:'email'})
+const refreshingToken = async (req, res, next) => {
+  if (!req.cookies) {
+    return next(new CustomError("No cookies found", 401));
+  }
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) {
+    return next(new CustomError("No refresh token found", 401));
+  }
 
-  const facebookCallback=passport.authenticate('facebook',{failureRedirect:'/user/login',successRedirect:'/'})
+  const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN);
 
-export { sendOtp, verifyOtpAndRegister, userLogin, userLogout ,refreshingToken,facebookLogin,facebookCallback}
+  if (!decoded) {
+    return next(new CustomError("Invalid refresh token", 401));
+  }
+
+  const user = await User.findById(decoded.id);
+  if (!user) {
+    return next(new CustomError("User not found", 404));
+  }
+
+  let accessToken = jwt.sign({ id: user._id }, process.env.JWT_TOKEN, {
+    expiresIn: "1d",
+  });
+  res.cookie("accessToken", accessToken, {
+    httpOnly: false,
+    secure: true,
+    sameSite: "none",
+  });
+  res.status(200).json({ message: "Token refreshed" });
+};
+
+const facebookLogin = passport.authenticate("facebook", { scope: "email" });
+
+const facebookCallback = passport.authenticate("facebook", {
+  failureRedirect: "/user/login",
+  successRedirect: "/",
+});
+
+export {
+  sendOtp,
+  verifyOtpAndRegister,
+  userLogin,
+  userLogout,
+  refreshingToken,
+  facebookLogin,
+  facebookCallback,
+};

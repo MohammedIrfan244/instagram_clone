@@ -11,6 +11,7 @@ const getOneUser = async (req, res, next) => {
   if (!user) {
     return next(new CustomError("User not found", 404));
   }
+  const totalPosts = await Post.find({ username: req.params.username }).countDocuments()
   const userDetail = {
     _id: user._id,
     fullname: user.fullname,
@@ -19,6 +20,7 @@ const getOneUser = async (req, res, next) => {
     bio: user.bio,
     gender: user.gender,
     email: user.email,
+    totalPosts: totalPosts,
   };
   res.status(200).json({ user: userDetail });
 };
@@ -52,7 +54,18 @@ const suggestedUsers = async (req, res, next) => {
     "following"
   );
   if (followings.length === 0) {
-    return res.status(200).json({ suggestedUsers: [] });
+    const usersWithMostFollowers = await Follow.aggregate([
+      { $group: { _id: "$following", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 5 },
+      { $project: { _id: 1 } },
+    ])
+    const users = await User.find({
+      _id: { $in: usersWithMostFollowers.map((f) => f._id) },
+    })
+      .select("username fullname profile")
+      .limit(5);
+    return res.status(200).json({ suggestedUsers: users });
   }
 
   const followingIds = followings.map((f) => f.following.toString());
@@ -92,31 +105,77 @@ const getLikedPosts = async (req, res, next) => {
 };
 
 const getHomePageFeed = async (req, res, next) => {
-  const followers = await Follow.find({ following: req.user.id }).populate("follower","username").select("follower")
-  const followings = await Follow.find({ follower: req.user.id }).populate("following","username").select("following")
+  const { page = 1, limit = 2 } = req.query; 
+  const limitNum = parseInt(limit, 6);
+  const skip = (page - 1) * limitNum;
+
+  const followers = await Follow.find({ following: req.user.id })
+    .populate("follower", "username")
+    .select("follower");
+  const followings = await Follow.find({ follower: req.user.id })
+    .populate("following", "username")
+    .select("following");
+
   const followersUsernames = followers.map((f) => f.follower.username);
   const followingsUsernames = followings.map((f) => f.following.username);
-  const currentUsername=await User.findById(req.user.id).select("username")
-  const allUsernames = [...followersUsernames, ...followingsUsernames, currentUsername.username];
-  const posts = await Post.find({ username: { $in: allUsernames } }).sort({ createdAt: -1 });
-    res.status(200).json({posts})
-};
+  const currentUser = await User.findById(req.user.id).select("username");
+  const allUsernames = [
+    ...followersUsernames,
+    ...followingsUsernames,
+    currentUser.username,
+  ];
 
-const getExploreFeed = async (req, res, next) => {
-  const posts = await Post.find().sort({ createdAt: -1 })
-  if (posts.length === 0) {
-    return res.status(200).json({ posts: [], message: "No posts found" });
-  }
+  const posts = await Post.find({ username: { $in: allUsernames } })
+    .sort({ createdAt: -1 }) 
+    .skip(skip) 
+    .limit(limitNum); 
+
   res.status(200).json({ posts });
 };
 
-const getReelFeed=async(req,res,next)=>{
-  const reels=await Post.find({isReel:true}).sort({createdAt:-1})
-  if(reels.length===0){
-    return res.status(200).json({reels:[],message:"No reels found"})
+
+const getExploreFeed = async (req, res, next) => {
+  const { page = 1, limit = 6 } = req.query; 
+  const limitNum = parseInt(limit, 10);
+
+  try {
+    const posts = await Post.aggregate([
+      { $sample: { size: limitNum * page } },
+      { $skip: (page - 1) * limitNum },     
+      { $limit: limitNum },                 
+    ]);
+
+    if (posts.length === 0) {
+      return res.status(200).json({ posts: [], message: "No more posts found" });
+    }
+    res.status(200).json({ posts });
+  } catch (error) {
+    next(error);
   }
-  res.status(200).json({reels})
-}
+};
+
+
+const getReelFeed = async (req, res, next) => {
+  const { page = 1, limit = 3 } = req.query; 
+  const limitNum = parseInt(limit, 10);
+  const skip = (page - 1) * limitNum;
+
+  const totalReels = await Post.countDocuments({ isReel: true });
+
+  const reels = await Post.aggregate([
+    { $match: { isReel: true } },
+    {$sample: { size: limitNum * page }},
+    { $skip: skip },
+    { $limit: limitNum },
+  ]);
+
+  res.status(200).json({
+    reels,
+    hasMore: skip + limitNum < totalReels, 
+  });
+};
+
+
 
 const getCommentedPosts = async (req, res, next) => {
   const commentedPosts = await Comment.find({ user: req.user.id }).populate(

@@ -10,6 +10,7 @@ import { openFollowList } from "../../redux/commonSlice";
 import PostGrid from "../PostComponents/PostGrid";
 import ReelGrid from "../PostComponents/ReelGrid";
 import { IoMdGrid } from "react-icons/io";
+import GreyButton from "../ui/GreyButton";
 
 interface FollowCount {
     followerCount: number;
@@ -25,7 +26,7 @@ const UserProfile = (): JSX.Element => {
     const [title, setTitle] = useState<string>("");
     const [followCount, setFollowCount] = useState<FollowCount>({ followerCount: 0, followingCount: 0 });
     const [followState, setFollowState] = useState<boolean>(false);
-    const [loadingImage, setLoadingImage] = useState<boolean>(true); // For image loading
+    const [loadingImage, setLoadingImage] = useState<boolean>(true);
 
     const getUser = async () => {
         try {
@@ -68,7 +69,7 @@ const UserProfile = (): JSX.Element => {
         if (username) {
             getUser();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [username]);
 
     useEffect(() => {
@@ -76,7 +77,7 @@ const UserProfile = (): JSX.Element => {
             getFollowStatus();
             getFollowerCount();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currUser]);
 
     const handleFollowersClick = () => {
@@ -90,51 +91,66 @@ const UserProfile = (): JSX.Element => {
     };
 
     const handleImageLoad = () => {
-        setLoadingImage(false); // Hide spinner once the image is loaded
+        setLoadingImage(false);
     };
 
     return (
         <>
             {/* Profile Section */}
-            <div className="flex h-[250px] items-center">
-                <div className="w-[400px] flex justify-center h-full items-center">
-                    <div className="relative w-[150px] h-[150px] rounded-full">
-                        {loadingImage && (
-                            <div className="absolute inset-0 flex justify-center items-center bg-[#363636] rounded-full">
-                                <span className="spinner"></span> {/* Replace with your spinner */}
+            <div className="flex lg:h-[250px] flex-col lg:flex-row mt-20 lg:mt-0 items-center">
+                <div className="w-screen flex h-auto items-center py-3 lg:py-0">
+                    <div className="h-auto w-[100px] lg:w-[400px] flex justify-center items-center">
+                        <div className="relative w-[75px] lg:w-[150px] h-[75px] lg:h-[150px] rounded-full">
+                            {loadingImage && (
+                                <div className="absolute inset-0 flex justify-center items-center bg-[#363636] rounded-full">
+                                    <span className="spinner" />
+                                </div>
+                            )}
+                            <img
+                                src={currUser?.profile}
+                                className="w-full h-full object-cover hover:cursor-pointer rounded-full"
+                                alt="profile"
+                                onLoad={handleImageLoad}
+                            />
+                        </div>
+                    </div>
+                    <div className="space-y-5 ps-2 lg:ps-0">
+                        <div className="flex flex-col lg:flex-row gap-3">
+                            <p className="text-lg">{currUser?.username}</p>
+                            <div className="space-x-3">
+                                <GreyButton loadingText={"Following..."} styles="text-sm  px-4 py-2 rounded-md" text={followState ? "Unfollow" : "Follow"} loading={false} onClick={handleFollow} />
+                                <GreyButton styles="text-sm  px-4 py-2 rounded-md" text={"Message"} loadingText={"Messaging..."} loading={false} onClick={() => { }} />
                             </div>
-                        )}
-                        <img
-                            src={currUser?.profile}
-                            className="w-[150px] h-[150px] rounded-full"
-                            alt="profile"
-                            onLoad={handleImageLoad}
-                        />
+                        </div>
+                        <div className="gap-10 hidden lg:flex">
+                            <p>{currUser?.totalPosts} posts</p>
+                            <button onClick={handleFollowersClick}>{followCount.followerCount} followers</button>
+                            <button onClick={handleFollowingsClick}>{followCount.followingCount} following</button>
+                        </div>
+                        <div className="hidden lg:block space-y-2 ">
+                            <p className="text-sm">{currUser?.fullname}</p>
+                            <p className="text-sm">{currUser?.bio}</p>
+                        </div>
+                        {currUser?._id && followList && <FollowList currUser={false} removeFollower={() => { }} title={title} _id={currUser?._id} />}
                     </div>
                 </div>
-                <div className="space-y-5">
-                    <div className="flex gap-3">
-                        <p className="text-lg">{currUser?.username}</p>
-                        <button
-                            className="text-sm bg-gray-700 px-3 py-1 rounded-md"
-                            onClick={handleFollow}
-                        >
-                            {followState ? "Unfollow" : "Follow"}
-                        </button>
-                        <button className="text-sm bg-gray-700 px-3 py-1 rounded-md">Message</button>
-                    </div>
-                    <div className="flex gap-10">
-                        <p>0 posts</p>
-                        <button onClick={handleFollowersClick}>
-                            {followCount.followerCount} followers
-                        </button>
-                        <button onClick={handleFollowingsClick}>
-                            {followCount.followingCount} following
-                        </button>
-                    </div>
-                    <p className="text-sm">{currUser?.fullname}</p>
+                <div className="lg:hidden p-5 space-y-2 ">
+                    <p className="text-sm font-semibold">{currUser?.fullname}</p>
                     <p className="text-sm">{currUser?.bio}</p>
-                    {currUser?._id && followList && <FollowList currUser={false} removeFollower={() => {}} title={title} _id={currUser?._id} />}
+                </div>
+                <div className="lg:hidden w-full flex items-center justify-around">
+                    <div className="flex flex-col items-center">
+                        <p className="font-semibold">{currUser?.totalPosts}</p>
+                        <p className="font-extralight">posts</p>
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <p className="font-semibold">{followCount.followerCount}</p>
+                        <p className="font-extralight">followers</p>
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <p className="font-semibold">{followCount.followingCount}</p>
+                        <p className="font-extralight">following</p>
+                    </div>
                 </div>
             </div>
             {/* Highlight Section */}

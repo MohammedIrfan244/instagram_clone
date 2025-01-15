@@ -7,7 +7,7 @@ function CreatePopup(): JSX.Element {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-[#262626] rounded-lg w-[300px] relative overflow-hidden">
+      <div className="bg-[#262626] rounded-lg shadow-lg w-96">
         
         <button
           onClick={() => dispatch(closeCretePopup())}
@@ -15,18 +15,20 @@ function CreatePopup(): JSX.Element {
         >
           <IoMdClose />
         </button>
-        
-        
-        <div className="bg-black w-full h-[50px] flex justify-center items-center">
-          <p className="text-white text-sm font-semibold">Choose an Option</p>
-        </div>
 
-        
+        <p className="text-lg py-5 border-b border-gray-700 text-center">Choose an Option</p>
+
         <div className="flex flex-col items-center py-5 gap-4">
-          <button onClick={() => {dispatch(openPostPopup()); dispatch(closeCretePopup());}} className="w-[200px] py-2 bg-blue-500 text-white text-sm font-semibold rounded-lg hover:bg-blue-600">
+          <button 
+            onClick={() => {dispatch(openPostPopup()); dispatch(closeCretePopup());}} 
+            className="w-full py-3 text-sm font-semibold text-blue-400 hover:bg-blue-600 border-b border-gray-700"
+          >
             Post
           </button>
-          <button onClick={() => {dispatch(openStoryPopup()); dispatch(closeCretePopup());}} className="w-[200px] py-2 bg-blue-500 text-white text-sm font-semibold rounded-lg hover:bg-blue-600">
+          <button 
+            onClick={() => {dispatch(openStoryPopup()); dispatch(closeCretePopup());}} 
+            className="w-full py-3 text-sm font-semibold text-blue-400 hover:bg-blue-600"
+          >
             Story
           </button>
         </div>

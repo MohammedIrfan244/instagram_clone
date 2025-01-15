@@ -58,7 +58,7 @@ function FollowListPopup({ title, _id, removeFollower, currUser }: FollowListPro
   useEffect(() => {
     if (title === "Followers") {
       getFollowerList();
-    } else {
+    } else if (title === "Following") {
       getFollowingList();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

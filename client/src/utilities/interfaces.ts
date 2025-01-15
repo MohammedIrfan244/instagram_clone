@@ -23,4 +23,5 @@ export interface UserDetail{
   email:string
   bio:string
   gender:string
+  totalPosts:number
 }

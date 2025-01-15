@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Post } from "../../utilities/interfaces";
 import axiosErrorManager from "../../utilities/axiosErrorManager";
 import axiosInstance from "../../utilities/axiosInstance";
-import ProfileCirc from "../../components/ui/ProfileCirc";  // Make sure this is used correctly!
+import ProfileCirc from "../../components/ui/ProfileCirc";  
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { IoChatbubbleOutline } from "react-icons/io5";
@@ -155,20 +155,19 @@ function PostDetailPage() {
       >
         ✕
       </button>
-      <div className="flex flex-col lg:flex w-screen h-[600px] lg:w-auto">
-        <div className={loading?"h-[600px] w-screen flex justify-center item-center":"flex w-auto max-w-screen-sm lg:max-w-[700px] h-full"}>
+      <div className="flex flex-col  lg:flex-row lg:max-w-[90%] w-screen h-[600px] lg:w-auto">
+        <div className={loading?"h-[600px] w-screen flex justify-center item-center":"flex w-auto justify-center lg:min-w-[400px] lg:max-w-[700px] h-full"}>
           {!post.isReel ? (
             <img
               src={post.media}
               alt="post"
-              width={"100%"}
+              width={'100%'}
+              height={"100%"}
               className="h-full object-cover"
             />
           ) : (
             <video
               src={post.media}
-              width={"100%"}
-              className="h-[600px]"
               autoPlay
               loop
             ></video>

@@ -64,7 +64,7 @@ function EditPage() {
   };
 
   return (
-    <div className="ps-[300px] w-full min-h-screen bg-black text-white flex justify-center items-center">
+    <div className="lg:ps-[300px] w-full min-h-screen bg-black text-white flex pt-20 lg:pt-0 lg:justify-center lg:items-center">
       {loading && (
         <div className="absolute flex justify-center items-center w-full h-full bg-black bg-opacity-50 z-50">
           <span className="spinner"></span>
@@ -109,7 +109,7 @@ function EditPage() {
                 rows={4}
               />
             </div>
-            <div>
+            <div className="w-full">
               <label htmlFor="gender" className="block text-sm font-medium mb-5">
                 Gender
               </label>
@@ -118,12 +118,12 @@ function EditPage() {
                 name="gender"
                 value={formData.gender}
                 onChange={handleGenderChange}
-                className="w-full p-2 border border-gray-700 bg-black text-white rounded-md"
+                className="w-[200px] p-2 border border-gray-700 bg-black text-white rounded-md"
               >
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Prefer not to say">Prefer not to say</option>
-                <option value="Custom">Custom</option>
+                <option className="text-xs" value="Male">Male</option>
+                <option className="text-xs" value="Female">Female</option>
+                <option className="text-xs" value="Prefer not to say">Prefer not to say</option>
+                <option className="text-xs" value="Custom">Custom</option>
               </select>
             </div>
             {formData.gender === "Custom" && (
@@ -143,13 +143,14 @@ function EditPage() {
               </div>
             )}
             {error && <p className="text-red-500">{error}</p>}
-
-            <BlueButton
-              styles="bg-blue-text-white px-4 py-2 text-sm font-semibold rounded-md"
-              onClick={() => {}}
-              loading={loading}
-              text="Submit"
-            />
+            <div className="w-full flex justify-end">
+              <BlueButton
+                styles="bg-blue-text-white px-4 py-2 text-sm font-semibold rounded-md"
+                onClick={() => { }}
+                loading={loading}
+                text="Submit"
+              />
+            </div>
           </form>
           {profileModal && <ProfilePicture />}
         </div>

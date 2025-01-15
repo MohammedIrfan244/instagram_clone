@@ -112,6 +112,7 @@ const deletePost = async (req, res, next) => {
   res.status(200).json({ message: "Post deleted successfully" });
 };
 
+
 const likePost = async (req, res, next) => {
   const post = await Post.findById(req.params.id);
   if (!post) {

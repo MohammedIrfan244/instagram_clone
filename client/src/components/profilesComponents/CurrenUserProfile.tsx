@@ -14,6 +14,7 @@ import PostGrid from "../PostComponents/PostGrid";
 import ReelGrid from "../PostComponents/ReelGrid";
 import SavedGrid from "../PostComponents/SavedGrid";
 import SettingButton from "../ui/SettingButton";
+import { UserDetail } from "../../utilities/interfaces";
 
 interface FollowCount {
   followerCount: number;
@@ -23,14 +24,24 @@ interface FollowCount {
 function CurrenUserProfile(): JSX.Element {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: RootState) => state.currentUser);
+  const [currUser,setCurrUser]=useState<UserDetail|null>(null)
   const { profileModal, followList } = useSelector((state: RootState) => state.common);
   const [component, setComponent] = useState<string>("post");
   const navigate = useNavigate();
 
   const [title, setTitle] = useState<string>("");
   const [followCount, setFollowCount] = useState<FollowCount>({ followerCount: 0, followingCount: 0 });
-  const [loadingImage, setLoadingImage] = useState<boolean>(true); // For image loading
+  const [loadingImage, setLoadingImage] = useState<boolean>(true); 
 
+
+  const getUser = async () => {
+    try {
+        const response = await axiosInstance.get(`/user/get_one_user/${currentUser?.username}`);
+        setCurrUser(response.data.user);
+    } catch (error) {
+        console.log(axiosErrorManager(error));
+    }
+};
   const getFollowerCount = async (): Promise<void> => {
     try {
       const response = await axiosInstance.get(`/user/follow_count/${currentUser?._id}`);
@@ -42,11 +53,10 @@ function CurrenUserProfile(): JSX.Element {
 
   const removeFollowing = async (id: string): Promise<void> => {
     try {
-      const response = await axiosInstance.post(`/user/follow_user/`, {
+       await axiosInstance.post(`/user/follow_user/`, {
         followingId: id,
       });
       getFollowerCount();
-      console.log(response.data);
     } catch (error) {
       console.log(axiosErrorManager(error));
     }
@@ -54,20 +64,24 @@ function CurrenUserProfile(): JSX.Element {
 
   const removeFollower = async (id: string): Promise<void> => {
     try {
-      const response = await axiosInstance.delete(`/user/remove_follow/${id}`);
+       await axiosInstance.delete(`/user/remove_follow/${id}`);
       getFollowerCount();
-      console.log(response.data);
     } catch (error) {
       console.log(axiosErrorManager(error));
     }
   };
 
+  useEffect(()=>{
+getUser()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
   useEffect(() => {
-    if (currentUser) {
+    if (currUser) {
       getFollowerCount();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser]);
+  }, [currUser]);
 
   const handleImageLoad = () => {
     setLoadingImage(false);
@@ -95,7 +109,7 @@ function CurrenUserProfile(): JSX.Element {
                 </div>
               )}
               <img
-                src={currentUser?.profile}
+                src={currUser?.profile}
                 className="w-full h-full object-cover hover:cursor-pointer rounded-full"
                 alt="profile"
                 onLoad={handleImageLoad}
@@ -105,17 +119,17 @@ function CurrenUserProfile(): JSX.Element {
           </div>
           <div className="space-y-5 ps-2 lg:ps-0">
             <div className="flex flex-col lg:flex-row gap-3">
-              <p className="text-xl font-semibold">{currentUser?.username}</p>
+              <p className="text-xl font-semibold">{currUser?.username}</p>
               <div className="space-x-3">
                 <GreyButton
-                  styles="text-sm bg-[#262626] lg:px-3 lg:py-1 px-4 py-2 rounded-md"
+                  styles="text-sm lg:px-3 lg:py-1 px-4 py-2 rounded-md"
                   loading={false}
                   loadingText={""}
                   text="Edit Profile"
                   onClick={() => navigate("/account/edit")}
                 />
                 <GreyButton
-                  styles="text-sm bg-[#262626] px-4 py-2 lg:px-3 lg:py-1 rounded-md"
+                  styles="text-sm px-4 py-2 lg:px-3 lg:py-1 rounded-md"
                   loading={false}
                   loadingText={""}
                   text="View Archive"
@@ -125,29 +139,43 @@ function CurrenUserProfile(): JSX.Element {
               <SettingButton onClick={() => navigate("/account/edit")} style="text-3xl hidden lg:block" />
             </div>
             <div className=" gap-10 hidden lg:flex">
-              <p>0 posts</p>
+              <p>{currUser?.totalPosts} posts</p>
               <button onClick={handleFollowersClick}>{followCount.followerCount} followers</button>
               <button onClick={handleFollowingsClick}>{followCount.followingCount} following</button>
             </div>
-            </div>
-            <div className="hidden lg:block">
-              <p className="text-sm">{currentUser?.fullname}</p>
-              <p className="text-sm">{currentUser?.bio}</p>
+            <div className="hidden lg:block space-y-2 ">
+              <p className="text-sm">{currUser?.fullname}</p>
+              <p className="text-sm">{currUser?.bio}</p>
           </div>
+            </div>
           {profileModal && <ProfilePictureUpdate />}
-          {currentUser?._id && followList && (
+          {currUser?._id && followList && (
             <FollowList
             currUser={true}
             removeFollower={title === "Followers" ? removeFollower : removeFollowing}
             title={title}
-              _id={currentUser._id}
+              _id={currUser._id}
             />
           )}
         </div>
       </div>
       <div className="lg:hidden p-5 space-y-2 ">
-          <p className="text-sm font-semibold">{currentUser?.fullname}</p>
-          <p className="text-sm">{currentUser?.bio}</p>
+          <p className="text-sm font-semibold">{currUser?.fullname}</p>
+          <p className="text-sm">{currUser?.bio}</p>
+      </div>
+      <div className="lg:hidden w-full flex items-center justify-around">
+<div className="flex flex-col items-center">
+  <p className="font-semibold">{currUser?.totalPosts}</p>
+  <p className="font-extralight">posts</p>
+</div>
+<div className="flex flex-col items-center">
+  <p className="font-semibold">{followCount.followerCount}</p>
+  <p className="font-extralight">followers</p>
+</div>
+<div className="flex flex-col items-center">
+  <p className="font-semibold">{followCount.followingCount}</p>
+  <p className="font-extralight">following</p>
+</div>
       </div>
       {/* highlight section */}
       <div></div>
