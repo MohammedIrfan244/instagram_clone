@@ -48,7 +48,7 @@ import {
 } from "../controllers/user/userFollowController.js";
 import idValidation from "../middlewares/idValidation.js";
 import { userUpdate } from "../controllers/user/userProfileController.js";
-import { getStories, getOneStory, likeStory, postStory } from "../controllers/user/userStoryController.js";
+import { getStories, getOneStory, likeStory, postStory, addToSeen } from "../controllers/user/userStoryController.js";
 
 const router = express.Router();
 
@@ -136,8 +136,9 @@ router
   // story
 
   .post("/story/post_one_file", verifyToken, upload.single("file"), uploadToCloudinary, tryCatch(postStory))
-  .get("story/get_follow_user_story", verifyToken, tryCatch(getStories))
+  .post("/story/seen_story/:id", verifyToken, tryCatch(addToSeen))
   .post("/story/like_story/:id", verifyToken, tryCatch(likeStory))
-  .get("/story/get_one_story/:id", verifyToken, tryCatch(getOneStory));
+  .get("/story/get_follow_user_story", verifyToken, tryCatch(getStories))
+  .get("/story/get_one_story/:id", verifyToken, idValidation,tryCatch(getOneStory));
 
 export default router;

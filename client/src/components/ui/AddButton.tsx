@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
-import { openPostPopup } from "../../redux/commonSlice";
+import { openCretePopup } from "../../redux/commonSlice";
 
 function AddButton(): JSX.Element {
     const dispatch = useDispatch();
     return (
         <button
-            onClick={() => dispatch(openPostPopup())}
+            onClick={() => dispatch(openCretePopup())}
             className="flex hover:bg-gray-700 rounded-lg items-center gap-3 py-2 px-1"
         >
             <svg

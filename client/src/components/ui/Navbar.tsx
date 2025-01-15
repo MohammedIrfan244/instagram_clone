@@ -17,14 +17,16 @@ import SearchButton from "./SearchButton";
 import axiosErrorManager from "../../utilities/axiosErrorManager";
 import axiosInstance from "../../utilities/axiosInstance";
 import { FaBars } from "react-icons/fa6";
+import CreatePopup from "../../popups/CreatePopup";
 import PostPopup from "../../popups/PostPopup";
+import StoryPopup from "../../popups/StoryPopup";
 
 function Navbar() {
   const { currentUser } = useSelector((state: RootState) => state.currentUser);
   const [searchResults, setSearchResults] = useState<User[]>([]);
   const [isSearchWindowOpen, setIsSearchWindowOpen] = useState(false);
   const [isMoreWindowOpen, setIsMoreWindowOpen] = useState(false);
-  const { postPopup } = useSelector((state: RootState) => state.common);
+  const { createPopup,postPopup,storyPopup } = useSelector((state: RootState) => state.common);
   const navigate = useNavigate();
 
   const onSearchClick = (username: string) => {
@@ -46,7 +48,7 @@ function Navbar() {
   return (
     <div className="flex">
       {/* Sidebar for large screens */}
-      <div className="border-r border-gray-800 w-[250px] bg-black flex flex-col justify-evenly fixed h-full ps-5 pr-3 hidden lg:flex">
+      <div className="border-r border-gray-800 w-[250px] bg-black flex-col justify-evenly fixed h-full ps-5 pr-3 hidden lg:flex">
         <InstaText styles="w-[110px] mt-3 hover:cursor-pointer" />
         <HomeButton />
         <SearchButton searchClick={() => setIsSearchWindowOpen(!isSearchWindowOpen)} />
@@ -110,7 +112,7 @@ function Navbar() {
 
       {/* Search Window with close button */}
       {isSearchWindowOpen && (
-        <div className="fixed left-0 lg:left-14 top-0 lg:w-[300px] bg-black w-full h-auto mt-20 rounded-md lg:mt-0 z-50 p-5">
+        <div className="fixed left-0 lg:left-14 top-0 lg:w-[300px] lg:h-screen bg-black w-full h-auto mt-20 rounded-md lg:mt-0 z-50 p-5">
           <div className="flex justify-end">
             <button
               onClick={() => setIsSearchWindowOpen(false)}
@@ -126,7 +128,7 @@ function Navbar() {
 
       {/* More Popup */}
       {isMoreWindowOpen && (
-        <div className="fixed left-0 bottom-0 bg-[#363636] w-[200px] shadow-lg z-50 rounded-lg">
+        <div className="fixed left-0 lg:left-[250px] bottom-0 bg-[#363636] w-[200px] shadow-lg z-50 rounded-lg">
           <button
             className="block w-full text-left px-2 py-3 border-b border-gray-600"
             onClick={() => {
@@ -144,7 +146,9 @@ function Navbar() {
           </button>
         </div>
       )}
+      {createPopup && <CreatePopup />}
       {postPopup && <PostPopup />}
+      {storyPopup && <StoryPopup />}
     </div>
   );
 }

@@ -6,7 +6,7 @@ const storySchema = new mongoose.Schema({
         ref: "User",
     },
     media: {
-        type: [String],
+        type: [],
         required: true,
     },
     date: {

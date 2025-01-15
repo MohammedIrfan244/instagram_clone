@@ -40,7 +40,7 @@ function ReelGrid({ isCurrUser, username }: ReelsProp) {
           <span className="spinner"></span>
         </div>
       )}
-    <div className="grid-cols-3 grid w-screen">
+    <div className="grid-cols-3 grid w-screen lg:w-auto gap-1">
       {!loading && reels.length === 0 && <p>No posts available</p>}
       {reels.map((post, index) => (
         <ReelCard

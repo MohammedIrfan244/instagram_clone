@@ -27,29 +27,29 @@ function SavedGrid() {
 
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div>
-      {loading && (
-        <div className="flex items-center justify-center w-full h-96">
-          <div className="spinner"></div>
-        </div>
-      )}
-      {!loading && posts.length === 0 && <p>No saved posts available</p>}
-      {!loading &&
-        posts.map((savedPost, index) => (
-          <PostCard
-            key={index}
-            isReel={savedPost.post.isReel}
-            id={savedPost.post._id}
-            media={savedPost.post.media}
-            likesCount={savedPost.post.likesCount}
-            commentsCount={savedPost.post.commentsCount}
-          />
-        ))}
+    {loading && (
+      <div className="w-full h-[300px] flex items-center justify-center">
+        <span className="spinner"></span>
+      </div>
+    )}
+  <div className="grid-cols-3 gap-1 grid w-screen lg:w-auto">
+    {!loading && posts.length === 0 && <p>No posts available</p>}
+    {posts.map((post, index) => (
+      <PostCard
+      key={index}
+      id={post.post._id}
+      isReel={post.post.isReel}
+      media={post.post.media}
+      likesCount={post.post.likesCount}
+      commentsCount={post.post.commentsCount}
+      />
+    ))}
     </div>
+  </div>
   );
 }
 

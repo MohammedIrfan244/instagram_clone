@@ -8,12 +8,6 @@ export interface Post {
   isReel: boolean;
 }
 
-export interface Stroy {
-  _id: string;
-  username: string;
-  thumbnail: string;
-  media: string;
-}
 export interface User {
   _id: string;
   username: string;
