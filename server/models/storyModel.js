@@ -12,6 +12,7 @@ const storySchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now,
+        expires: 1000 * 60 * 60 * 24,
     },
     likes: {
         type: [String],
