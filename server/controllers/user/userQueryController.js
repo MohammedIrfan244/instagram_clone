@@ -116,6 +116,22 @@ const getHomePageFeed = async (req, res, next) => {
     .populate("following", "username")
     .select("following");
 
+    if(followers.length === 0 && followings.length === 0){
+      const mostLikedPosts = await Like.aggregate([
+        { $group: { _id: "$post", count: { $sum: 1 } } },
+        { $sort: { count: -1 } },
+        { $limit: 6 },
+        { $project: { _id: 1 } },
+      ])
+      const posts = await Post.find({
+        _id: { $in: mostLikedPosts.map((f) => f._id) },
+      })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limitNum);
+      return res.status(200).json({ posts });
+    }
+
   const followersUsernames = followers.map((f) => f.follower.username);
   const followingsUsernames = followings.map((f) => f.following.username);
   const currentUser = await User.findById(req.user.id).select("username");
