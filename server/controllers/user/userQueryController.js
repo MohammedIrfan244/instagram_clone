@@ -175,8 +175,6 @@ const getReelFeed = async (req, res, next) => {
   });
 };
 
-
-
 const getCommentedPosts = async (req, res, next) => {
   const commentedPosts = await Comment.find({ user: req.user.id }).populate(
     "post"

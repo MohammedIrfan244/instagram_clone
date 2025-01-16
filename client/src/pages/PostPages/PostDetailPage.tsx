@@ -4,11 +4,11 @@ import { Post } from "../../utilities/interfaces";
 import axiosErrorManager from "../../utilities/axiosErrorManager";
 import axiosInstance from "../../utilities/axiosInstance";
 import ProfileCirc from "../../components/ui/ProfileCirc";  
-import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 import { IoChatbubbleOutline } from "react-icons/io5";
+import { HiMiniBookmark ,HiOutlineBookmark } from "react-icons/hi2";
 import { IoPaperPlaneOutline } from "react-icons/io5";
-import { MdOutlineBookmarkBorder, MdBookmark } from "react-icons/md";
 import { BiSmile } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -269,7 +269,7 @@ function PostDetailPage() {
                   </button>
                 </div>
                 <button onClick={savePost}>
-                  {isSaved ? <MdBookmark className="text-white" /> : <MdOutlineBookmarkBorder />}
+                  {isSaved ? <HiMiniBookmark className="text-white" /> : <HiOutlineBookmark />}
                 </button>
               </div>
               <p className="font-semibold">{post.likesCount} Likes</p>

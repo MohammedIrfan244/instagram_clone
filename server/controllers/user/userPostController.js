@@ -48,7 +48,7 @@ const getCurrUserPosts = async (req, res, next) => {
   if (!user) {
     return next(new CustomError("User not found", 404));
   }
-  const posts = await Post.find({ username: user.username },{media:1,username:1,likesCount:1,isReel:1,commentsCount:1}).sort({
+  const posts = await Post.find({ username: user.username },{media:1,username:1,likesCount:1,isReel:1,commentsCount:1,caption:1}).sort({
     createdAt: -1,
   });
   res.status(200).json({ message: "Posts fetched successfully", posts });

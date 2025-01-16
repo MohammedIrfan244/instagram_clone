@@ -122,18 +122,18 @@ getUser()
               <p className="text-xl font-semibold">{currUser?.username}</p>
               <div className="space-x-3">
                 <GreyButton
-                  styles="text-sm lg:px-3 lg:py-1 px-4 py-2 rounded-md"
+                  styles="text-sm lg:px-3 px-4 py-2 rounded-md"
                   loading={false}
                   loadingText={""}
                   text="Edit Profile"
                   onClick={() => navigate("/account/edit")}
                 />
                 <GreyButton
-                  styles="text-sm px-4 py-2 lg:px-3 lg:py-1 rounded-md"
+                  styles="text-sm px-4 py-2 lg:px-3 rounded-md"
                   loading={false}
                   loadingText={""}
-                  text="View Archive"
-                  onClick={() => { }}
+                  text="View Activity"
+                  onClick={() => navigate("/account/activity")}
                 />
               </div>
               <SettingButton onClick={() => navigate("/account/edit")} style="text-3xl hidden lg:block" />

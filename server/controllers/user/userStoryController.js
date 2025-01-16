@@ -47,6 +47,7 @@ const postStory = async (req, res, next) => {
       profileImage: user.profile,
     },
   };
+  
 
   if (story) {
     await Story.updateOne(

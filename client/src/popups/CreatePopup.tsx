@@ -21,13 +21,13 @@ function CreatePopup(): JSX.Element {
         <div className="flex flex-col items-center py-5 gap-4">
           <button 
             onClick={() => {dispatch(openPostPopup()); dispatch(closeCretePopup());}} 
-            className="w-full py-3 text-sm font-semibold text-blue-400 hover:bg-blue-600 border-b border-gray-700"
+            className="w-full py-1 text-sm font-semibold text-blue-400 border-b border-gray-700"
           >
             Post
           </button>
           <button 
             onClick={() => {dispatch(openStoryPopup()); dispatch(closeCretePopup());}} 
-            className="w-full py-3 text-sm font-semibold text-blue-400 hover:bg-blue-600"
+            className="w-full py-1 text-sm font-semibold text-blue-400 "
           >
             Story
           </button>

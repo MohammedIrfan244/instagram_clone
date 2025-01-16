@@ -15,7 +15,6 @@ function StoryPopup(): JSX.Element {
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
-
     return () => {
       document.body.style.overflow = "";
     };
@@ -34,7 +33,6 @@ function StoryPopup(): JSX.Element {
         alert("Only images and videos are supported!");
         return;
       }
-
       setSelectedFile(file);
     }
   };
@@ -72,44 +70,40 @@ function StoryPopup(): JSX.Element {
       alert("Failed to post the story. Please try again.");
     } finally {
       setIsUploading(false);
-      
     }
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col overflow-hidden items-center justify-center w-screen bg-black bg-opacity-50 z-50">
-      <div className="w-screen lg:w-auto overflow-hidden rounded-2xl relative">
+    <div className="fixed inset-0 flex items-center justify-center w-screen bg-black bg-opacity-50 z-50">
+      <div className="bg-[#262626] rounded-2xl relative max-h-[80vh] max-w-[60vw] w-auto overflow-hidden flex flex-col">
         <button
           onClick={() => {dispatch(closeStoryPopup()); dispatch(closeCretePopup())}}
-          className="absolute right-1 top-3 text-white"
+          className="absolute right-3 top-3 text-white z-10"
         >
           <IoMdClose />
         </button>
+        
         <div className="bg-black w-full h-[50px] flex justify-center items-center">
           <p className="text-white text-sm font-semibold">Create new story</p>
         </div>
-        {/* Second section */}
-        <div
-          className={`bg-[#262626] ${
-            selectedFile ? "flex-row w-screen lg:w-[700px]" : "flex-col justify-center w-[430px]"
-          } flex overflow-hidden items-center py-5 h-auto`}
-        >
+
+        <div className="flex-1 overflow-auto">
           {selectedFile ? (
-            <>
+            <div className="flex flex-col pb-2 items-center gap-4">
               {fileType === "image" ? (
                 <img
                   src={fileUrl}
                   alt="Selected"
-                  className="w-1/2 h-full object-contain"
+                  className="max-w-full max-h-[60vh] object-contain"
                 />
               ) : (
                 <video
                   src={fileUrl}
                   controls
-                  className="w-1/2 h-full object-contain"
+                  className="max-w-full max-h-[60vh] object-contain"
                 />
               )}
-              <div className="w-1/2 h-full flex justify-center items-center lg:p-10">
+              <div className="w-full max-w-md px-4">
                 <BlueButton
                   styles="text-xs font-semibold w-full py-2"
                   text="Post Story"
@@ -117,21 +111,19 @@ function StoryPopup(): JSX.Element {
                   onClick={handleStoryPost}
                 />
               </div>
-            </>
+            </div>
           ) : (
-            <>
-              <div className="flex flex-col items-center gap-4">
-                <p className="text-white text-lg font-medium">
-                  Choose photos and videos here
-                </p>
-                <BlueButton
-                  styles="font-semibold py-2 px-4 text-xs"
-                  text="Select File"
-                  loading={false}
-                  onClick={handleUploadClick}
-                />
-              </div>
-            </>
+            <div className="flex flex-col items-center gap-4 p-8 min-h-[200px] justify-center">
+              <p className="text-white text-lg font-medium">
+                Choose photos and videos here
+              </p>
+              <BlueButton
+                styles="font-semibold py-2 px-4 text-xs"
+                text="Select File"
+                loading={false}
+                onClick={handleUploadClick}
+              />
+            </div>
           )}
         </div>
       </div>
