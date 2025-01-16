@@ -14,7 +14,7 @@ function HomeGrid(): JSX.Element {
     try {
       setLoading(true);
       const response = await axiosInstance.get(
-        `/user/post/home_page?page=${page}&limit=2`
+        `/user/post/home_page?page=${page}&limit=10`
       );
       const newPosts = response.data.posts;
 

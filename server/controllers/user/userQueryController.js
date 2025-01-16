@@ -105,8 +105,8 @@ const getLikedPosts = async (req, res, next) => {
 };
 
 const getHomePageFeed = async (req, res, next) => {
-  const { page = 1, limit = 2 } = req.query; 
-  const limitNum = parseInt(limit, 6);
+  const { page = 1, limit = 1 } = req.query; 
+  const limitNum = parseInt(limit, 10);
   const skip = (page - 1) * limitNum;
 
   const followers = await Follow.find({ following: req.user.id })
@@ -116,42 +116,23 @@ const getHomePageFeed = async (req, res, next) => {
     .populate("following", "username")
     .select("following");
 
-    if(followers.length === 0 && followings.length === 0){
-      const mostLikedPosts = await Like.aggregate([
-        { $group: { _id: "$post", count: { $sum: 1 } } },
-        { $sort: { count: -1 } },
-        { $limit: 6 },
-        { $project: { _id: 1 } },
-      ])
-      const posts = await Post.find({
-        _id: { $in: mostLikedPosts.map((f) => f._id) },
-      })
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limitNum);
-      return res.status(200).json({ posts });
-    }
-
   const followersUsernames = followers.map((f) => f.follower.username);
   const followingsUsernames = followings.map((f) => f.following.username);
   const currentUser = await User.findById(req.user.id).select("username");
-  const allUsernames = [
-    ...followersUsernames,
-    ...followingsUsernames,
-    currentUser.username,
-  ];
-
+  const allUsernames = Array.from(
+    new Set([...followersUsernames, ...followingsUsernames, currentUser.username])
+  );
   const posts = await Post.find({ username: { $in: allUsernames } })
     .sort({ createdAt: -1 }) 
     .skip(skip) 
     .limit(limitNum); 
-
+console.log(posts.length)
   res.status(200).json({ posts });
 };
 
 
 const getExploreFeed = async (req, res, next) => {
-  const { page = 1, limit = 6 } = req.query; 
+  const { page = 1, limit = 10 } = req.query; 
   const limitNum = parseInt(limit, 10);
 
   try {
@@ -172,7 +153,7 @@ const getExploreFeed = async (req, res, next) => {
 
 
 const getReelFeed = async (req, res, next) => {
-  const { page = 1, limit = 3 } = req.query; 
+  const { page = 1, limit = 10 } = req.query; 
   const limitNum = parseInt(limit, 10);
   const skip = (page - 1) * limitNum;
 
@@ -190,6 +171,8 @@ const getReelFeed = async (req, res, next) => {
     hasMore: skip + limitNum < totalReels, 
   });
 };
+
+
 
 const getCommentedPosts = async (req, res, next) => {
   const commentedPosts = await Comment.find({ user: req.user.id }).populate(
