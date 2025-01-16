@@ -10,6 +10,7 @@ import ActivityCard from "../../shared/ActivityCard";
 interface Post {
   _id: string;
   post: {
+    _id: string;
     caption: string;
     media: string;
     username: string;
@@ -17,44 +18,44 @@ interface Post {
   };
 }
 
-interface CurrPost{
-  _id:string;
-  isReel:boolean;
-  caption:string;
-  media:string;
-  username:string
+interface CurrPost {
+  _id: string;
+  isReel: boolean;
+  caption: string;
+  media: string;
+  username: string
 }
 
-function ActivityPage():JSX.Element {
+function ActivityPage(): JSX.Element {
 
-  const [savedPost,setSavedPost]=useState<Post[]>([]);
-  const [commentedPost,setCommentedPost]=useState<Post[]>([]);
-  const [likedPost,setLikedPost]=useState<Post[]>([]);
-  const [userPost,setUserPost]=useState<CurrPost[]>([]);
-  const [userReel,setUserReel]=useState<CurrPost[]>([]);
+  const [savedPost, setSavedPost] = useState<Post[]>([]);
+  const [commentedPost, setCommentedPost] = useState<Post[]>([]);
+  const [likedPost, setLikedPost] = useState<Post[]>([]);
+  const [userPost, setUserPost] = useState<CurrPost[]>([]);
+  const [userReel, setUserReel] = useState<CurrPost[]>([]);
 
   // .get("/post/get_curruser_posts", verifyToken, tryCatch(getCurrUserPosts))
   // .get("/post/get_curruser_reels", verifyToken, tryCatch(getCurrUserReels))
 
- useEffect(()=>{
-  const getPosts=async():Promise<void>=>{
-    try{
-      const resSaved=await axiosInstance.get(`/user/post/saved_posts`);
-      const resCommented=await axiosInstance.get(`/user/post/commented_posts`);
-      const resLiked=await axiosInstance.get(`/user/post/liked_posts`);
-      const resPost=await axiosInstance.get(`/user/post/get_curruser_posts`);
-      const resReel=await axiosInstance.get(`/user/post/get_curruser_reels`);
-      setSavedPost(resSaved.data.posts);
-      setCommentedPost(resCommented.data.posts);
-      setLikedPost(resLiked.data.posts);
-      setUserPost(resPost.data.posts);
-      setUserReel(resReel.data.reels);
-    }catch(error){
-      console.log(axiosErrorManager(error))
+  useEffect(() => {
+    const getPosts = async (): Promise<void> => {
+      try {
+        const resSaved = await axiosInstance.get(`/user/post/saved_posts`);
+        const resCommented = await axiosInstance.get(`/user/post/commented_posts`);
+        const resLiked = await axiosInstance.get(`/user/post/liked_posts`);
+        const resPost = await axiosInstance.get(`/user/post/get_curruser_posts`);
+        const resReel = await axiosInstance.get(`/user/post/get_curruser_reels`);
+        setSavedPost(resSaved.data.posts);
+        setCommentedPost(resCommented.data.posts);
+        setLikedPost(resLiked.data.posts);
+        setUserPost(resPost.data.posts);
+        setUserReel(resReel.data.reels);
+      } catch (error) {
+        console.log(axiosErrorManager(error))
+      }
     }
-  }
-  getPosts()
- },[])
+    getPosts()
+  }, [])
   return (
     <div className="ps-3 lg:ps-0 flex flex-col items-center pt-5 w-screen lg:w-full">
       <div className="lg:w-[500px] w-screen space-y-10">
@@ -62,16 +63,16 @@ function ActivityPage():JSX.Element {
         <div className="space-y-5 font-semibold">
           <p className=" font-extralight">Your interactions</p>
           <button className="flex items-center gap-3"><HiOutlineBookmark className="text-xl" /> Saved</button>
-          {savedPost.length>0&&savedPost.map((p,i)=><ActivityCard key={p._id+String(i)} caption={p.post.caption} media={p.post.media} username={p.post.username} isReel={p.post.isReel} _id={p._id}/>)}
+          {savedPost.length > 0 && savedPost.map((p, i) => <ActivityCard key={p._id + String(i)} caption={p.post.caption} media={p.post.media} username={p.post.username} isReel={p.post.isReel} _id={p.post._id} />)}
           <button className="flex items-center gap-3"><FaRegHeart className="text-xl" /> Liked</button>
-          {likedPost.length>0&&likedPost.map((p,i)=><ActivityCard key={p._id+String(i)} caption={p.post.caption} media={p.post.media} username={p.post.username} isReel={p.post.isReel} _id={p._id}/>)}
+          {likedPost.length > 0 && likedPost.map((p, i) => <ActivityCard key={p._id + String(i)} caption={p.post.caption} media={p.post.media} username={p.post.username} isReel={p.post.isReel} _id={p.post._id} />)}
           <button className="flex items-center gap-3"><IoChatbubbleOutline className="text-xl" />Commented</button>
-          {commentedPost.length>0&& commentedPost.map((p,i)=><ActivityCard key={p._id+String(i)} caption={p.post?.caption} media={p.post.media} username={p.post.username} isReel={p.post.isReel} _id={p._id}/>)}
+          {commentedPost.length > 0 && commentedPost.map((p, i) => <ActivityCard key={p._id + String(i)} caption={p.post?.caption} media={p.post.media} username={p.post.username} isReel={p.post.isReel} _id={p.post._id} />)}
         </div>
         <div className="space-y-5 font-semibold">
           <p className="font-extralight">Your shared content</p>
           <button className="flex items-center gap-3"><IoMdGrid className="text-xl" />Posts</button>
-          {userPost.length>0&&userPost.map((p,i)=><ActivityCard key={p._id+String(i)} caption={p.caption} media={p.media} username={p.username} isReel={p.isReel} _id={p._id}/>)}
+          {userPost.length > 0 && userPost.map((p, i) => <ActivityCard key={p._id + String(i)} caption={p.caption} media={p.media} username={p.username} isReel={p.isReel} _id={p._id} />)}
           <button className="flex items-center gap-3">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 50 50">
               <path
@@ -82,7 +83,7 @@ function ActivityPage():JSX.Element {
               ></path>
             </svg>
             Reels</button>
-            {userReel.length>0&&userReel.map((p,i)=><ActivityCard key={p._id+String(i)} caption={p.caption} media={p.media} username={p.username} isReel={p.isReel} _id={p._id}/>)}
+          {userReel.length > 0 && userReel.map((p, i) => <ActivityCard key={p._id + String(i)} caption={p.caption} media={p.media} username={p.username} isReel={p.isReel} _id={p._id} />)}
         </div>
       </div>
     </div>

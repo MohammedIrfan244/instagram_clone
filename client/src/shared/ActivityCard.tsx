@@ -17,7 +17,7 @@ function ActivityCard({
 }: Post) {
     const navigate=useNavigate()
   return (
-    <div className="w-full text-xs justify-between gap-3 flex h-[50px]" onClick={()=>navigate(`/feed/post/${_id}`)}>
+    <div className="w-full text-xs justify-between gap-3 flex h-[50px] border-b border-gray-700 hover:cursor-pointer pb-2" onClick={()=>navigate(`/feed/post/${_id}`)}>
      <div>
      {isReel?(
           <video src={media} className="w-full h-full object-contain"></video>
