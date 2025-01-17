@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const accessToken = Cookies.get("accessToken");
+    const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
     }
@@ -28,9 +28,9 @@ axiosInstance.interceptors.response.use(
       error.response.status === 401 &&
       !originalRequest._retry
     ) {
-      originalRequest._retry = true; // mark request to avoid infinite loops
+      originalRequest._retry = true;
       try {
-         await axios.post(
+        const response= await axios.post(
           `${import.meta.env.VITE_API_URL}/auth/refresh_token`,
           {},
           {
@@ -38,7 +38,7 @@ axiosInstance.interceptors.response.use(
           }
         );
 
-        const newAccessToken = Cookies.get("accessToken");
+        const newAccessToken = response.data.accessToken;
         axiosInstance.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${newAccessToken}`;

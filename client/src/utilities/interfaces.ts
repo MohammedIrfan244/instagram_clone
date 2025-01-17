@@ -20,7 +20,6 @@ export interface UserDetail{
   username:string
   profile:string
   fullname:string
-  email:string
   bio:string
   gender:string
   totalPosts:number

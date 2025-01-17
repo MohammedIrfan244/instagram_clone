@@ -35,6 +35,7 @@ function Login(): JSX.Element {
         withCredentials: true,
       });
       localStorage.setItem('user', JSON.stringify(response.data.userDetail));
+      localStorage.setItem('accessToken', response.data.accessToken);
       dispatch(setCurrentUser(response.data.userDetail));
       setLoginData({ identity: '', password: '' });
       navigate('/');

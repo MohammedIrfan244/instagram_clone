@@ -109,27 +109,20 @@ const userLogin = async (req, res, next) => {
     fullname: user.fullname,
     username: user.username,
     profile: user.profile,
-    email: user.email,
     bio: user.bio,
     gender: user.gender,
     _id: user._id,
   };
-  res.cookie("accessToken", accessToken, {
-    httpOnly: false,
-    secure: true,
-    sameSite: "none",
-  });
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "none",
   });
-  res.status(200).json({ message: "Login successful", userDetail });
+  res.status(200).json({ message: "Login successful", userDetail, accessToken });
 };
 
 const userLogout = async (req, res) => {
   res.clearCookie("refreshToken");
-  res.clearCookie("accessToken");
   res.status(200).json({ message: "logged out" });
 };
 
@@ -156,12 +149,7 @@ const refreshingToken = async (req, res, next) => {
   let accessToken = jwt.sign({ id: user._id }, process.env.JWT_TOKEN, {
     expiresIn: "1d",
   });
-  res.cookie("accessToken", accessToken, {
-    httpOnly: false,
-    secure: true,
-    sameSite: "none",
-  });
-  res.status(200).json({ message: "Token refreshed" });
+  res.status(200).json({ message: "Token refreshed", accessToken });
 };
 
 const facebookLogin = passport.authenticate("facebook", { scope: "email" });
