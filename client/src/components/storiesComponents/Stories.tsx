@@ -83,7 +83,7 @@ function Stories(): JSX.Element {
   }, []);
 
   return (
-    <div className="w-screen lg:w-full lg:mx-10 h-auto relative">
+    <div className="w-screen lg:w-full lg:mx-1 py-1 h-auto relative">
       <button
         className={`absolute left-0 ps-5 top-1/2 transform -translate-y-1/2 text-white text-xl z-10 ${stories.length < 8 ? 'hidden' : ''}`}
         onClick={() => swiperRef.current?.swiper.slidePrev()}
@@ -93,10 +93,10 @@ function Stories(): JSX.Element {
 
       <Swiper
         ref={swiperRef}
-        spaceBetween={2}
+        spaceBetween={2}  
         breakpoints={{
           320: {
-            slidesPerView: 4,
+            slidesPerView: 5.5,
           },
           768: {
             slidesPerView: 6,
@@ -108,9 +108,9 @@ function Stories(): JSX.Element {
       >
         {stories.map((story, index) => (
           <SwiperSlide onClick={() => handleClick(story._id)} key={String(index) + story._id} id={story._id}>
-            <div className="flex flex-col items-center gap-2 h-[120px] justify-center hover:cursor-pointer">
+            <div className="flex flex-col items-center lg:gap-2 lg:h-[120px] justify-center hover:cursor-pointer">
               <div
-                className="relative w-[60px] h-[60px] mt-2 p-[1px] rounded-full"
+                className="relative w-[60px] lg:h-[60px] lg:mt-2 p-[1px] rounded-full"
                 style={{
                   border: story.hasSeen ? '1px solid grey' : '1px solid transparent',
                   backgroundImage: story.hasSeen ? 'none' : `url(${instaBackground})`,

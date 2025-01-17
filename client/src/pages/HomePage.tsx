@@ -36,7 +36,7 @@ function HomePage(): JSX.Element {
       {/* posts and stories*/}
       <div className='lg:w-2/3 w-screen lg:ps-[250px]  min-h-screen'>
       {/* This is the area for stories */}
-      <div className='w-full mt-20 lg:mt-0 h-auto'>
+      <div className='w-full mt-12 lg:mt-0 h-auto'>
         <Stories/>
       </div>
       {/*area for posts */}

@@ -82,7 +82,7 @@ function Navbar() {
       </div>
 
       {/* Navbar for small screens */}
-      <div className="lg:hidden fixed top-0 border-b border-gray-600 left-0 w-screen right-0 z-50 bg-black flex justify-between items-center px-4 py-3 ">
+      <div className="lg:hidden fixed top-0 border-b border-gray-600 left-0 w-screen right-0 z-50 bg-black flex justify-between items-center px-4">
         <FaInstagram
           className="text-3xl text-white"
           onClick={() => navigate("/")}
