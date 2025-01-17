@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { FaCircleChevronLeft, FaCircleChevronRight } from "react-icons/fa6";
 import axiosInstance from '../../utilities/axiosInstance';
 import axiosErrorManager from '../../utilities/axiosErrorManager';
-import instaBackground from '../../assets/instaBackground.jpg';
+import storycircle from '../../assets/instastory.png';
 import ReactInstaStories from "react-insta-stories";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
@@ -113,7 +113,7 @@ function Stories(): JSX.Element {
                 className="relative w-[60px] lg:h-[60px] lg:mt-2 p-[1px] rounded-full"
                 style={{
                   border: story.hasSeen ? '1px solid grey' : '1px solid transparent',
-                  backgroundImage: story.hasSeen ? 'none' : `url(${instaBackground})`,
+                  backgroundImage: story.hasSeen ? 'none' : `url(${storycircle})`,
                 }}
               >
                 <div
