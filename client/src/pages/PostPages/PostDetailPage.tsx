@@ -122,7 +122,6 @@ function PostDetailPage() {
     try {
       const response = await axiosInstance.get(`/user/post/get_comments/${id}`);
       setCommentBox(response.data.comments);
-      console.log("comments", response.data.comments);
     } catch (error) {
       console.log(axiosErrorManager(error));
     }
@@ -130,8 +129,7 @@ function PostDetailPage() {
 
   const deleteComment = async () => {
     try {
-      const response = await axiosInstance.delete(`/user/post/delete_comment/${commentId}`);
-      console.log(response.data);
+       await axiosInstance.delete(`/user/post/delete_comment/${commentId}`);
       fetchData();
       getCommnetBox();
       dispatch(closeOptionsPopup());
@@ -142,9 +140,9 @@ function PostDetailPage() {
 
   const deletePost = async () => {
     try {
-      const response = await axiosInstance.delete(`/user/post/delete_post/${id}`);
+       await axiosInstance.delete(`/user/post/delete_post/${id}`);
       navigate('/');
-      console.log(response.data);
+      
     } catch (error) {
       console.log(axiosErrorManager(error));
     }
@@ -153,8 +151,8 @@ function PostDetailPage() {
   const postComment = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axiosInstance.post(`/user/post/comment_post/${id}`, { comment });
-      console.log(response.data);
+      await axiosInstance.post(`/user/post/comment_post/${id}`, { comment });
+      
       setComment("");
       fetchData();
       getCommnetBox();

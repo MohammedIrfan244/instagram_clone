@@ -56,12 +56,11 @@ function StoryPopup(): JSX.Element {
     try {
       const formData = new FormData();
       formData.append("file", selectedFile);
-      const response = await axiosInstance.post("user/story/post_one_file", formData, {
+      await axiosInstance.post("user/story/post_one_file", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response.data);
       dispatch(closeStoryPopup());
       setSelectedFile(null);
       setFileUrl("");

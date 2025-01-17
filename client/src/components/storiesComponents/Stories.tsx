@@ -37,11 +37,9 @@ function Stories(): JSX.Element {
   const [story, setStory] = useState<Story | null>(null);
   const [showStory, setShowStory] = useState<boolean>(false);
   const [isLiked,setIsLiked]=useState<boolean>(false)
-  const {storyDetailsPopup}=useSelector((state: RootState) => state.common);
   const {currentUser}=useSelector((state:RootState)=>state.currentUser)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const swiperRef = useRef<any>(null);
-  console.log(storyDetailsPopup)
   const fetchStories = async (): Promise<void> => {
     try {
       const response = await axiosInstance('/user/story/get_follow_user_story');

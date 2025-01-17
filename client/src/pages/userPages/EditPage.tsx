@@ -45,13 +45,11 @@ function EditPage() {
     e.preventDefault();
     setLoading(true);
     setError("");
-    console.log(formData);
     try {
       const dataToSubmit = {
         ...formData,
         gender: formData.gender === "Custom" ? formData.customGender : formData.gender,
       };
-      console.log(dataToSubmit);
       const response = await axiosInstance.post("user/user_update", dataToSubmit);
       dispatch(setCurrentUser(response.data.userDetail));
       navigate(`/${response.data.userDetail.username}`);

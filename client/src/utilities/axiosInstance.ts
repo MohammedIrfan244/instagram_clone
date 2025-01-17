@@ -30,15 +30,13 @@ axiosInstance.interceptors.response.use(
     ) {
       originalRequest._retry = true; // mark request to avoid infinite loops
       try {
-        const response = await axios.post(
+         await axios.post(
           `${import.meta.env.VITE_API_URL}/auth/refresh_token`,
           {},
           {
             withCredentials: true,
           }
         );
-
-        console.log(response.data);
 
         const newAccessToken = Cookies.get("accessToken");
         axiosInstance.defaults.headers.common[

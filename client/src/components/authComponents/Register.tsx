@@ -43,8 +43,8 @@ function Register(): JSX.Element {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/send_otp`, { email: values.email, username: values.username });
-      console.log(response.data)
+       await axios.post(`${import.meta.env.VITE_API_URL}/auth/send_otp`, { email: values.email, username: values.username });
+      
       setLoading(false);
       setOtpStep(true); 
       setFormData(values);
@@ -56,12 +56,11 @@ function Register(): JSX.Element {
 
   const handleOTPSubmit = async () => {
     if (!formData) return;
-    console.log(formData);
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/verify_otp`, {...formData, otp});
-      console.log(response.data);
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/verify_otp`, {...formData, otp});
+      
       setLoading(false);
       navigate("/user/login");
     } catch (error) {

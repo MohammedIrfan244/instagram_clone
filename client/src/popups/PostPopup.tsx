@@ -56,12 +56,11 @@ function PostPopup(): JSX.Element {
       const formData = new FormData();
       formData.append("file", selectedFile);
       formData.append("caption", caption);
-      const response = await axiosInstance.post("user/post/post_one_file", formData, {
+       await axiosInstance.post("user/post/post_one_file", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response.data);
       setIsUploading(false);
     } catch (error) {
       console.log(axiosErrorManager(error));

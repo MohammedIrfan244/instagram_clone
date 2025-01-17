@@ -24,7 +24,6 @@ function ProfilePictureUpdate(): JSX.Element {
             const response = await axiosInstance.delete(`/user/delete_user/profile_picture`);
             dispatch(closeProfileModal());
             dispatch(updateUserProfilePicture(response.data.profile));
-            console.log(response.data);
         } catch (error) {
             dispatch(closeProfileModal());
             console.log(axiosErrorManager(error));
@@ -42,7 +41,6 @@ function ProfilePictureUpdate(): JSX.Element {
         const file = event.target.files?.[0]; 
 
         if (file) {
-            console.log(file)
             const formData = new FormData();
             formData.append('file', file);
 
@@ -54,7 +52,6 @@ function ProfilePictureUpdate(): JSX.Element {
                 });
                 dispatch(closeProfileModal());
                 dispatch(updateUserProfilePicture(response.data.profile));
-                console.log(response.data);
             } catch (error) {
                 dispatch(closeProfileModal());
                 console.log(axiosErrorManager(error));
