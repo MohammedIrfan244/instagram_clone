@@ -20,6 +20,7 @@ import { FaBars } from "react-icons/fa6";
 import CreatePopup from "../../popups/CreatePopup";
 import PostPopup from "../../popups/PostPopup";
 import StoryPopup from "../../popups/StoryPopup";
+import { IoCloseCircleSharp } from "react-icons/io5";
 
 function Navbar() {
   const { currentUser } = useSelector((state: RootState) => state.currentUser);
@@ -97,8 +98,8 @@ function Navbar() {
       <div className="lg:hidden z-50 fixed bottom-0 border-t border-gray-600 left-0 right-0 bg-black py-2 flex justify-around items-center w-screen">
         <ExploreButton />
         <ReelsButton />
-        <MessageButton />
         <AddButton />
+        <MessageButton />
         <div onClick={()=>navigate(`/${currentUser?.username}`)} className="flex hover:cursor-pointer items-center gap-3 hover:bg-gray-700 rounded-lg py-2 px-1">
           <div className="rounded-full w-7 h-7 overflow-hidden relative">
             <img
@@ -112,19 +113,24 @@ function Navbar() {
 
       {/* Search Window with close button */}
       {isSearchWindowOpen && (
-        <div className="fixed left-0 lg:left-14 top-0 lg:w-[300px] lg:h-screen bg-black w-full h-auto mt-20 rounded-md lg:mt-0 z-50 p-5">
-          <div className="flex justify-end">
-            <button
-              onClick={() => setIsSearchWindowOpen(false)}
-              className="text-white text-lg"
-            >
-              X
-            </button>
-          </div>
-          <SearchBar onSearchResults={setSearchResults} />
-          <SearchResults results={searchResults} onResultClick={onSearchClick} />
-        </div>
-      )}
+  <div
+    className={`fixed left-0 lg:left-16 top-0 border-x border-gray-600 lg:h-screen bg-black h-auto mt-20 rounded-md lg:mt-0 z-50 p-5 
+      w-full ${isSearchWindowOpen ? "lg:w-[300px]" : "lg:w-0"} 
+      transition-all duration-300`}
+  >
+    <div className="flex justify-end">
+      <button
+        onClick={() => setIsSearchWindowOpen(false)}
+        className="text-white text-lg"
+      >
+        <IoCloseCircleSharp />
+      </button>
+    </div>
+    <SearchBar onSearchResults={setSearchResults} />
+    <SearchResults results={searchResults} onResultClick={onSearchClick} />
+  </div>
+)}
+
 
       {/* More Popup */}
       {isMoreWindowOpen && (

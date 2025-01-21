@@ -4,7 +4,7 @@ import { RiMessengerFill, RiMessengerLine } from "react-icons/ri";
 function MessageButton(): JSX.Element {
   return (
     <NavLink
-      to={'/accout/message'}
+      to={'/direct/inbox'}
       className={({ isActive }) =>
         `flex py-2 px-1 hover:bg-gray-700 rounded-lg group items-center gap-3 ${
           isActive ? 'font-semibold' : ''

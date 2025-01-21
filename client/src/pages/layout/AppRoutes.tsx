@@ -12,6 +12,8 @@ import FeedPage from '../PostPages/FeedPage'
 import ReelPage from '../PostPages/ReelPage';
 import PostDetailPage from '../PostPages/PostDetailPage';
 import ArchivesPage from '../userPages/ActivityPage';
+import ChatPage from '../userPages/ChatPage';
+import DmPage from '../userPages/DmPage';
 
 function AppRoutes(): JSX.Element {
   const { currentUser } = useSelector((state: RootState) => state.currentUser);
@@ -32,6 +34,8 @@ function AppRoutes(): JSX.Element {
         <Route path="/user/login" element={<LoginPage />} />
         <Route path="/:username" element={<ProfilePage/>} />
         <Route path='/account/edit' element={currentUser?<EditPage/>:<LandingPage/>} />
+        <Route path='/direct/inbox' element={currentUser?<ChatPage/>:<LandingPage/>}/>
+        <Route path='/direct/t/:id' element={currentUser?<DmPage/>:<LandingPage/>}/>
         <Route path='/explore/_feed' element={<FeedPage/>}/>
         <Route path='/feed/reels' element={<ReelPage/>} />
         <Route path='/feed/post/:id' element={<PostDetailPage/>} />
