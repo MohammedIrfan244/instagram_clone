@@ -1,9 +1,10 @@
 import Message from "../../models/messageModel.js";
 import User from "../../models/userModel.js"; 
+import { io,userSocketMap } from "../../socket.js";
+import CustomError from "../../utilities/customError.js";
 
 
-
-export const sendMessage = async (req, res) => {
+export const sendMessage = async (req, res ,next) => {
     const { receiverId, content } = req.body;
     const senderId = req.user.id;
 
@@ -14,7 +15,7 @@ export const sendMessage = async (req, res) => {
 
     const receiver = await User.findById(receiverId);
     if (!receiver) {
-      return res.status(404).json({ error: "Receiver not found" });
+      return next(new CustomError("Receiver not found", 404));
     }
 
     const newMessage = await Message.create({
@@ -23,10 +24,13 @@ export const sendMessage = async (req, res) => {
       content
     });
 
-    // Populate sender and receiver details
-    await newMessage.populate(['senderDetails', 'receiverDetails']);
 
-    res.status(201).json(newMessage);
+    // Emit the message to the receiver's socket
+    if (userSocketMap[receiverId]) {
+      io.to(userSocketMap[receiverId]).emit("receiveMessage", newMessage);
+    }
+
+    res.status(201).json({message: newMessage});
 };
 
 export const getConversation = async (req, res) => {
@@ -48,7 +52,6 @@ export const getConversation = async (req, res) => {
     })
     .sort({ createdAt: 1 })
     .limit(50)  // Limit to last 50 messages for performance
-    .populate(['senderDetails', 'receiverDetails']);
 
     res.status(200).json(messages);
   

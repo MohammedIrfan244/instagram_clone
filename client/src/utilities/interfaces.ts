@@ -25,21 +25,11 @@ export interface UserDetail{
   totalPosts:number
 }
 export interface Message {
+  timestamp: string | number | Date;
   _id: string;
   sender: string;
   receiver: string;
   content: string;
   read: boolean;
   createdAt: string;
-  updatedAt: string;
-  senderDetails: {
-    username: string;
-    fullname: string;
-    profile: string;
-  };
-  receiverDetails: {
-    username: string;
-    fullname: string;
-    profile: string;
-  };
 }
