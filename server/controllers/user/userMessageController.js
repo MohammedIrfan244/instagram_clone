@@ -30,7 +30,7 @@ export const sendMessage = async (req, res ,next) => {
       io.to(userSocketMap[receiverId]).emit("receiveMessage", newMessage);
     }
 
-    res.status(201).json({message: newMessage});
+    res.status(201).json({newMessage:newMessage});
 };
 
 export const getConversation = async (req, res) => {

@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux'
 import { io } from 'socket.io-client'
 import { RootState } from '../redux/store'
 
+export const socket = io(import.meta.env.VITE_WS_URL as string, {
+       autoConnect:true,
+   })
 
 function useConnectSocket() {
     const {currentUser} = useSelector((state: RootState) => state.currentUser)
     useEffect(() => {
-        const socket = io(import.meta.env.VITE_WS_URL as string, {
-            autoConnect:true,
-        })
         const token = localStorage.getItem('accessToken')
         if (token) {
             socket.auth = { token }
