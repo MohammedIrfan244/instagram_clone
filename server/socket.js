@@ -4,7 +4,6 @@ import { Server } from "socket.io";
 import Message from "./models/messageModel.js";
 import jwt from "jsonwebtoken";
 import { configDotenv } from "dotenv";
-import { disconnect } from "node:process";
 
 export const userSocketMap = {};
 configDotenv();
@@ -42,7 +41,7 @@ io.on("connection", async (socket) => {
   const userId = socket.data.userId;
   
 
-  socket.on(disconnect, () => {
+  socket.on("disconnect", () => {
     delete userSocketMap[userId];
     
   });
