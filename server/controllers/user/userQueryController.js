@@ -143,26 +143,24 @@ const getHomePageFeed = async (req, res, next) => {
 };
 
 const getExploreFeed = async (req, res, next) => {
-  const { page = 1, limit = 10 } = req.query;
+  const { page = 1, limit = 20 } = req.query; 
   const limitNum = parseInt(limit, 10);
 
-  try {
-    const posts = await Post.aggregate([
-      { $sample: { size: limitNum * page } },
-      { $skip: (page - 1) * limitNum },
-      { $limit: limitNum },
-    ]);
+  const posts = await Post.find()
+    .sort({ createdAt: -1 }) 
+    .skip((page - 1) * limitNum)
+    .limit(limitNum);
 
-    if (posts.length === 0) {
-      return res
-        .status(200)
-        .json({ posts: [], message: "No more posts found" });
-    }
-    res.status(200).json({ posts });
-  } catch (error) {
-    next(error);
+  if (posts.length === 0) {
+    return res.status(200).json({ posts: [], message: "No more posts found" });
   }
+
+  
+  const shuffledPosts = posts.sort(() => Math.random() - 0.5);
+
+  res.status(200).json({ posts: shuffledPosts });
 };
+
 
 const getReelFeed = async (req, res, next) => {
   const { page = 1, limit = 10 } = req.query;

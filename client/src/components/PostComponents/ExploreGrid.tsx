@@ -13,7 +13,7 @@ function ExploreGrid(): JSX.Element {
   const fetchFeed = useCallback(async () => {
     try {
       setLoading(true);
-      const url = `/user/post/explore_page?page=${page}&limit=6`;
+      const url = `/user/post/explore_page?page=${page}&limit=20`;
       const response = await axiosInstance.get(url);
       const newPosts = response.data?.posts || [];
 
