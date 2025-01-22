@@ -11,6 +11,7 @@ export const verifyToken = (req, res, next) => {
           throw new CustomError("Token is not valid", 401);
         }
         req.user = user;
+        console.log(req.user)
         next();
       });
     } else {
