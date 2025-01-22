@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosErrorManager from "../../utilities/axiosErrorManager";
 import axiosInstance from "../../utilities/axiosInstance";
 import { UserDetail } from "../../utilities/interfaces";
@@ -20,6 +20,7 @@ interface FollowCount {
 const UserProfile = (): JSX.Element => {
     const { username } = useParams();
     const dispatch = useDispatch();
+    const navigate=useNavigate()
     const { followList } = useSelector((state: RootState) => state.common);
     const [component, setComponent] = useState<string>("post");
     const [currUser, setCurrUser] = useState<UserDetail | null>(null);
@@ -119,7 +120,7 @@ const UserProfile = (): JSX.Element => {
                             <p className="text-lg">{currUser?.username}</p>
                             <div className="space-x-3">
                                 <GreyButton loadingText={"Following..."} styles="text-sm  px-4 py-2 rounded-md" text={followState ? "Unfollow" : "Follow"} loading={false} onClick={handleFollow} />
-                                <GreyButton styles="text-sm  px-4 py-2 rounded-md" text={"Message"} loadingText={"Messaging..."} loading={false} onClick={() => { }} />
+                                <GreyButton styles="text-sm  px-4 py-2 rounded-md" text={"Message"} loadingText={"Messaging..."} loading={false} onClick={() => navigate(  `/direct/t/${currUser?.username}`)} />
                             </div>
                         </div>
                         <div className="gap-10 hidden lg:flex">

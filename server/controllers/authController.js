@@ -8,34 +8,7 @@ import passport from "passport";
 import generateOTP from "../utilities/otpGenerator.js";
 import transporter from "../config/nodemailerConfig.js";
 
-// const userRegister = async (req, res,next) => {
-//     const {value,error}=joiUserSchema.validate(req.body)
-//     if(error){
-//         return next(new CustomError(error.message,400))
-//     }
-//     const {fullname,username,email,password}=value
-//     const emailExist=await User.findOne({email})
-//     if(emailExist){
-//         return next(new CustomError("Email already in use",400))
-//     }
-//     const usernameExist=await User.findOne({username})
-//     if(usernameExist){
-//         return next(new CustomError("Username already in use",400))
-//     }
-//     console.log(value)
-//     const salt=await bcrypt.genSalt(10)
-//     const hashedPassword=await bcrypt.hash(password,salt)
-//     const fallBackProfile="https://i.pinimg.com/736x/20/05/e2/2005e27a39fa5f6d97b2e0a95233b2be.jpg"
-//     const user = new User({
-//         fullname,
-//         username,
-//         email,
-//         password:hashedPassword,
-//         profile:fallBackProfile
-//     })
-//     await user.save()
-//     res.status(201).json({message:"User registered successfully"})
-// }
+
 const sendOtp = async (req, res, next) => {
   const { email, username } = req.body;
   const existingEmail = await User.findOne({ email });

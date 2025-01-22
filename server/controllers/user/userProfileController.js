@@ -36,7 +36,6 @@ const updateUserProfilePicture = async (req, res, next) => {
 
     const userUpdate=async (req,res,next)=>{
       const {bio,gender}=req.body
-      console.log(bio,gender)
       if(!bio||!gender){
         return next(new CustomError("Please provide bio and gender",400))
       }

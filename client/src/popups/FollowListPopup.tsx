@@ -83,9 +83,13 @@ function FollowListPopup({ title, _id, removeFollower, currUser }: FollowListPro
             <div className="py-2 px-2 flex justify-between items-center" key={follower.follower._id}>
               <div className="flex gap-2 items-center">
                 <img
+                  onClick={() => {
+                    navigate(`/${follower.follower.username}`)
+                    dispatch(closeFollowList())
+                  }}
                   src={follower.follower.profile}
                   alt="profile"
-                  className="w-10 h-10 rounded-full"
+                  className="w-10 h-10 hover:cursor-pointer rounded-full"
                 />
                 <div className="text-xs">
                   <p>{follower.follower.username}</p>
@@ -109,9 +113,13 @@ function FollowListPopup({ title, _id, removeFollower, currUser }: FollowListPro
             <div className="py-2 px-2 flex justify-between items-center" key={following.following._id}>
               <div className="flex gap-2 items-center">
                 <img
+                  onClick={() => {
+                    navigate(`/${following.following.username}`)
+                    dispatch(closeFollowList())
+                  }}
                   src={following.following.profile}
                   alt="profile"
-                  className="w-10 h-10 rounded-full"
+                  className="w-10 h-10 hover:cursor-pointer rounded-full"
                 />
                 <div className="text-xs">
                   <p>{following.following.username}</p>

@@ -35,7 +35,7 @@ function AppRoutes(): JSX.Element {
         <Route path="/:username" element={<ProfilePage/>} />
         <Route path='/account/edit' element={currentUser?<EditPage/>:<LandingPage/>} />
         <Route path='/direct/inbox' element={currentUser?<ChatPage/>:<LandingPage/>}/>
-        <Route path='/direct/t/:id' element={currentUser?<DmPage/>:<LandingPage/>}/>
+        <Route path='/direct/t/:username' element={currentUser?<DmPage/>:<LandingPage/>}/>
         <Route path='/explore/_feed' element={<FeedPage/>}/>
         <Route path='/feed/reels' element={<ReelPage/>} />
         <Route path='/feed/post/:id' element={<PostDetailPage/>} />

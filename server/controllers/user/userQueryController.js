@@ -46,7 +46,7 @@ const userProfilePic = async(req,res,next)=>{
   if(!user){
     return next(new CustomError("User not found",404))
   }
-  res.status(200).json({profile:user.profile})
+  res.status(200).json({profile:user.profile,username:user.username,fullname:user.fullname})
 }
 
 const suggestedUsers = async (req, res, next) => {
@@ -126,7 +126,6 @@ const getHomePageFeed = async (req, res, next) => {
     .sort({ createdAt: -1 }) 
     .skip(skip) 
     .limit(limitNum); 
-console.log(posts.length)
   res.status(200).json({ posts });
 };
 
