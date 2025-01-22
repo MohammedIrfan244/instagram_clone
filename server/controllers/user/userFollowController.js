@@ -1,6 +1,8 @@
 import User from "../../models/userModel.js";
 import Follow from "../../models/followModel.js";
+import Notification from "../../models/notificationModel.js";
 import CustomError from "../../utilities/customError.js";
+import { io, userSocketMap } from "../../socket.js";
 
 
 const followToggle=async (req,res,next)=>{
@@ -13,13 +15,21 @@ const followToggle=async (req,res,next)=>{
     const follow = await Follow.findOne({ follower: req.user.id, following: followingId });
     if (follow) {
         await Follow.deleteOne({ follower: req.user.id, following: followingId });
-        res.status(200).json({ message: "User unfollowed successfully" });
+       return res.status(200).json({ message: "User unfollowed successfully" });
     } else {
         const follow = new Follow({
             follower: req.user.id,
             following: followingId,
         });
         await follow.save();
+        const notification = await Notification.create({
+            recipient: followingId,
+            sender: req.user.id,
+            type: "follow"
+        })
+        if(userSocketMap[followingId]){
+            io.to(userSocketMap[followingId]).emit("newNotification", {...notification._doc ,sender:{username:follower.username,profile:follower.profile,fullname:follower.fullname}});
+        }
         res.status(200).json({ message: "User followed successfully" });
     }
 }
@@ -65,4 +75,4 @@ const getFollowStatus = async (req, res, next) => {
     }
 };
 
-export { followToggle , getFollowerList , getFollowingList, removeFollower, getFollowCount, getFollowStatus};
+export { followToggle , getFollowerList , getFollowingList, removeFollower, getFollowCount, getFollowStatus}

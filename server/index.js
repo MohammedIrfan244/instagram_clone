@@ -6,6 +6,7 @@ import manageError from './middlewares/manageError.js'
 import connectDb from './config/mongoConfig.js'
 import authRoute from './routes/authRoute.js'
 import userRoute from './routes/userRoute.js'
+import notificationRoute from './routes/notificationRoute.js'
 import messageRoute from './routes/messageRoute.js'
 import { app,server } from './socket.js'
 import session from 'express-session'
@@ -27,6 +28,7 @@ app.use(session({
 app.use('/api/user',userRoute)
 app.use('/api/auth',authRoute)
 app.use('/api/message',messageRoute)
+app.use('/api/notification',notificationRoute)
 
 app.get('/', (req, res) => {
     res.json({ message: 'Server is running' })

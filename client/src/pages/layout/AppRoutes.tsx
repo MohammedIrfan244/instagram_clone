@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import LandingPage from '../authPages/LandingPage';
 import RegisterPage from '../authPages/RegisterPage';
@@ -14,11 +14,52 @@ import PostDetailPage from '../PostPages/PostDetailPage';
 import ArchivesPage from '../userPages/ActivityPage';
 import ChatPage from '../userPages/ChatPage';
 import DmPage from '../userPages/DmPage';
+import NotificationPage from '../NotificationPage';
+import { socket } from '../../hooks/useConnectSocket';
+import { addNotification, setNotifications } from '../../redux/notificationSlice';
+import { useEffect } from 'react';
+import axiosInstance from '../../utilities/axiosInstance';
+import axiosErrorManager from '../../utilities/axiosErrorManager';
+
+
+interface Notification {
+  _id: string;
+  type: string;
+  read: boolean;
+  sender: {
+      _id: string;
+      profile: string;
+      username: string;
+      fullname: string;
+  };
+  createdAt: string;
+}
 
 function AppRoutes(): JSX.Element {
   const { currentUser } = useSelector((state: RootState) => state.currentUser);
   const location = useLocation();
+  const dispatch=useDispatch()
 
+ useEffect(() => {
+  // Fetch notifications
+  const fetchNotifications = async () => {
+    try {
+        const response = await axiosInstance.get('/notification/notifications');
+        dispatch(setNotifications(response.data.notifications));
+    } catch (error) {
+        console.log(axiosErrorManager(error))
+    }
+};
+
+fetchNotifications();
+  socket.on('newNotification', (notification: Notification) => {
+    console.log('newNotification', notification);
+    dispatch(addNotification(notification));
+    return () => {
+      socket.off('newNotification');
+  };
+});
+ }, [dispatch]);
   // Define the routes where the Navbar should be hidden
   const hideNavbarRoutes: string[] = currentUser
     ? ['/user/login', '/user/register']
@@ -39,6 +80,7 @@ function AppRoutes(): JSX.Element {
         <Route path='/explore/_feed' element={<FeedPage/>}/>
         <Route path='/feed/reels' element={<ReelPage/>} />
         <Route path='/feed/post/:id' element={<PostDetailPage/>} />
+        <Route path='/account/notification'element={<NotificationPage/>} />
         <Route path='/account/activity'element={currentUser?<ArchivesPage/>:<LandingPage/>} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>

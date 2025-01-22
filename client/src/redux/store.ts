@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
 import commonReducer from "./commonSlice";
+import notificationReducer from "./notificationSlice"
 
 const store = configureStore({
     reducer: {
         currentUser: userReducer,
-        common: commonReducer
+        common: commonReducer,
+        notification:notificationReducer
     },
 });
 
