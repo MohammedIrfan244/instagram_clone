@@ -167,20 +167,24 @@ const getReelFeed = async (req, res, next) => {
   const limitNum = parseInt(limit, 10);
   const skip = (page - 1) * limitNum;
 
+  
   const totalReels = await Post.countDocuments({ isReel: true });
 
-  const reels = await Post.aggregate([
-    { $match: { isReel: true } },
-    { $sample: { size: limitNum * page } },
-    { $skip: skip },
-    { $limit: limitNum },
-  ]);
+  
+  const reels = await Post.find({ isReel: true })
+    .sort({ createdAt: -1 }) 
+    .skip(skip)
+    .limit(limitNum);
+
+  
+  const shuffledReels = reels.sort(() => Math.random() - 0.5);
 
   res.status(200).json({
-    reels,
+    reels: shuffledReels,
     hasMore: skip + limitNum < totalReels,
   });
 };
+
 
 const getCommentedPosts = async (req, res, next) => {
   const commentedPosts = await Comment.find({ user: req.user.id }).populate(

@@ -17,7 +17,7 @@ function ReelPage(): JSX.Element {
     try {
       setLoading(true);
       const response = await axiosInstance.get(
-        `/user/post/reel_page?page=${page}&limit=1`
+        `/user/post/reel_page?page=${page}&limit=10`
       );
       const newReels = response.data.reels;
 
