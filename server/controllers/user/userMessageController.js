@@ -57,7 +57,6 @@ export const getConversation = async (req, res) => {
 
 // Optional: Get list of users with active conversations
 export const getConversationList = async (req, res) => {
-  try {
     const userId = req.user.id;
     
     // Fields to return
@@ -123,9 +122,4 @@ export const getConversationList = async (req, res) => {
       users: followerUsers,
       source: "followers"
     });
-
-  } catch (error) {
-    console.error("Error in getConversationList:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
 };

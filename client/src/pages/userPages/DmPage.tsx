@@ -5,7 +5,7 @@ import Messages from "../../components/messages/Messages"
 function DmPage() {
   return (
     <div className="flex ps-0 lg:ps-72">
-      <Chats />
+      <Chats visible={false} />
       <Messages />
     </div>
   )

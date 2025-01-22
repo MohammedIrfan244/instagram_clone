@@ -5,7 +5,7 @@ import InboxIcon from "../../components/messages/InboxIcon"
 function ChatPage() {
   return (
     <div className="flex ps-0 lg:ps-72 ">
-      <Chats />
+      <Chats visible={true} />
       <InboxIcon />
     </div>
   )

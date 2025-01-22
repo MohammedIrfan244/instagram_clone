@@ -101,7 +101,7 @@ function Messages() {
 
 
   return (
-    <div className="lg:w-[70%] relative w-full h-[100vh] overflow-y-hidden">
+    <div className="lg:w-[70%] relative w-full h-fill py-10 mb-16 sm:mb-0 sm:py-0 overflow-y-hidden">
       {/* Header remains the same */}
       <div className="w-full border-b flex gap-5 items-center ps-5 h-20 border-gray-800">
         <div className="w-14 h-14 rounded-full overflow-hidden">
@@ -137,14 +137,14 @@ function Messages() {
           />
         </div>
 
-        {/* Messages section with updated timestamp handling */}
+        {/* Messages section */}
         <div className="flex flex-col gap-4 p-4 mb-4">
           {messages?.map((msg, index) => {
             const showTimestamp =
               index === 0 ||
               (new Date(msg.createdAt).getTime() -
                 new Date(messages[index - 1]?.createdAt).getTime()) >
-              3600000; // 1 hour in milliseconds
+              3600000; 
 
             return (
               <div key={index} className="flex flex-col">
@@ -177,7 +177,7 @@ function Messages() {
 
       </div>
 
-      {/* Message input form remains the same */}
+      {/* Message input*/}
       <div className="w-full flex justify-center absolute left-0 bottom-0 items-center gap-3 p-3"> 
         <form onSubmit={sendMessage} className="w-full flex gap-3 items-center">
           <input
