@@ -21,41 +21,40 @@ export const io = new Server(server, {
 
 io.use((socket, next) => {
   const passport = socket.handshake.auth;
-  console.log("Passport", passport);
 
   if (!passport) {
-    console.log("No passport provided");
+    
     return next(new Error("No passport provided"));
   }
   try {
     const user = jwt.verify(passport.token, process.env.JWT_TOKEN);
     socket.handshake.auth.user = user.id;
     socket.data.userId = user.id;
-    console.log("User verified");
+    
     next();
   } catch (error) {
-    console.log("Invalid passport");
+    
     next(new Error("Invalid passport"));
   }
 });
 
 io.on("connection", async (socket) => {
   const userId = socket.data.userId;
-  console.log("User connected", userId);
+  
 
   socket.on(disconnect, () => {
     delete userSocketMap[userId];
-    console.log("User disconnected", userId);
+    
   });
 
   socket.on("join", () => {
-    console.log("User joined", userId);
+    
     userSocketMap[userId] = socket.id;
-    console.log(userSocketMap);
+    
   });
 
   socket.on("sendMessage", async (data) => {
-    console.log("Message sent", data);
+    
 
     try {
       const message = await Message.create({
@@ -67,7 +66,7 @@ io.on("connection", async (socket) => {
         io.to(userSocketMap[data.receiverId]).emit("receiveMessage", message);
       }
     } catch (error) {
-      console.log("Error sending message", error);
+      
     }
   });
 });
