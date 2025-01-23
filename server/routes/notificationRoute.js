@@ -11,9 +11,9 @@ const router = express.Router();
 router.use(verifyToken);
 
 router.get("/notifications", tryCatch(getNotifications));
-router.get("/unread_count", tryCatch(getUnreadCount));
+router.get("/unread-count", tryCatch(getUnreadCount));
 router.put("/mark-read", tryCatch(markAsRead));
-router.get("/unread_message_count", tryCatch(getUnreadMessageCount));
-router.put("/mark_message_read", tryCatch(markMessageAsRead));
+router.get("/unread-message-count", tryCatch(getUnreadMessageCount));
+router.put("/mark-message-read", tryCatch(markMessageAsRead));
 
 export default router;

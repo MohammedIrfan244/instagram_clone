@@ -16,7 +16,7 @@ import ChatPage from '../userPages/ChatPage';
 import DmPage from '../userPages/DmPage';
 import NotificationPage from '../NotificationPage';
 import { socket } from '../../hooks/useConnectSocket';
-import { addMessageNotification, addNotification, setNotifications } from '../../redux/notificationSlice';
+import { addMessageNotification, addNotification, setMessageUnreadCount, setNotifications, setUnreadCount } from '../../redux/notificationSlice';
 import { useEffect } from 'react';
 import axiosInstance from '../../utilities/axiosInstance';
 import axiosErrorManager from '../../utilities/axiosErrorManager';
@@ -33,6 +33,7 @@ interface Notification {
       fullname: string;
   };
   createdAt: string;
+  media:string
 }
 
 function AppRoutes(): JSX.Element {
@@ -51,11 +52,28 @@ function AppRoutes(): JSX.Element {
     }
 };
 
+const fetchNotificationCount = async () => {
+  try {
+    const notiResponse = await axiosInstance.get('/notification/unread-count');
+    
+    // Check current path
+    const currentPath = window.location.pathname;
+    if (!currentPath.startsWith('/direct')) {
+      const messageNotiResponse = await axiosInstance.get('/notification/unread-message-count');
+      dispatch(setMessageUnreadCount(messageNotiResponse.data.count));
+    }
+    
+    dispatch(setUnreadCount(notiResponse.data.count));
+  } catch(error) {
+    console.log(axiosErrorManager(error))
+  }
+}
+fetchNotificationCount();
 fetchNotifications();
   socket.on('newNotification', (notification: Notification) => {
     console.log('newNotification', notification);
     if(notification.type==='message'){
-      dispatch(addMessageNotification());
+      dispatch(addMessageNotification(notification));
     }else{
       dispatch(addNotification(notification));
     }

@@ -1,4 +1,5 @@
 import Notification from "../../models/notificationModel.js";
+import User from "../../models/userModel.js";
 
 
 export const getNotifications = async (req, res) => {
@@ -40,11 +41,13 @@ export const markMessageAsRead =async (req, res) => {
 }
 
 export const getUnreadMessageCount = async (req, res) => {
-    const count = await Notification.countDocuments({
+    const notifications = await Notification.find({
       recipient: req.user.id,
       type: "message",
       read: false
     });
-
+const userIds = notifications.map(notification => notification.sender);
+const users = await User.find({ _id: { $in: userIds } });
+const count = users.length;
     res.status(200).json({ count });
 }

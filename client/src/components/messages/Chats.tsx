@@ -29,7 +29,7 @@ const navigate=useNavigate()
       // Mark as read
       const markAsRead = async () => {
           try {
-              await axiosInstance.put('/notification/mark_message_read');
+              await axiosInstance.put('/notification/mark-message-read');
               dispatch(markMessageAsRead());
           } catch (error) {
               console.log(axiosErrorManager(error))
