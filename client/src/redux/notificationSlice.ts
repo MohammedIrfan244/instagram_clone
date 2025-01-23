@@ -16,11 +16,13 @@ interface Notification {
 interface NotificationState {
   notifications: Notification[];
   unreadCount: number;
+  messageUnreadCount: number;
 }
 
 const initialState: NotificationState = {
   notifications: [],
   unreadCount: 0,
+  messageUnreadCount: 0
 };
 
 const notificationSlice = createSlice({
@@ -40,9 +42,18 @@ const notificationSlice = createSlice({
     markAllAsRead: (state) => {
       state.notifications = state.notifications.map(notif => ({ ...notif, read: true }));
       state.unreadCount = 0;
-    }
+    },
+    markMessageAsRead: (state) => {
+      state.messageUnreadCount = 0;
+    },
+    setMessageUnreadCount: (state, action: PayloadAction<number>) => {
+      state.messageUnreadCount = action.payload;
+    },
+    addMessageNotification: (state) => {
+      state.messageUnreadCount += 1;
+  }
   }
 });
 
-export const { setNotifications, setUnreadCount, addNotification, markAllAsRead } = notificationSlice.actions;
+export const { setNotifications, setUnreadCount, addNotification, markAllAsRead , addMessageNotification,setMessageUnreadCount,markMessageAsRead } = notificationSlice.actions;
 export default notificationSlice.reducer;

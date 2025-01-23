@@ -14,9 +14,10 @@ import AddButton from "./AddButton";
 import ReelsButton from "./ReelsButton";
 import InstaText from "./InstaText";
 import SearchButton from "./SearchButton";
+import MoreButton from "./MoreButton";
 import axiosErrorManager from "../../utilities/axiosErrorManager";
 import axiosInstance from "../../utilities/axiosInstance";
-import { FaBars } from "react-icons/fa6";
+// import { FaBars } from "react-icons/fa6";
 import CreatePopup from "../../popups/CreatePopup";
 import PostPopup from "../../popups/PostPopup";
 import StoryPopup from "../../popups/StoryPopup";
@@ -73,13 +74,14 @@ function Navbar() {
             <span className="hidden lg:block">Profile</span>
           </NavLink>
         </div>
-        <button
+        {/* <button
           className="flex hover:bg-gray-700 rounded-lg items-center gap-2 mt-3 py-2 px-1"
           onClick={() => setIsMoreWindowOpen(!isMoreWindowOpen)}
         >
           <FaBars className="text-2xl" />
           <span className="hidden lg:block">More</span>
-        </button>
+        </button> */}
+        <MoreButton onClick={() => setIsMoreWindowOpen(!isMoreWindowOpen)} />
       </div>
 
       {/* Navbar for small screens */}
@@ -91,6 +93,7 @@ function Navbar() {
         <div className="flex items-center gap-4">
           <SearchButton searchClick={() => setIsSearchWindowOpen(!isSearchWindowOpen)} />
           <NotificationButton />
+          <MoreButton onClick={() => setIsMoreWindowOpen(!isMoreWindowOpen)} />
         </div>
       </div>
 
@@ -134,7 +137,7 @@ function Navbar() {
 
       {/* More Popup */}
       {isMoreWindowOpen && (
-        <div className="fixed left-0 lg:left-[250px] bottom-0 bg-[#363636] w-[200px] shadow-lg z-50 rounded-lg">
+        <div className="fixed right-0 top-[50px] h-[100px] sm:h-auto sm:left-0 sm:lg:left-[250px] bottom-0 bg-[#363636] w-[200px] shadow-lg z-50 rounded-lg">
           <button
             className="block w-full text-left px-2 py-3 border-b border-gray-600"
             onClick={() => {

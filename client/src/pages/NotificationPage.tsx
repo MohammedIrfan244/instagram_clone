@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import {  markAllAsRead} from '../redux/notificationSlice';
+import { markAllAsRead } from '../redux/notificationSlice';
 import { format } from 'date-fns';
 import axiosInstance from '../utilities/axiosInstance';
 import axiosErrorManager from '../utilities/axiosErrorManager';
@@ -26,7 +26,6 @@ function NotificationPage() {
     const { notifications } = useSelector((state: RootState) => state.notification);
 
     useEffect(() => {
-
         // Mark as read
         const markAsRead = async () => {
             try {
@@ -36,10 +35,7 @@ function NotificationPage() {
                 console.log(axiosErrorManager(error))
             }
         };
-
         markAsRead();
-
-        
     }, [dispatch]);
 
     const getNotificationText = (notification: Notification) => {

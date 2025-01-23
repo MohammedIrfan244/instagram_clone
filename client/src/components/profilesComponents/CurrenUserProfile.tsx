@@ -170,11 +170,11 @@ getUser()
 </div>
 <div className="flex flex-col items-center">
   <p className="font-semibold">{followCount.followerCount}</p>
-  <p className="font-extralight">followers</p>
+  <button onClick={handleFollowersClick} className="font-extralight">followers</button>
 </div>
 <div className="flex flex-col items-center">
   <p className="font-semibold">{followCount.followingCount}</p>
-  <p className="font-extralight">following</p>
+  <button onClick={handleFollowingsClick} className="font-extralight">following</button>
 </div>
       </div>
       {/* highlight section */}

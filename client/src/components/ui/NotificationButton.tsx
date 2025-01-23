@@ -24,7 +24,7 @@ function NotificationButton(): JSX.Element {
           )}
           <span className="hidden lg:block">Notification</span>
           {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+            <span className="absolute top-1 left-5 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
               {unreadCount > 9 ? '9+' : unreadCount}
             </span>
           )}

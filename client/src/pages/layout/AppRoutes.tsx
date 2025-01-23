@@ -16,7 +16,7 @@ import ChatPage from '../userPages/ChatPage';
 import DmPage from '../userPages/DmPage';
 import NotificationPage from '../NotificationPage';
 import { socket } from '../../hooks/useConnectSocket';
-import { addNotification, setNotifications } from '../../redux/notificationSlice';
+import { addMessageNotification, addNotification, setNotifications } from '../../redux/notificationSlice';
 import { useEffect } from 'react';
 import axiosInstance from '../../utilities/axiosInstance';
 import axiosErrorManager from '../../utilities/axiosErrorManager';
@@ -44,8 +44,8 @@ function AppRoutes(): JSX.Element {
   // Fetch notifications
   const fetchNotifications = async () => {
     try {
-        const response = await axiosInstance.get('/notification/notifications');
-        dispatch(setNotifications(response.data.notifications));
+        const notiResponse = await axiosInstance.get('/notification/notifications');
+        dispatch(setNotifications(notiResponse.data.notifications));
     } catch (error) {
         console.log(axiosErrorManager(error))
     }
@@ -54,7 +54,11 @@ function AppRoutes(): JSX.Element {
 fetchNotifications();
   socket.on('newNotification', (notification: Notification) => {
     console.log('newNotification', notification);
-    dispatch(addNotification(notification));
+    if(notification.type==='message'){
+      dispatch(addMessageNotification());
+    }else{
+      dispatch(addNotification(notification));
+    }
     return () => {
       socket.off('newNotification');
   };
