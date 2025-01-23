@@ -113,6 +113,20 @@ export const getConversationList = async (req, res) => {
           ],
         },
         lastMessage: { $first: "$$ROOT" },
+        hasNewMessage: {
+          $max: {
+            $cond: [
+              { 
+                $and: [
+                  { $ne: ["$sender", new mongoose.Types.ObjectId(userId)] },
+                  { $eq: ["$read", false] }
+                ]
+              },
+              1,
+              0
+            ]
+          }
+        }
       },
     },
     {
@@ -124,20 +138,20 @@ export const getConversationList = async (req, res) => {
     const userIds = chatUsers.map((chat) => chat._id);
     const users = await User.find({ _id: { $in: userIds } }, selectFields);
 
+    // Combine users with their last message and unread count
+    const enrichedUsers = users.map(user => {
+      const chatInfo = chatUsers.find(chat => chat._id.toString() === user._id.toString());
+      return {
+        ...user.toObject(),
+        lastMessage: chatInfo.lastMessage,
+        unreadCount: chatInfo.unreadCount
+      };
+    });
+
     return res.status(200).json({
-      users,
+      users: enrichedUsers,
       source: "chats",
     });
   }
 
-  const followers = await Follow.find({ following: userId })
-    .populate("follower", "fullname username profile")
-    .limit(5);
-
-  const followerUsers = followers.map((follow) => follow.follower);
-
-  return res.status(200).json({
-    users: followerUsers,
-    source: "followers",
-  });
 };
