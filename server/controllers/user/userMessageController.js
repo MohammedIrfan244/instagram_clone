@@ -68,7 +68,6 @@ export const markMessageAsRead = async (req, res) => {
     const message = await Message.findOneAndUpdate(
       { _id: messageId, receiver: userId, read: false },
       { read: true },
-      { new: true }
     );
 
     if (!message) {
@@ -138,7 +137,6 @@ export const getConversationList = async (req, res) => {
     const userIds = chatUsers.map((chat) => chat._id);
     const users = await User.find({ _id: { $in: userIds } }, selectFields);
 
-    // Combine users with their last message and unread count
     const enrichedUsers = users.map(user => {
       const chatInfo = chatUsers.find(chat => chat._id.toString() === user._id.toString());
       return {
