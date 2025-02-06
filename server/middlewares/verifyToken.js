@@ -17,7 +17,6 @@ export const verifyToken = (req, res, next) => {
       next(new CustomError("You are not authenticated", 401));
     }
   } catch (err) {
-    console.log(err)
     next(err);
   }
 };

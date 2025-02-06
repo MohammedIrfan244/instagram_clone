@@ -1,6 +1,7 @@
 import cloudinary from "../config/cloudinaryConfig.js";
 import { PassThrough } from "stream";
 import CustomError from "../utilities/customError.js";
+import logger from "../utilities/logger.js";
 
 const uploadToCloudinary = async (req, res, next) => {
   try {
@@ -18,7 +19,7 @@ const uploadToCloudinary = async (req, res, next) => {
       },
       (err, result) => {
         if (err) {
-          console.error("Cloudinary Upload Error:", err.message);
+          logger.error(err);
           return next(new CustomError("Failed to upload to Cloudinary", 500));
         }
 
@@ -31,7 +32,7 @@ const uploadToCloudinary = async (req, res, next) => {
     bufferStream.end(buffer);
     bufferStream.pipe(uploadStream);
   } catch (error) {
-    console.error("Middleware Upload Error:", error.message);
+    logger.error(error);
     next(new CustomError("An unexpected error occurred", 500));
   }
 };

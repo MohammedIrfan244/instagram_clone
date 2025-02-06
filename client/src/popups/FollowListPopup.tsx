@@ -34,7 +34,6 @@ function FollowListPopup({ title, _id, removeFollower, currUser }: FollowListPro
       setLoading(true);
       const response = await axiosInstance.get(`/user/follower_list/${_id}`);
       setFollowerList(response.data.followers);
-      console.log(response.data.followers);
     } catch (error) {
       console.log(axiosErrorManager(error));
     } finally {
@@ -47,7 +46,6 @@ function FollowListPopup({ title, _id, removeFollower, currUser }: FollowListPro
       setLoading(true);
       const response = await axiosInstance.get(`/user/following_list/${_id}`);
       setFollowingList(response.data.following);
-      console.log(response.data.following);
     } catch (error) {
       console.log(axiosErrorManager(error));
     } finally {

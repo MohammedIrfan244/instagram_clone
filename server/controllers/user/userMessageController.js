@@ -150,6 +150,12 @@ export const getConversationList = async (req, res) => {
       users: enrichedUsers,
       source: "chats",
     });
+  }else{
+    const users = await Follow.find({ follower: userId }).populate("following", selectFields);
+    return res.status(200).json({
+      users,
+      source: "follows",
+    });
   }
 
 };

@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { response } from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
@@ -10,6 +10,8 @@ import notificationRoute from './routes/notificationRoute.js'
 import messageRoute from './routes/messageRoute.js'
 import { app,server } from './socket.js'
 import session from 'express-session'
+import logger from './utilities/logger.js'
+import morgan from 'morgan'
 
 
 dotenv.config()
@@ -22,6 +24,22 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
+}))
+
+
+app.use(morgan(morganFormat, { 
+    stream:{
+        write:(message)=>{
+            const logObject={
+                method: message.split(' ')[0],
+                url: message.split(' ')[1],
+                status: message.split(' ')[2],
+                date: new Date(),
+                responseTime: message.split(' ')[3],
+            }
+            logger.info(JSON.stringify(logObject))
+        }
+    } 
 }))
 
 
@@ -40,6 +58,6 @@ app.all('*', (req, res, next) => {
 app.use(manageError)
 
 server.listen(process.env.PORT, () => {
-    console.log(`Server listening on port ${process.env.PORT}`)
+    logger.info(`Server is running on port ${process.env.PORT}`)
 })
 

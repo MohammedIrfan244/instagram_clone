@@ -71,7 +71,6 @@ const fetchNotificationCount = async () => {
 fetchNotificationCount();
 fetchNotifications();
   socket.on('newNotification', (notification: Notification) => {
-    console.log('newNotification', notification);
     if(notification.type==='message'){
       dispatch(addMessageNotification(notification));
     }else{
