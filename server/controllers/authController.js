@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 import generateOTP from "../utilities/otpGenerator.js";
 import transporter from "../config/nodemailerConfig.js";
+import logger from "../utilities/logger.js";
 
 
 const sendOtp = async (req, res, next) => {
@@ -55,6 +56,7 @@ const verifyOtpAndRegister = async (req, res, next) => {
     password: hashedPassword,
   });
   await user.save();
+  logger.info(`User ${user.username} registered successfully`);
   res.status(201).json({ message: "User registered successfully" });
 };
 
@@ -91,10 +93,12 @@ const userLogin = async (req, res, next) => {
     secure: true,
     sameSite: "none",
   });
+  logger.info(`User ${user.username} logged in successfully`);
   res.status(200).json({ message: "Login successful", userDetail, accessToken });
 };
 
 const userLogout = async (req, res) => {
+  logger.info(`User ${req.user.username} logged out successfully`);
   res.clearCookie("refreshToken");
   res.status(200).json({ message: "logged out" });
 };
