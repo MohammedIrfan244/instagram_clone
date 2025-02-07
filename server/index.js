@@ -12,6 +12,7 @@ import { app,server } from './socket.js'
 import session from 'express-session'
 import logger from './utilities/logger.js'
 import morgan from 'morgan'
+import helmet from 'helmet'
 
 
 dotenv.config()
@@ -26,7 +27,9 @@ app.use(session({
     saveUninitialized: false
 }))
 
+app.use(helmet())
 
+const morganFormat = ":method :url :status :response-time ms";
 app.use(morgan(morganFormat, { 
     stream:{
         write:(message)=>{

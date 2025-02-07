@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import logger from "../utilities/logger";
+import logger from "../utilities/logger.js";
 
 const connectDb=async()=>{
     mongoose.connection.on("connected",()=>{
