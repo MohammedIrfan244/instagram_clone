@@ -1,3 +1,5 @@
+// ts types
+
 export interface Post {
   _id: string;
   username: string;
